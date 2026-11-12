@@ -19,7 +19,7 @@ The candidate inference workflow then estimates:
 2. Operational efficiency (reported on a 0–100 percentage-point scale)
 3. Scrap rate (internally represented as a fraction and displayed as a percentage)
 
-The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction.
+The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction. The Production intelligence workspace adds session-scoped prediction history, side-by-side order-length scenario estimates, and descriptive downtime-record analysis from an uploaded CSV.
 
 ## Architecture
 
@@ -79,14 +79,14 @@ The app loads its candidate inference bundle from repository-relative paths. Run
 Deploy the feature branch as a preview first; do not merge it into `main` until the hosted app has been checked.
 
 1. In Streamlit Community Cloud, create a new app and select this repository.
-2. Select branch `feature/professional-app-foundation`.
+2. Select branch `feature/production-intelligence-upgrades`.
 3. Set the app entry point to `app/streamlit_app.py`.
 4. Open **Advanced settings** and select Python **3.13** to match the serialized candidate-model environment.
 5. Deploy. The root `requirements.txt` delegates to the pinned runtime dependencies in `requirements-app.txt`.
 
 After the first deployment, verify the app starts without errors, submit a valid input, confirm invalid tube geometry is rejected, inspect the model-limitations panel, download a CSV report, and review the application logs. A successful GitHub Actions run is not a substitute for this hosted smoke test.
 
-**Deployment status:** A Streamlit Community Cloud preview is deployed and has been observed rendering the feature-branch UI in the browser. The hosted end-to-end prediction, navigation-state, and CSV-download checks still need to be completed after the latest project commits. A working preview is not production approval.
+**Deployment status:** A Streamlit Community Cloud preview was previously observed rendering an earlier feature-branch UI. The new `feature/production-intelligence-upgrades` branch still requires a fresh deployment or branch update and hosted end-to-end verification. A working preview is not production approval.
 
 ## Dataset quality gate
 
