@@ -86,7 +86,7 @@ Deploy the feature branch as a preview first; do not merge it into `main` until 
 
 After the first deployment, verify the app starts without errors, submit a valid input, confirm invalid tube geometry is rejected, inspect the model-limitations panel, download a CSV report, and review the application logs. A successful GitHub Actions run is not a substitute for this hosted smoke test.
 
-**Deployment status:** No Streamlit Community Cloud deployment has been performed or verified yet. Do not describe the app as hosted or production-ready until this check is complete.
+**Deployment status:** A Streamlit Community Cloud preview is deployed and has been observed rendering the feature-branch UI in the browser. The hosted end-to-end prediction, navigation-state, and CSV-download checks still need to be completed after the latest project commits. A working preview is not production approval.
 
 ## Dataset quality gate
 
