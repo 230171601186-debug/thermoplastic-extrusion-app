@@ -88,6 +88,16 @@ After the first deployment, verify the app starts without errors, submit a valid
 
 **Deployment status:** No Streamlit Community Cloud deployment has been performed or verified yet. Do not describe the app as hosted or production-ready until this check is complete.
 
+## Dataset quality gate
+
+Every training dataset load now runs a non-destructive structural quality check before model fitting. It checks required model columns, missing required values, blank categorical values, non-numeric and non-finite numeric values, and reports duplicate rows without silently deleting them. A failed check stops training; the loader does not impute, rewrite, or generate replacement records.
+
+The reusable checks live in `training/data_quality.py`, with regression tests in `training/tests/test_data_quality.py`. Run them with:
+
+```bash
+python -m pytest training/tests -q
+```
+
 ## Model training
 
 Training dependencies are listed in `training/ml_requirements.txt`. The training scripts are:
@@ -145,7 +155,7 @@ Before any real operational pilot:
 | `app/streamlit_app.py` | Streamlit user interface and prediction workflow |
 | `app/tests/` | App contract and validation tests |
 | `dataset/` | Synthetic modeling dataset |
-| `training/` | Preprocessing, training, evaluation, and experiment records |
+| `training/` | Data quality gates, preprocessing, training, evaluation, and experiment records |
 | `models/` | Serialized pipelines, split metadata, and model metadata |
 | `requirements-app.txt` | Runtime dependencies |
 | `training/ml_requirements.txt` | ML and training dependencies |
