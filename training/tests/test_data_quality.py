@@ -50,6 +50,7 @@ class DatasetQualityTests(unittest.TestCase):
     def test_missing_and_non_numeric_values_are_reported(self):
         frame = valid_frame()
         frame.loc[0, CUSTOMER_NUMERIC_FEATURES[0]] = np.nan
+        frame[PROCESS_TARGETS[0]] = frame[PROCESS_TARGETS[0]].astype(object)
         frame.loc[1, PROCESS_TARGETS[0]] = "not-a-number"
         report = audit_modeling_dataset(frame)
         self.assertFalse(report["passed"])
