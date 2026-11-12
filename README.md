@@ -92,7 +92,7 @@ Run the application tests with:
 
 ```bash
 python -m pip install pytest
-python -m pytest app/tests -q
+python -m pytest app/tests training/evaluation_results/controlled_stacking/bundle_audit/tests -q
 ```
 
 Run the full ML training stack only in a separate environment:
@@ -106,7 +106,7 @@ python training/model3_quality.py
 
 Model 3 training now uses out-of-fold Model 1 predictions for downstream training rows, matching the leakage-control approach already used by Model 2. Held-out test rows are still transformed by Model 1 pipelines fitted only on the training split.
 
-The GitHub Actions workflow runs the application contract tests on supported Python versions. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
+The GitHub Actions workflow runs the application and candidate-inference contract tests on supported Python versions. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
 ## Model improvement roadmap
 
