@@ -513,7 +513,7 @@ def load_inference_bundle() -> CandidateInferenceBundle:
 
 
 def render_input_summary(customer_inputs: Mapping[str, object]) -> None:
-    st.subheader("Submitted input profile")
+    st.subheader("Submitted input summary")
     st.caption("The exact customer specification used for this candidate estimate.")
     labels = [
         ("Material", str(customer_inputs["Material_Type"])),
