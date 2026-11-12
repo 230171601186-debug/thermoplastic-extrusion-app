@@ -455,6 +455,15 @@ class StreamlitAppTests(unittest.TestCase):
         )
         self.assertEqual(len(app.get("vega_lite_chart")), 5)
         self.assertEqual(len(app.get("download_button")), 1)
+        self.assertEqual(len(app.session_state["prediction_history"]), 1)
+
+    def test_production_intelligence_workspace_renders_without_prior_prediction(self):
+        app = self._start_app()
+        app.radio(key="workspace_navigation").set_value("Production intelligence").run()
+        self.assertFalse(app.exception, [element.value for element in app.exception])
+        self.assertIn("Production intelligence", [item.value for item in app.title])
+        self.assertIn("Prediction history", [item.value for item in app.subheader])
+        self.assertIn("Downtime records analysis", [item.value for item in app.subheader])
 
     def test_invalid_geometry_does_not_display_a_prediction(self):
         app = self._start_app()
