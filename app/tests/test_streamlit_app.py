@@ -20,6 +20,7 @@ from app.streamlit_app import (
     build_customer_inputs,
     build_prediction_report,
     build_process_chart_data,
+    build_training_domain_warnings,
     build_validation_summary,
     efficiency_percentage,
     execute_prediction,
@@ -188,6 +189,22 @@ class StreamlitAppHelperTests(unittest.TestCase):
                 result.predictions.loc[0, target] = invalid
                 with self.assertRaises(PredictionOutputError):
                     validate_prediction_outputs(result)
+
+    def test_training_domain_warnings_flag_extrapolation_without_rejecting_inputs(self):
+        inputs = valid_customer_inputs()
+        ranges = {
+            "Target_Tube_OD_mm": (5.0, 20.0),
+            "Target_Tube_Wall_mm": (0.5, 4.0),
+            "Target_Tube_ID_mm": (2.0, 15.0),
+            "Customer_Required_Length_m": (100.0, 10000.0),
+        }
+        self.assertEqual(build_training_domain_warnings(inputs, ranges), ())
+
+        outside = {**inputs, "Target_Tube_OD_mm": 25.0}
+        warnings = build_training_domain_warnings(outside, ranges)
+        self.assertEqual(len(warnings), 1)
+        self.assertIn("outside the synthetic training-data range", warnings[0])
+        self.assertIn("estimate may be unreliable", warnings[0])
 
     def test_validation_summary_uses_saved_held_out_candidate_rows(self):
         metadata = {
