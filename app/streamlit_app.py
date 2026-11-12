@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import csv
 import io
-import json
 import logging
 import math
 import numbers
@@ -79,10 +78,10 @@ REPORT_DISCLAIMER = (
     "Polyhose production data and are not approved factory settings or production advice."
 )
 REPORT_FILENAME = "thermoplastic_extrusion_prediction_report.csv"
-MODEL_METADATA_PATH = PROJECT_ROOT / "models" / "model_metadata.json"
 VALIDATION_DIR = PROJECT_ROOT / "training" / "evaluation_results" / "controlled_stacking"
 MODEL2_TEST_COMPARISON = VALIDATION_DIR / "model2_candidate" / "test_comparison.csv"
 MODEL3_TEST_COMPARISON = VALIDATION_DIR / "model3_candidate" / "test_comparison.csv"
+CONTROLLED_CV_SUMMARY = VALIDATION_DIR / "metrics_summary.csv"
 DATASET_PATH = PROJECT_ROOT / "dataset" / "Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv"
 
 
@@ -344,99 +343,90 @@ def build_training_domain_warnings(
 
 
 def build_validation_summary(
-    model_metadata: Mapping[str, Any],
     model2_comparison: pd.DataFrame,
     model3_comparison: pd.DataFrame,
+    cv_summary: pd.DataFrame,
 ) -> pd.DataFrame:
-    """Build a transparent validation table from the saved held-out test results."""
-    rows: list[dict[str, object]] = []
-    targets = model_metadata.get("model1", {}).get("targets", {})
-    for target, details in targets.items():
-        metrics = details.get("test_metrics", {})
-        if not {"MAE", "R2"}.issubset(metrics):
-            continue
-        rows.append(
-            {
-                "Model": "Process parameters",
-                "Target": target,
-                "Held-out R²": float(metrics["R2"]),
-                "MAE": float(metrics["MAE"]),
-                "MAE unit": next((item[2] for item in PROCESS_DISPLAY if item[0] == target), "target units"),
-                "Test rows": 1000,
-            }
-        )
-
+    """Combine nested-CV and held-out metrics for the exact downstream candidates."""
     candidate_rows = (
         (
             "Operational efficiency",
+            EFFICIENCY_TARGET,
             model2_comparison,
-            "corrected_candidate_full_stack_RF",
             "MAE_percentage_points",
-            "percentage points",
         ),
         (
             "Scrap rate",
+            SCRAP_TARGET,
             model3_comparison,
-            "corrected_candidate_full_stack_RF",
             "MAE_percentage_points",
-            "percentage points",
         ),
     )
-    for label, frame, model_name, mae_column, unit in candidate_rows:
-        selected = frame.loc[
-            (frame["split"] == "saved_test_1000_rows")
-            & (frame["model"] == model_name)
+    rows: list[dict[str, object]] = []
+    for label, target, test_frame, test_mae_column in candidate_rows:
+        selected_test = test_frame.loc[
+            (test_frame["split"] == "saved_test_1000_rows")
+            & (test_frame["model"] == "corrected_candidate_full_stack_RF")
         ]
-        if len(selected) != 1:
-            raise ValueError(f"Expected exactly one held-out validation row for {label}.")
-        row = selected.iloc[0]
+        selected_cv = cv_summary.loc[
+            (cv_summary["split"] == "outer_cv")
+            & (cv_summary["target"] == target)
+            & (cv_summary["configuration"] == "full_stack")
+        ]
+        if len(selected_test) != 1 or len(selected_cv) != 1:
+            raise ValueError(f"Expected one CV and one held-out validation row for {label}.")
+
+        test_row = selected_test.iloc[0]
+        cv_row = selected_cv.iloc[0]
+        cv_mae_column = (
+            "MAE_percentage_points_mean"
+            if target == SCRAP_TARGET
+            else "MAE_mean"
+        )
         rows.append(
             {
                 "Model": label,
-                "Target": label,
-                "Held-out R²": float(row["R2"]),
-                "MAE": float(row[mae_column]),
-                "MAE unit": unit,
+                "CV R² (5-fold)": float(cv_row["R2_mean"]),
+                "CV MAE": float(cv_row[cv_mae_column]),
+                "Held-out R²": float(test_row["R2"]),
+                "Held-out MAE": float(test_row[test_mae_column]),
+                "Error unit": "percentage points",
                 "Test rows": 1000,
             }
         )
 
-    if not rows:
-        raise ValueError("No held-out model validation metrics were found.")
     return pd.DataFrame(rows)
 
 
 @st.cache_data(show_spinner=False)
 def load_validation_summary() -> pd.DataFrame:
-    """Load the exact validation artifacts used to document the candidate bundle."""
-    metadata = json.loads(MODEL_METADATA_PATH.read_text(encoding="utf-8"))
+    """Load nested-CV and held-out metrics for the app's candidate models."""
     model2 = pd.read_csv(MODEL2_TEST_COMPARISON)
     model3 = pd.read_csv(MODEL3_TEST_COMPARISON)
-    return build_validation_summary(metadata, model2, model3)
+    cv_summary = pd.read_csv(CONTROLLED_CV_SUMMARY)
+    return build_validation_summary(model2, model3, cv_summary)
 
 
 def render_model_validation() -> None:
     with st.expander("Model validation & limitations", expanded=False):
         st.caption(
-            "Held-out results from the saved 1,000-row synthetic test split. "
-            "These are offline evaluation metrics, not live factory performance."
+            "Five-fold outer cross-validation and the fixed 1,000-row held-out test split "
+            "for the exact Model 2 and Model 3 candidate artifacts used by this app."
         )
         try:
             summary = load_validation_summary()
-        except (OSError, ValueError, KeyError, json.JSONDecodeError) as error:
+        except (OSError, ValueError, KeyError):
             LOGGER.exception("Saved model validation metrics could not be loaded")
             st.warning("Model validation details are temporarily unavailable.")
             return
         st.dataframe(summary, hide_index=True, width="stretch")
-        downstream = summary.loc[summary["Model"].isin(["Operational efficiency", "Scrap rate"])]
-        if not downstream.empty:
-            scores = dict(zip(downstream["Model"], downstream["Held-out R²"]))
-            st.warning(
-                "The downstream models explain only part of the held-out variation "
-                f"(efficiency R²={scores.get('Operational efficiency', float('nan')):.2f}; "
-                f"scrap-rate R²={scores.get('Scrap rate', float('nan')):.2f}). "
-                "Treat these outputs as exploratory estimates, not dependable production forecasts."
-            )
+        scores = dict(zip(summary["Model"], summary["Held-out R²"]))
+        st.warning(
+            "The downstream models explain only part of the held-out variation "
+            f"(efficiency R²={scores.get('Operational efficiency', float('nan')):.2f}; "
+            f"scrap-rate R²={scores.get('Scrap rate', float('nan')):.2f}). "
+            "Treat these outputs as exploratory estimates, not dependable production forecasts."
+        )
         st.caption(
             "The dataset is synthetic. No Polyhose production records, live telemetry, "
             "controlled factory trial, or approved operating limits are represented here."
