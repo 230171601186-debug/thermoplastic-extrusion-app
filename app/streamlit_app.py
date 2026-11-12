@@ -83,6 +83,7 @@ MODEL_METADATA_PATH = PROJECT_ROOT / "models" / "model_metadata.json"
 VALIDATION_DIR = PROJECT_ROOT / "training" / "evaluation_results" / "controlled_stacking"
 MODEL2_TEST_COMPARISON = VALIDATION_DIR / "model2_candidate" / "test_comparison.csv"
 MODEL3_TEST_COMPARISON = VALIDATION_DIR / "model3_candidate" / "test_comparison.csv"
+DATASET_PATH = PROJECT_ROOT / "dataset" / "Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv"
 
 
 class PredictionOutputError(ValueError):
@@ -307,6 +308,39 @@ def build_process_chart_data(
             )
         )
     return tuple(chart_data)
+
+
+@st.cache_data(show_spinner=False)
+def load_training_feature_ranges() -> dict[str, tuple[float, float]]:
+    """Read numeric input ranges from the checked-in synthetic training data."""
+    frame = pd.read_csv(DATASET_PATH, usecols=CUSTOMER_NUMERIC_FEATURES)
+    ranges: dict[str, tuple[float, float]] = {}
+    for feature in CUSTOMER_NUMERIC_FEATURES:
+        values = pd.to_numeric(frame[feature], errors="coerce").dropna()
+        if values.empty:
+            raise ValueError(f"No numeric training values are available for {feature}.")
+        ranges[feature] = (float(values.min()), float(values.max()))
+    return ranges
+
+
+def build_training_domain_warnings(
+    customer_inputs: Mapping[str, object],
+    training_ranges: Mapping[str, tuple[float, float]],
+) -> tuple[str, ...]:
+    """Flag extrapolation beyond synthetic training data without inventing factory limits."""
+    warnings = []
+    for feature in CUSTOMER_NUMERIC_FEATURES:
+        if feature not in training_ranges or feature not in customer_inputs:
+            continue
+        lower, upper = training_ranges[feature]
+        value = float(customer_inputs[feature])
+        if value < lower or value > upper:
+            label = INPUT_LABELS[feature][0]
+            warnings.append(
+                f"{label}: {value:g} is outside the synthetic training-data range "
+                f"({lower:g}–{upper:g}). The estimate may be unreliable."
+            )
+    return tuple(warnings)
 
 
 def build_validation_summary(
@@ -757,6 +791,18 @@ def main() -> None:
         )
         with st.spinner("Validating inputs and calculating candidate estimates..."):
             predictions, warnings, errors = execute_prediction(bundle, customer_inputs, categories)
+            if predictions is not None:
+                try:
+                    domain_warnings = build_training_domain_warnings(
+                        customer_inputs,
+                        load_training_feature_ranges(),
+                    )
+                    warnings = tuple(warnings) + domain_warnings
+                except (OSError, ValueError, KeyError):
+                    LOGGER.exception("Synthetic training-domain check could not be completed")
+                    warnings = tuple(warnings) + (
+                        "The app could not verify whether these inputs are within the synthetic training-data range.",
+                    )
 
         for error in errors:
             st.error(error)
