@@ -526,30 +526,25 @@ def render_input_summary(customer_inputs: Mapping[str, object]) -> None:
 def render_results(predictions: Mapping[str, float]) -> None:
     st.markdown('<div class="app-section-kicker">01 / Production outcome</div>', unsafe_allow_html=True)
     st.subheader("Predicted production indicators")
-    efficiency_value = predictions[EFFICIENCY_TARGET]
-    scrap_value = scrap_percentage(predictions[SCRAP_TARGET])
     efficiency, scrap, order = st.columns(3)
-    efficiency.metric("Operational efficiency · OEE", efficiency_percentage(efficiency_value), border=True,
+    efficiency.metric("Operational efficiency · OEE", efficiency_percentage(predictions[EFFICIENCY_TARGET]), border=True,
         help="Candidate OEE estimate in percentage points. Not a measured factory result.")
-    scrap.metric("Predicted scrap rate", f"{scrap_value:.2f}%", border=True,
+    scrap.metric("Predicted scrap rate", format_scrap_percentage(predictions[SCRAP_TARGET]), border=True,
         help="Estimated scrap length as a share of actual processing length.")
-    order.metric("Customer order length",
-        f"{st.session_state.get('submitted_inputs', {}).get('Customer_Required_Length_m', 0):,.0f} m",
+    order.metric("Customer order length", f"{st.session_state.get('submitted_inputs', {}).get('Customer_Required_Length_m', 0):,.0f} m",
         border=True, help="Requested length supplied for this estimate; not predicted production quantity.")
     st.caption("Candidate estimates from synthetic training data — not live machine measurements.")
-
     st.markdown('<div class="app-section-kicker">02 / Process conditions</div>', unsafe_allow_html=True)
     st.subheader("Estimated process parameters")
     st.caption("Each panel uses one engineering unit. Compare values within a panel only; these are not recommended machine setpoints.")
-    chart_data = build_process_chart_data(predictions)
     left, right = st.columns(2, gap="large")
-    for index, (title, unit, chart_frame) in enumerate(chart_data):
+    for index, (title, unit, chart_frame) in enumerate(build_process_chart_data(predictions)):
         with (left if index % 2 == 0 else right):
             with st.container(border=True):
                 st.markdown(f"**{title}**")
                 value_column = f"Predicted value ({unit})"
-                st.bar_chart(chart_frame, x="Process parameter", y=value_column,
-                    x_label="Parameter", y_label=unit, horizontal=True, sort=False, height=260)
+                st.bar_chart(chart_frame, x="Process parameter", y=value_column, x_label="Parameter",
+                    y_label=unit, horizontal=True, sort=False, height=260)
                 st.dataframe(chart_frame, hide_index=True, width="stretch")
 
 
@@ -558,7 +553,7 @@ def main() -> None:
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
         layout="wide",
-        initial_sidebar_state="expanded",
+        initial_sidebar_state="collapsed",
     )
     st.markdown(
         """
@@ -618,6 +613,119 @@ def main() -> None:
     render_model_validation()
 
     try:
+        bundle = load_inference_bundle()
+    except Exception:
+        LOGGER.exception("Candidate model bundle could not be loaded")
+        st.error("Candidate models could not be loaded. No prediction is available; contact the application owner.")
+        return
+
+    categories = bundle.category_values
+    if "None" not in categories.get("Braid_Type", set()):
+        LOGGER.error("Candidate category vocabulary is missing the required Braid_Type='None' category")
+        st.error("The candidate category list is incomplete. No prediction is available; contact the application owner.")
+        return
+
+    with st.form("customer_requirements", border=True):
+        st.subheader("Customer inputs")
+
+        st.markdown("**Material selection**")
+        material_columns = st.columns(2)
+        material_type = material_columns[0].selectbox(
+            "Material type",
+            sorted(categories["Material_Type"]),
+            key="material_type",
+            help="Choose a material category from the fitted candidate model.",
+        )
+        material_grade = material_columns[1].selectbox(
+            "Material grade",
+            sorted(categories["Material_Grade"]),
+            key="material_grade",
+            help="Choose a grade from the fitted candidate model.",
+        )
+        tube_type, braid_type = st.columns(2)
+        tube_type_value = tube_type.selectbox(
+            "Tube type",
+            sorted(categories["Tube_Type"]),
+            key="tube_type",
+        )
+        braid_options = sorted(categories["Braid_Type"])
+        braid_type_value = braid_type.selectbox(
+            "Braid type",
+            braid_options,
+            index=braid_options.index("None"),
+            key="braid_type",
+            help="“None” is a valid fitted category.",
+        )
+
+        st.markdown("**Tube specifications**")
+        dimension_columns = st.columns(3)
+        target_tube_od_mm = dimension_columns[0].number_input(
+            "Target tube OD (mm)",
+            min_value=0.0,
+            value=10.0,
+            step=0.1,
+            format="%.2f",
+            key="target_tube_od_mm",
+            help="Must be greater than zero. No approved maximum is defined in the project.",
+        )
+        target_tube_wall_mm = dimension_columns[1].number_input(
+            "Target tube wall (mm)",
+            min_value=0.0,
+            value=2.0,
+            step=0.1,
+            format="%.2f",
+            key="target_tube_wall_mm",
+            help="Must be greater than zero and consistent with OD and ID.",
+        )
+        target_tube_id_mm = dimension_columns[2].number_input(
+            "Target tube ID (mm)",
+            min_value=0.0,
+            value=6.0,
+            step=0.1,
+            format="%.2f",
+            key="target_tube_id_mm",
+            help="Must exceed 0.5 mm and satisfy the existing OD/wall geometry rule.",
+        )
+
+        st.markdown("**Order requirements**")
+        customer_required_length_m = st.number_input(
+            "Customer-required length (m)",
+            min_value=0.0,
+            value=5000.0,
+            step=100.0,
+            format="%.2f",
+            key="customer_required_length_m",
+            help="Must be greater than zero. No approved maximum is defined in the project.",
+        )
+        submitted = st.form_submit_button(
+            "Generate estimates",
+            type="primary",
+            icon=":material/analytics:",
+            key="predict_button",
+        )
+
+    if submitted:
+        for state_key in (
+            "validated_predictions",
+            "prediction_warnings",
+            "submitted_inputs",
+            "prediction_generated_at_utc",
+        ):
+            st.session_state.pop(state_key, None)
+        customer_inputs = build_customer_inputs(
+            material_type,
+            material_grade,
+            tube_type_value,
+            braid_type_value,
+            target_tube_od_mm,
+            target_tube_wall_mm,
+            target_tube_id_mm,
+            customer_required_length_m,
+        )
+        with st.spinner("Validating inputs and calculating candidate estimates..."):
+            predictions, warnings, errors = execute_prediction(bundle, customer_inputs, categories)
+            if predictions is not None:
+                try:
                     domain_warnings = build_training_domain_warnings(
                         customer_inputs,
                         load_training_feature_ranges(),
