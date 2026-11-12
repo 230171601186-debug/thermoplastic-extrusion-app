@@ -206,16 +206,7 @@ class StreamlitAppHelperTests(unittest.TestCase):
         self.assertIn("outside the synthetic training-data range", warnings[0])
         self.assertIn("estimate may be unreliable", warnings[0])
 
-    def test_validation_summary_uses_saved_held_out_candidate_rows(self):
-        metadata = {
-            "model1": {
-                "targets": {
-                    "Extruder_Temperature_C": {
-                        "test_metrics": {"MAE": 3.7, "R2": 0.62}
-                    }
-                }
-            }
-        }
+    def test_validation_summary_uses_matching_cv_and_held_out_candidate_rows(self):
         model2 = pd.DataFrame(
             [
                 {
@@ -242,18 +233,36 @@ class StreamlitAppHelperTests(unittest.TestCase):
                 }
             ]
         )
-
-        summary = build_validation_summary(metadata, model2, model3)
-
-        self.assertEqual(len(summary), 3)
-        self.assertAlmostEqual(
-            summary.loc[summary["Model"] == "Operational efficiency", "Held-out R²"].iloc[0],
-            0.23,
+        cv_summary = pd.DataFrame(
+            [
+                {
+                    "split": "outer_cv",
+                    "target": "Operational_Efficiency_pct",
+                    "configuration": "full_stack",
+                    "MAE_mean": 6.42,
+                    "R2_mean": 0.17,
+                    "MAE_percentage_points_mean": float("nan"),
+                },
+                {
+                    "split": "outer_cv",
+                    "target": "Scrap_Rate",
+                    "configuration": "full_stack",
+                    "MAE_mean": 0.0219,
+                    "R2_mean": 0.32,
+                    "MAE_percentage_points_mean": 2.19,
+                },
+            ]
         )
-        self.assertAlmostEqual(
-            summary.loc[summary["Model"] == "Scrap rate", "MAE"].iloc[0],
-            2.09,
-        )
+
+        summary = build_validation_summary(model2, model3, cv_summary)
+
+        self.assertEqual(len(summary), 2)
+        efficiency = summary.loc[summary["Model"] == "Operational efficiency"].iloc[0]
+        scrap = summary.loc[summary["Model"] == "Scrap rate"].iloc[0]
+        self.assertAlmostEqual(efficiency["Held-out R²"], 0.23)
+        self.assertAlmostEqual(efficiency["CV MAE"], 6.42)
+        self.assertAlmostEqual(scrap["Held-out MAE"], 2.09)
+        self.assertAlmostEqual(scrap["CV MAE"], 2.19)
         self.assertTrue((summary["Test rows"] == 1000).all())
 
     def test_process_chart_data_groups_shared_units_and_preserves_values(self):
