@@ -86,7 +86,7 @@ Training and evaluation can be computationally expensive. Do not retrain product
 
 ## Validation
 
-The app includes a **Model validation & limitations** panel sourced from the saved held-out evaluation artifacts. It reports per-target process-model metrics and the downstream candidate-model results on the fixed 1,000-row synthetic test split. These scores are shown as evidence, not as a production-readiness badge.
+The app includes a **Model validation & limitations** panel sourced from the exact downstream candidate evaluation artifacts. It reports five-fold outer-CV and fixed 1,000-row held-out metrics for the efficiency and scrap-rate candidates. These scores are shown as evidence, not as a production-readiness badge.
 
 Run the application tests with:
 
