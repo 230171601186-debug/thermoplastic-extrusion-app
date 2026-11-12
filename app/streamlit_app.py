@@ -526,13 +526,22 @@ def render_input_summary(customer_inputs: Mapping[str, object]) -> None:
 def render_results(predictions: Mapping[str, float]) -> None:
     st.markdown('<div class="app-section-kicker">01 / Production outcome</div>', unsafe_allow_html=True)
     st.subheader("Predicted production indicators")
-    efficiency, scrap, order = st.columns(3)
-    efficiency.metric("Operational efficiency · OEE", efficiency_percentage(predictions[EFFICIENCY_TARGET]), border=True,
-        help="Candidate OEE estimate in percentage points. Not a measured factory result.")
-    scrap.metric("Predicted scrap rate", format_scrap_percentage(predictions[SCRAP_TARGET]), border=True,
-        help="Estimated scrap length as a share of actual processing length.")
-    order.metric("Customer order length", f"{st.session_state.get('submitted_inputs', {}).get('Customer_Required_Length_m', 0):,.0f} m",
-        border=True, help="Requested length supplied for this estimate; not predicted production quantity.")
+    efficiency, scrap = st.columns(2)
+    efficiency.metric(
+        "Operational efficiency · OEE",
+        efficiency_percentage(predictions[EFFICIENCY_TARGET]),
+        border=True,
+        help="Candidate OEE estimate in percentage points. Not a measured factory result.",
+    )
+    scrap.metric(
+        "Predicted scrap rate",
+        format_scrap_percentage(predictions[SCRAP_TARGET]),
+        border=True,
+        help="Estimated scrap length as a share of actual processing length.",
+    )
+    order_length = st.session_state.get("submitted_inputs", {}).get("Customer_Required_Length_m")
+    if order_length is not None:
+        st.caption(f"Customer-required order length: {order_length:,.0f} m")
     st.caption("Candidate estimates from synthetic training data — not live machine measurements.")
     st.markdown('<div class="app-section-kicker">02 / Process conditions</div>', unsafe_allow_html=True)
     st.subheader("Estimated process parameters")
