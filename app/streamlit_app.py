@@ -361,7 +361,7 @@ def build_validation_summary(
                 "Target": target,
                 "Held-out R²": float(metrics["R2"]),
                 "MAE": float(metrics["MAE"]),
-                "MAE unit": "target units",
+                "MAE unit": next((item[2] for item in PROCESS_DISPLAY if item[0] == target), "target units"),
                 "Test rows": 1000,
             }
         )
