@@ -513,48 +513,103 @@ def load_inference_bundle() -> CandidateInferenceBundle:
 
 
 def render_input_summary(customer_inputs: Mapping[str, object]) -> None:
-    st.subheader("Submitted input summary")
-    rows = []
-    for field in MODEL1_FEATURES:
-        label, unit = INPUT_LABELS[field]
-        value = customer_inputs[field]
-        display_value = f"{float(value):,.2f} {unit}" if unit else str(value)
-        rows.append({"Input": label, "Submitted value": display_value})
-    st.table(rows)
+    st.subheader("Submitted input profile")
+    st.caption("The exact customer specification used for this candidate estimate.")
+    labels = [
+        ("Material", str(customer_inputs["Material_Type"])),
+        ("Material grade", str(customer_inputs["Material_Grade"])),
+        ("Tube construction", str(customer_inputs["Tube_Type"])),
+        ("Reinforcement", str(customer_inputs["Braid_Type"])),
+        ("Outside diameter", f"{float(customer_inputs['Target_Tube_OD_mm']):.2f} mm"),
+        ("Wall thickness", f"{float(customer_inputs['Target_Tube_Wall_mm']):.2f} mm"),
+        ("Inside diameter", f"{float(customer_inputs['Target_Tube_ID_mm']):.2f} mm"),
+        ("Order length", f"{float(customer_inputs['Customer_Required_Length_m']):,.0f} m"),
+    ]
+    columns = st.columns(4, gap="small")
+    for index, (label, value) in enumerate(labels):
+        with columns[index % 4]:
+            with st.container(border=True):
+                st.caption(label)
+                st.markdown(f"**{value}**")
 
 
 def render_results(predictions: Mapping[str, float]) -> None:
-    st.markdown('<div class="app-section-kicker">01 / Production outcome</div>', unsafe_allow_html=True)
-    st.subheader("Predicted production indicators")
-    efficiency, scrap = st.columns(2)
-    efficiency.metric(
-        "Operational efficiency · OEE",
-        efficiency_percentage(predictions[EFFICIENCY_TARGET]),
-        border=True,
-        help="Candidate OEE estimate in percentage points. Not a measured factory result.",
-    )
-    scrap.metric(
-        "Predicted scrap rate",
-        format_scrap_percentage(predictions[SCRAP_TARGET]),
-        border=True,
-        help="Estimated scrap length as a share of actual processing length.",
-    )
+    efficiency_value = float(predictions[EFFICIENCY_TARGET])
+    scrap_value = scrap_percentage(float(predictions[SCRAP_TARGET]))
     order_length = st.session_state.get("submitted_inputs", {}).get("Customer_Required_Length_m")
-    if order_length is not None:
-        st.caption(f"Customer-required order length: {order_length:,.0f} m")
-    st.caption("Candidate estimates from synthetic training data — not live machine measurements.")
-    st.markdown('<div class="app-section-kicker">02 / Process conditions</div>', unsafe_allow_html=True)
-    st.subheader("Estimated process parameters")
-    st.caption("Each panel uses one engineering unit. Compare values within a panel only; these are not recommended machine setpoints.")
-    left, right = st.columns(2, gap="large")
-    for index, (title, unit, chart_frame) in enumerate(build_process_chart_data(predictions)):
-        with (left if index % 2 == 0 else right):
+
+    st.markdown('<div class="app-section-kicker">RESULTS / CANDIDATE MODEL OUTPUT</div>', unsafe_allow_html=True)
+    st.subheader("Production intelligence")
+    st.caption("A structured view of the latest validated model response. Values are estimates from synthetic training data.")
+
+    overview_tab, process_tab, profile_tab = st.tabs(
+        ["◈  Outcome overview", "⌁  Process breakdown", "▤  Order profile"]
+    )
+
+    with overview_tab:
+        st.markdown("#### Production outcome")
+        metric_left, metric_right = st.columns(2, gap="large")
+        with metric_left:
             with st.container(border=True):
-                st.markdown(f"**{title}**")
-                value_column = f"Predicted value ({unit})"
-                st.bar_chart(chart_frame, x="Process parameter", y=value_column, x_label="Parameter",
-                    y_label=unit, horizontal=True, sort=False, height=260)
-                st.dataframe(chart_frame, hide_index=True, width="stretch")
+                st.metric(
+                    "Operational efficiency · OEE",
+                    efficiency_percentage(efficiency_value),
+                    help="Candidate OEE estimate in percentage points. Not a measured factory result.",
+                )
+                st.progress(int(round(efficiency_value)), text="Efficiency scale · 0–100")
+                st.caption("Scale indicator only. No factory target or acceptance threshold is configured.")
+        with metric_right:
+            with st.container(border=True):
+                st.metric(
+                    "Predicted scrap rate",
+                    f"{scrap_value:.2f}%",
+                    help="Estimated scrap length as a share of actual processing length.",
+                )
+                st.progress(int(round(scrap_value)), text="Scrap share · 0–100%")
+                st.caption("Share of processing length. This is not a defect probability.")
+        summary_left, summary_right = st.columns(2, gap="large")
+        with summary_left:
+            with st.container(border=True):
+                st.caption("CUSTOMER ORDER")
+                st.markdown(f"### {float(order_length):,.0f} m" if order_length is not None else "### Not supplied")
+                st.caption("Requested length entered by the user; not a predicted production quantity.")
+        with summary_right:
+            with st.container(border=True):
+                st.caption("MODEL OUTPUTS")
+                st.markdown("### 9 process estimates")
+                st.caption("Temperatures, pressures, line speeds, screw speed and extrusion rate.")
+        st.info("All values are candidate estimates. They are not live sensor readings, approved setpoints or production recommendations.")
+
+    with process_tab:
+        st.markdown("#### Estimated process parameters")
+        st.caption("Charts are separated by engineering unit. Hover over bars for exact values; compare only within each unit group.")
+        chart_data = build_process_chart_data(predictions)
+        for row_start in range(0, len(chart_data), 2):
+            left, right = st.columns(2, gap="large")
+            for offset, column in enumerate((left, right)):
+                index = row_start + offset
+                if index >= len(chart_data):
+                    continue
+                title, unit, chart_frame = chart_data[index]
+                with column:
+                    with st.container(border=True):
+                        st.markdown(f"**{title}**")
+                        value_column = f"Predicted value ({unit})"
+                        st.bar_chart(
+                            chart_frame,
+                            x="Process parameter",
+                            y=value_column,
+                            x_label="Parameter",
+                            y_label=unit,
+                            horizontal=True,
+                            sort=False,
+                            height=250,
+                        )
+                        with st.expander("View exact values", expanded=False):
+                            st.dataframe(chart_frame, hide_index=True, width="stretch")
+
+    with profile_tab:
+        render_input_summary(st.session_state["submitted_inputs"])
 
 
 def main() -> None:
@@ -615,6 +670,27 @@ def main() -> None:
             border-color:#2a405b!important; border-radius:10px!important;
         }
         [data-testid="stSelectbox"] [data-baseweb="select"] * { color:#edf5ff!important; }
+        [data-testid="stWidgetLabel"] p,[data-testid="stWidgetLabel"] label,
+        [data-testid="stNumberInput"] label,[data-testid="stSelectbox"] label {
+            color:#c6d7eb!important; font-weight:650!important;
+        }
+        [data-testid="stNumberInput"] button { color:#dcecff!important; }
+        [data-testid="stTabs"] [role="tab"] {
+            color:#a9bdd4!important; font-weight:750!important;
+            padding:.8rem 1rem; border-bottom:2px solid transparent;
+        }
+        [data-testid="stTabs"] [role="tab"][aria-selected="true"] {
+            color:#61d2f5!important; border-bottom-color:#42c8f5!important;
+        }
+        [data-testid="stProgress"] > div > div {
+            background:linear-gradient(90deg,#2368e8,#42c8f5)!important;
+            border-radius:999px;
+        }
+        [data-testid="stProgress"] > div {
+            background:#22354c!important; border-radius:999px; height:.55rem;
+        }
+        [data-testid="stMetric"] { min-height:115px; }
+        
         [data-testid="stFormSubmitButton"] button,[data-testid="stDownloadButton"] button {
             border-radius:11px; min-height:3rem; font-weight:800;
             border:1px solid rgba(76,131,255,.45);
@@ -696,7 +772,6 @@ def main() -> None:
             st.info("Generate a prediction in Production planning to inspect its process estimates here.")
         else:
             render_results(saved_predictions)
-            render_input_summary(st.session_state["submitted_inputs"])
             st.download_button(
                 "Download prediction report",
                 data=build_prediction_report(
@@ -857,7 +932,6 @@ def main() -> None:
         for warning in st.session_state.get("prediction_warnings", ()):
             st.warning(warning)
         render_results(predictions)
-        render_input_summary(st.session_state["submitted_inputs"])
         report = build_prediction_report(
             st.session_state["submitted_inputs"],
             predictions,
