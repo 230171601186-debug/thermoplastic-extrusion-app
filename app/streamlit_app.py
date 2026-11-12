@@ -78,6 +78,10 @@ REPORT_DISCLAIMER = (
     "Polyhose production data and are not approved factory settings or production advice."
 )
 REPORT_FILENAME = "thermoplastic_extrusion_prediction_report.csv"
+MODEL_METADATA_PATH = PROJECT_ROOT / "models" / "model_metadata.json"
+VALIDATION_DIR = PROJECT_ROOT / "training" / "evaluation_results" / "controlled_stacking"
+MODEL2_TEST_COMPARISON = VALIDATION_DIR / "model2_candidate" / "test_comparison.csv"
+MODEL3_TEST_COMPARISON = VALIDATION_DIR / "model3_candidate" / "test_comparison.csv"
 
 
 class PredictionOutputError(ValueError):
@@ -302,6 +306,106 @@ def build_process_chart_data(
             )
         )
     return tuple(chart_data)
+
+
+def build_validation_summary(
+    model_metadata: Mapping[str, Any],
+    model2_comparison: pd.DataFrame,
+    model3_comparison: pd.DataFrame,
+) -> pd.DataFrame:
+    """Build a transparent validation table from the saved held-out test results."""
+    rows: list[dict[str, object]] = []
+    targets = model_metadata.get("model1", {}).get("targets", {})
+    for target, details in targets.items():
+        metrics = details.get("test_metrics", {})
+        if not {"MAE", "R2"}.issubset(metrics):
+            continue
+        rows.append(
+            {
+                "Model": "Process parameters",
+                "Target": target,
+                "Held-out R²": float(metrics["R2"]),
+                "MAE": float(metrics["MAE"]),
+                "MAE unit": "target units",
+                "Test rows": 1000,
+            }
+        )
+
+    candidate_rows = (
+        (
+            "Operational efficiency",
+            model2_comparison,
+            "corrected_candidate_full_stack_RF",
+            "MAE_percentage_points",
+            "percentage points",
+        ),
+        (
+            "Scrap rate",
+            model3_comparison,
+            "corrected_candidate_full_stack_RF",
+            "MAE_percentage_points",
+            "percentage points",
+        ),
+    )
+    for label, frame, model_name, mae_column, unit in candidate_rows:
+        selected = frame.loc[
+            (frame["split"] == "saved_test_1000_rows")
+            & (frame["model"] == model_name)
+        ]
+        if len(selected) != 1:
+            raise ValueError(f"Expected exactly one held-out validation row for {label}.")
+        row = selected.iloc[0]
+        rows.append(
+            {
+                "Model": label,
+                "Target": label,
+                "Held-out R²": float(row["R2"]),
+                "MAE": float(row[mae_column]),
+                "MAE unit": unit,
+                "Test rows": 1000,
+            }
+        )
+
+    if not rows:
+        raise ValueError("No held-out model validation metrics were found.")
+    return pd.DataFrame(rows)
+
+
+@st.cache_data(show_spinner=False)
+def load_validation_summary() -> pd.DataFrame:
+    """Load the exact validation artifacts used to document the candidate bundle."""
+    metadata = json.loads(MODEL_METADATA_PATH.read_text(encoding="utf-8"))
+    model2 = pd.read_csv(MODEL2_TEST_COMPARISON)
+    model3 = pd.read_csv(MODEL3_TEST_COMPARISON)
+    return build_validation_summary(metadata, model2, model3)
+
+
+def render_model_validation() -> None:
+    with st.expander("Model validation & limitations", expanded=False):
+        st.caption(
+            "Held-out results from the saved 1,000-row synthetic test split. "
+            "These are offline evaluation metrics, not live factory performance."
+        )
+        try:
+            summary = load_validation_summary()
+        except (OSError, ValueError, KeyError, json.JSONDecodeError) as error:
+            LOGGER.exception("Saved model validation metrics could not be loaded")
+            st.warning("Model validation details are temporarily unavailable.")
+            return
+        st.dataframe(summary, hide_index=True, width="stretch")
+        downstream = summary.loc[summary["Model"].isin(["Operational efficiency", "Scrap rate"])]
+        if not downstream.empty:
+            scores = dict(zip(downstream["Model"], downstream["Held-out R²"]))
+            st.warning(
+                "The downstream models explain only part of the held-out variation "
+                f"(efficiency R²={scores.get('Operational efficiency', float('nan')):.2f}; "
+                f"scrap-rate R²={scores.get('Scrap rate', float('nan')):.2f}). "
+                "Treat these outputs as exploratory estimates, not dependable production forecasts."
+            )
+        st.caption(
+            "The dataset is synthetic. No Polyhose production records, live telemetry, "
+            "controlled factory trial, or approved operating limits are represented here."
+        )
 
 
 def build_prediction_report(
@@ -538,6 +642,7 @@ def main() -> None:
         "Synthetic-data proof of concept only. This candidate model has not been validated "
         "on Polyhose production data and must not be used as factory settings or production advice."
     )
+    render_model_validation()
 
     try:
         bundle = load_inference_bundle()
