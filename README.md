@@ -108,6 +108,10 @@ Model 3 training now uses out-of-fold Model 1 predictions for downstream trainin
 
 The GitHub Actions workflow runs the application contract tests on supported Python versions. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
+## Model improvement roadmap
+
+See [`docs/model-improvement-roadmap.md`](docs/model-improvement-roadmap.md) for the current controlled-evaluation metrics, feature gaps, production-data requirements, and a staged plan for planning-time efficiency forecasting, live production nowcasting, and downtime-risk modeling.
+
 ## Data and model governance
 
 Before any real operational pilot:
