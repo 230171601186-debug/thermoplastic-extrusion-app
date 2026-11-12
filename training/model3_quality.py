@@ -9,6 +9,7 @@ derived as Quality ≈ 1 - Scrap_Rate when both are stored as fractions.
 
 from __future__ import annotations
 
+import json
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -17,6 +18,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from lightgbm import LGBMRegressor
+from sklearn.model_selection import KFold, cross_val_predict
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
@@ -25,13 +27,16 @@ if str(TRAINING_DIR) not in sys.path:
     sys.path.insert(0, str(TRAINING_DIR))
 
 from config import (  # noqa: E402
+    CV_FOLDS,
     DISCLAIMER,
     LGBM_PARAMS,
+    METADATA_PATH,
     MODEL1_FEATURES,
     PLANNING_CONTEXT_EXCLUDED,
     PROCESS_TARGETS,
     PROJECT_ROOT,
     QUALITY_MODELS_DIR,
+    RANDOM_STATE,
     RESULTS_DIR,
     RF_PARAMS,
     SCRAP_TARGET,
@@ -84,6 +89,34 @@ MODEL3_EXCLUDED = [
     "Downtime_min",
     "Run_Time_min",
 ]
+
+
+def make_oof_process_features(train_df: pd.DataFrame) -> pd.DataFrame:
+    """Create leakage-safe Model 1 features for Model 3 training rows.
+
+    Each training row receives process predictions from a Model 1 pipeline
+    that did not fit on that row. The held-out test rows continue to use
+    Model 1 pipelines fitted on the complete training split.
+    """
+    customer_features = train_df[MODEL1_FEATURES].copy()
+    oof_features = customer_features.copy()
+    model1_metadata = json.loads(
+        METADATA_PATH.read_text(encoding="utf-8")
+    )["model1"]
+    cv = KFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
+
+    for target in PROCESS_TARGETS:
+        algorithm = model1_metadata["targets"][target]["selected_algorithm"]
+        estimator_class, params = ALGORITHMS[algorithm]
+        process_pipeline = make_regressor_pipeline(estimator_class(**deepcopy(params)))
+        oof_features[target] = cross_val_predict(
+            process_pipeline,
+            customer_features,
+            train_df[target],
+            cv=cv,
+            n_jobs=-1,
+        )
+    return oof_features
 
 
 def _configure_stdio() -> None:
@@ -188,7 +221,7 @@ def main() -> None:
     train_df, test_df = apply_saved_split(df)
     print(f"[split] Reused Model 1 split: train={len(train_df)}  test={len(test_df)}")
 
-    X_train = attach_predicted_process(train_df, pipelines)
+    X_train = make_oof_process_features(train_df)
     X_test = attach_predicted_process(test_df, pipelines)
     y_train = train_df[SCRAP_TARGET]
     y_test = test_df[SCRAP_TARGET]
