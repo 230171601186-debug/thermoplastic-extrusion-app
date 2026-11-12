@@ -19,7 +19,7 @@ The candidate inference workflow then estimates:
 2. Operational efficiency (reported on a 0–100 percentage-point scale)
 3. Scrap rate (internally represented as a fraction and displayed as a percentage)
 
-The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. A CSV report can be downloaded for each successful prediction.
+The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction.
 
 ## Architecture
 
