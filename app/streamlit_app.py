@@ -581,7 +581,7 @@ def render_results(predictions: Mapping[str, float]) -> None:
         st.info("All values are candidate estimates. They are not live sensor readings, approved setpoints or production recommendations.")
 
     with process_tab:
-        st.markdown("#### Estimated process parameters")
+        st.subheader("Estimated process parameters")
         st.caption("Charts are separated by engineering unit. Hover over bars for exact values; compare only within each unit group.")
         chart_data = build_process_chart_data(predictions)
         for row_start in range(0, len(chart_data), 2):
