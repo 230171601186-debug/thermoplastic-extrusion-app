@@ -524,55 +524,33 @@ def render_input_summary(customer_inputs: Mapping[str, object]) -> None:
 
 
 def render_results(predictions: Mapping[str, float]) -> None:
+    st.markdown('<div class="app-section-kicker">01 / Production outcome</div>', unsafe_allow_html=True)
     st.subheader("Predicted production indicators")
-    efficiency, scrap = st.columns(2)
-    efficiency.metric(
-        "Operational efficiency",
-        efficiency_percentage(predictions[EFFICIENCY_TARGET]),
-        border=True,
-        help="The candidate output is OEE expressed in percentage points (0–100). It is an estimate, not a measured factory result.",
-    )
-    efficiency.caption(
-        "Estimated OEE expressed in percentage points (0–100); not a measured factory result."
-    )
-    scrap.metric(
-        "Predicted scrap rate",
-        format_scrap_percentage(predictions[SCRAP_TARGET]),
-        border=True,
-        help="Estimated scrap length divided by actual processing length. The model returns a fraction, shown here as a percentage.",
-    )
-    scrap.caption(
-        "Estimated scrap length as a share of actual processing length; the model fraction is displayed as a percentage."
-    )
+    efficiency_value = predictions[EFFICIENCY_TARGET]
+    scrap_value = scrap_percentage(predictions[SCRAP_TARGET])
+    efficiency, scrap, order = st.columns(3)
+    efficiency.metric("Operational efficiency · OEE", efficiency_percentage(efficiency_value), border=True,
+        help="Candidate OEE estimate in percentage points. Not a measured factory result.")
+    scrap.metric("Predicted scrap rate", f"{scrap_value:.2f}%", border=True,
+        help="Estimated scrap length as a share of actual processing length.")
+    order.metric("Customer order length",
+        f"{st.session_state.get('submitted_inputs', {}).get('Customer_Required_Length_m', 0):,.0f} m",
+        border=True, help="Requested length supplied for this estimate; not predicted production quantity.")
+    st.caption("Candidate estimates from synthetic training data — not live machine measurements.")
 
+    st.markdown('<div class="app-section-kicker">02 / Process conditions</div>', unsafe_allow_html=True)
     st.subheader("Estimated process parameters")
-    st.caption(
-        "Charts are separated by measurement unit. Bar lengths compare values only within "
-        "the same unit; displayed values are model estimates."
-    )
-    chart_columns = st.columns(2)
-    for index, (title, unit, chart_frame) in enumerate(
-        build_process_chart_data(predictions)
-    ):
-        with chart_columns[index % 2]:
+    st.caption("Each panel uses one engineering unit. Compare values within a panel only; these are not recommended machine setpoints.")
+    chart_data = build_process_chart_data(predictions)
+    left, right = st.columns(2, gap="large")
+    for index, (title, unit, chart_frame) in enumerate(chart_data):
+        with (left if index % 2 == 0 else right):
             with st.container(border=True):
                 st.markdown(f"**{title}**")
                 value_column = f"Predicted value ({unit})"
-                st.bar_chart(
-                    chart_frame,
-                    x="Process parameter",
-                    y=value_column,
-                    x_label="Process parameter",
-                    y_label=value_column,
-                    horizontal=True,
-                    sort=False,
-                    height=230,
-                )
-                st.dataframe(
-                    chart_frame,
-                    hide_index=True,
-                    width="stretch",
-                )
+                st.bar_chart(chart_frame, x="Process parameter", y=value_column,
+                    x_label="Parameter", y_label=unit, horizontal=True, sort=False, height=260)
+                st.dataframe(chart_frame, hide_index=True, width="stretch")
 
 
 def main() -> None:
@@ -580,209 +558,66 @@ def main() -> None:
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
         layout="wide",
-        initial_sidebar_state="collapsed",
+        initial_sidebar_state="expanded",
     )
     st.markdown(
         """
         <style>
-        :root {
-            --app-ink: #17233b;
-            --app-muted: #64748b;
-            --app-border: #e5eaf2;
-            --app-surface: #ffffff;
-            --app-accent: #1769aa;
-        }
-        .stApp {
-            background:
-                radial-gradient(ellipse at 12% 0%, rgba(23, 105, 170, .07), transparent 34%),
-                #f5f7fb;
-            color: var(--app-ink);
-        }
-        [data-testid="stHeader"] { background: rgba(245,247,251,.82); }
-        [data-testid="stMainBlockContainer"] {
-            max-width: 1440px;
-            padding-top: 2rem;
-            padding-bottom: 3rem;
-        }
-        h1, h2, h3 { color: var(--app-ink); letter-spacing: -.025em; }
-        h1 { font-weight: 760 !important; }
-        [data-testid="stMetric"] {
-            background: var(--app-surface);
-            border: 1px solid var(--app-border);
-            border-radius: 14px;
-            padding: 1rem 1.1rem;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, .035);
-        }
-        [data-testid="stForm"], [data-testid="stVerticalBlockBorderWrapper"] {
-            border-color: var(--app-border) !important;
-            border-radius: 16px !important;
-            background: rgba(255,255,255,.88);
-        }
-        [data-testid="stDownloadButton"] button,
-        [data-testid="stFormSubmitButton"] button {
-            border-radius: 10px;
-            min-height: 2.8rem;
-            font-weight: 650;
-        }
-        [data-testid="stAlert"] { border-radius: 12px; }
-        [data-testid="stDataFrame"], [data-testid="stTable"] {
-            border: 1px solid var(--app-border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .app-eyebrow {
-            color: var(--app-accent);
-            font-size: .76rem;
-            font-weight: 750;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            margin-bottom: .35rem;
-        }
-        .app-subtitle {
-            color: var(--app-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 850px;
-            margin-top: -.25rem;
-            margin-bottom: 1.25rem;
-        }
-        @media (max-width: 768px) {
-            [data-testid="stMainBlockContainer"] {
-                padding-left: 1rem;
-                padding-right: 1rem;
-                padding-top: 1rem;
-            }
-        }
+        :root { --ink:#14233b; --muted:#68788f; --border:#dce4ee; }
+        .stApp { background:linear-gradient(145deg,#edf3f9 0%,#f7f9fc 48%,#f1f5f9 100%); color:var(--ink); }
+        [data-testid="stHeader"] { background:rgba(246,248,251,.9); }
+        [data-testid="stMainBlockContainer"] { max-width:1520px; padding:1.35rem 2.4rem 3.5rem; }
+        [data-testid="stSidebar"] { background:linear-gradient(180deg,#10243d,#1b3859); }
+        [data-testid="stSidebar"] * { color:#e7eef7; }
+        [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.16); }
+        h1,h2,h3 { color:var(--ink); letter-spacing:-.035em; }
+        h1 { font-weight:780 !important; letter-spacing:-.045em; }
+        [data-testid="stMetric"] { background:linear-gradient(145deg,#fff,#f8fbff); border:1px solid var(--border); border-radius:16px; padding:1.15rem 1.25rem; box-shadow:0 5px 18px rgba(20,35,59,.055); min-height:122px; }
+        [data-testid="stMetricLabel"] { color:#63748b !important; font-weight:650; }
+        [data-testid="stMetricValue"] { color:#142b49 !important; font-weight:760; }
+        [data-testid="stForm"],[data-testid="stVerticalBlockBorderWrapper"] { border-color:var(--border) !important; border-radius:17px !important; background:rgba(255,255,255,.95); box-shadow:0 4px 18px rgba(20,35,59,.035); }
+        [data-testid="stDownloadButton"] button,[data-testid="stFormSubmitButton"] button { border-radius:10px; min-height:2.9rem; font-weight:700; }
+        [data-testid="stAlert"] { border-radius:13px; }
+        [data-testid="stDataFrame"],[data-testid="stTable"] { border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+        .app-eyebrow { color:#3676aa; font-size:.72rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; margin-bottom:.55rem; }
+        .app-subtitle { color:var(--muted); font-size:1.02rem; line-height:1.65; max-width:900px; margin-top:-.3rem; margin-bottom:1.1rem; }
+        .app-header { padding:.4rem 0 1.1rem; border-bottom:1px solid var(--border); margin-bottom:1.2rem; }
+        .app-status { display:inline-flex; align-items:center; gap:.45rem; color:#276247; background:#e8f5ee; border:1px solid #cde8d8; border-radius:999px; padding:.32rem .7rem; font-size:.76rem; font-weight:700; }
+        .app-status-dot { width:.45rem; height:.45rem; border-radius:50%; background:#26945c; display:inline-block; }
+        .app-section-kicker { color:#718198; font-size:.74rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
+        @media(max-width:900px) { [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; } }
         </style>
-        <div class="app-eyebrow">Manufacturing intelligence · Decision support prototype</div>
+        <div class="app-header">
+          <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
+          <div class="app-status"><span class="app-status-dot"></span> DEMONSTRATION ENVIRONMENT</div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-    st.title(APP_TITLE)
-    st.caption(
-        "Enter customer product and order requirements to view candidate estimates "
-        "for process parameters and production indicators."
+    st.title("Thermoplastic extrusion")
+    st.markdown(
+        '<div class="app-subtitle">Engineering estimates for product configuration, process conditions and production quality. Designed as a decision-support workspace, not a machine-control system.</div>',
+        unsafe_allow_html=True,
     )
-    st.info(
-        "Synthetic-data proof of concept only. This candidate model has not been validated "
-        "on Polyhose production data and must not be used as factory settings or production advice."
+    with st.sidebar:
+        st.markdown("### EXTRUSION INTELLIGENCE")
+        st.caption("PROCESS ANALYTICS PLATFORM")
+        st.divider()
+        st.markdown("**WORKSPACE**")
+        st.markdown("01  ·  Production planning")
+        st.markdown("02  ·  Process estimates")
+        st.markdown("03  ·  Model governance")
+        st.divider()
+        st.caption("MODEL STATUS")
+        st.markdown("Candidate bundle · Loaded on demand")
+        st.caption("Data basis: synthetic demonstration dataset")
+    st.warning(
+        "SYNTHETIC-DATA PROOF OF CONCEPT — This candidate model has not been validated on "
+        "Polyhose production data. Do not use its outputs as factory settings or production advice."
     )
     render_model_validation()
 
     try:
-        bundle = load_inference_bundle()
-    except Exception:
-        LOGGER.exception("Candidate model bundle could not be loaded")
-        st.error("Candidate models could not be loaded. No prediction is available; contact the application owner.")
-        return
-
-    categories = bundle.category_values
-    if "None" not in categories.get("Braid_Type", set()):
-        LOGGER.error("Candidate category vocabulary is missing the required Braid_Type='None' category")
-        st.error("The candidate category list is incomplete. No prediction is available; contact the application owner.")
-        return
-
-    with st.form("customer_requirements", border=True):
-        st.subheader("Customer inputs")
-
-        st.markdown("**Material selection**")
-        material_columns = st.columns(2)
-        material_type = material_columns[0].selectbox(
-            "Material type",
-            sorted(categories["Material_Type"]),
-            key="material_type",
-            help="Choose a material category from the fitted candidate model.",
-        )
-        material_grade = material_columns[1].selectbox(
-            "Material grade",
-            sorted(categories["Material_Grade"]),
-            key="material_grade",
-            help="Choose a grade from the fitted candidate model.",
-        )
-        tube_type, braid_type = st.columns(2)
-        tube_type_value = tube_type.selectbox(
-            "Tube type",
-            sorted(categories["Tube_Type"]),
-            key="tube_type",
-        )
-        braid_options = sorted(categories["Braid_Type"])
-        braid_type_value = braid_type.selectbox(
-            "Braid type",
-            braid_options,
-            index=braid_options.index("None"),
-            key="braid_type",
-            help="“None” is a valid fitted category.",
-        )
-
-        st.markdown("**Tube specifications**")
-        dimension_columns = st.columns(3)
-        target_tube_od_mm = dimension_columns[0].number_input(
-            "Target tube OD (mm)",
-            min_value=0.0,
-            value=10.0,
-            step=0.1,
-            format="%.2f",
-            key="target_tube_od_mm",
-            help="Must be greater than zero. No approved maximum is defined in the project.",
-        )
-        target_tube_wall_mm = dimension_columns[1].number_input(
-            "Target tube wall (mm)",
-            min_value=0.0,
-            value=2.0,
-            step=0.1,
-            format="%.2f",
-            key="target_tube_wall_mm",
-            help="Must be greater than zero and consistent with OD and ID.",
-        )
-        target_tube_id_mm = dimension_columns[2].number_input(
-            "Target tube ID (mm)",
-            min_value=0.0,
-            value=6.0,
-            step=0.1,
-            format="%.2f",
-            key="target_tube_id_mm",
-            help="Must exceed 0.5 mm and satisfy the existing OD/wall geometry rule.",
-        )
-
-        st.markdown("**Order requirements**")
-        customer_required_length_m = st.number_input(
-            "Customer-required length (m)",
-            min_value=0.0,
-            value=5000.0,
-            step=100.0,
-            format="%.2f",
-            key="customer_required_length_m",
-            help="Must be greater than zero. No approved maximum is defined in the project.",
-        )
-        submitted = st.form_submit_button(
-            "Generate estimates",
-            type="primary",
-            icon=":material/analytics:",
-            key="predict_button",
-        )
-
-    if submitted:
-        for state_key in (
-            "validated_predictions",
-            "prediction_warnings",
-            "submitted_inputs",
-            "prediction_generated_at_utc",
-        ):
-            st.session_state.pop(state_key, None)
-        customer_inputs = build_customer_inputs(
-            material_type,
-            material_grade,
-            tube_type_value,
-            braid_type_value,
-            target_tube_od_mm,
-            target_tube_wall_mm,
-            target_tube_id_mm,
-            customer_required_length_m,
-        )
-        with st.spinner("Validating inputs and calculating candidate estimates..."):
-            predictions, warnings, errors = execute_prediction(bundle, customer_inputs, categories)
-            if predictions is not None:
-                try:
                     domain_warnings = build_training_domain_warnings(
                         customer_inputs,
                         load_training_feature_ranges(),
