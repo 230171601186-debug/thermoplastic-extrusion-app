@@ -446,17 +446,74 @@ def render_results(predictions: Mapping[str, float]) -> None:
                 )
 
 
+def inject_professional_theme() -> None:
+    """Apply a restrained industrial analytics design system."""
+    st.markdown(
+        """
+        <style>
+        :root { --ink:#172b3a; --muted:#637789; --line:#dce5eb; --brand:#0b6477; --accent:#13a6a0; }
+        .stApp { background: linear-gradient(180deg,#f5f8fa 0%,#eef3f6 100%); color:var(--ink); }
+        [data-testid="stHeader"] { background:rgba(245,248,250,.88); }
+        [data-testid="stSidebar"] { background:#102b3a; }
+        [data-testid="stSidebar"] * { color:#eaf2f5 !important; }
+        .block-container { max-width:1440px; padding-top:2rem; padding-bottom:3rem; }
+        .hero { padding:1.65rem 1.8rem; border-radius:18px; color:white; background:linear-gradient(115deg,#102f43 0%,#0b6477 68%,#138b8b 100%); box-shadow:0 14px 34px rgba(16,47,67,.15); margin-bottom:1.2rem; }
+        .hero-kicker { text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:700; color:#a9e3e2; }
+        .hero h1 { color:white; font-size:2rem; line-height:1.2; margin:.45rem 0; font-weight:750; }
+        .hero p { color:#d9e9ed; margin:0; max-width:850px; font-size:.98rem; }
+        [data-testid="stMetric"] { background:white; border:1px solid var(--line); border-radius:14px; padding:1rem 1.1rem; box-shadow:0 5px 16px rgba(20,49,65,.045); }
+        [data-testid="stMetricLabel"] p { color:var(--muted); font-weight:650; }
+        [data-testid="stMetricValue"] { color:#12394b; }
+        [data-testid="stForm"], [data-testid="stVerticalBlockBorderWrapper"] { border-color:var(--line) !important; border-radius:16px !important; }
+        div.stButton > button, div.stFormSubmitButton > button { border-radius:10px; font-weight:650; min-height:2.8rem; }
+        div.stFormSubmitButton > button[kind="primary"] { background:#0b6477; border-color:#0b6477; }
+        h2,h3 { color:#17384a; letter-spacing:-.02em; }
+        [data-testid="stCaptionContainer"] { color:var(--muted); }
+        .section-note { color:#607687; font-size:.9rem; }
+        .status-pill { display:inline-block; padding:.25rem .65rem; border-radius:999px; background:#e4f3f2; color:#126b6b; font-size:.76rem; font-weight:700; }
+        @media (max-width: 700px) { .block-container { padding-left:1rem; padding-right:1rem; } .hero { padding:1.2rem; } .hero h1 { font-size:1.55rem; } }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_sidebar() -> None:
+    """Show project identity, navigation context, and model limitations."""
+    with st.sidebar:
+        st.markdown("## <span style='color:#7ed8d2'>EXTRUSION</span><br>INTELLIGENCE", unsafe_allow_html=True)
+        st.caption("PREDICTIVE ANALYTICS · DEMONSTRATION")
+        st.divider()
+        st.markdown("**Workspace**")
+        st.markdown("- Product configuration\n- Process estimates\n- Quality indicators\n- Prediction report")
+        st.divider()
+        st.markdown("**Model status**")
+        st.markdown("<span class='status-pill'>Candidate models</span>", unsafe_allow_html=True)
+        st.caption("Built and evaluated using a synthetic 5,000-row dataset. Not validated against production telemetry.")
+        st.divider()
+        st.caption("Version 1.0 · Academic proof of concept")
+
+
 def main() -> None:
     st.set_page_config(
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
         layout="wide",
+        initial_sidebar_state="expanded",
     )
-    st.title(APP_TITLE)
-    st.caption(
-        "Enter customer product and order requirements to view candidate estimates "
-        "for process parameters and production indicators."
+    inject_professional_theme()
+    render_sidebar()
+    st.markdown(
+        """
+        <section class="hero">
+          <div class="hero-kicker">Manufacturing analytics workspace</div>
+          <h1>Thermoplastic Extrusion Intelligence</h1>
+          <p>Translate customer product specifications into candidate process-parameter, operational-efficiency and scrap-rate estimates.</p>
+        </section>
+        """,
+        unsafe_allow_html=True,
     )
+    st.caption("Configure a product and order below to generate a traceable prediction snapshot.")
     st.info(
         "Synthetic-data proof of concept only. This candidate model has not been validated "
         "on Polyhose production data and must not be used as factory settings or production advice."
