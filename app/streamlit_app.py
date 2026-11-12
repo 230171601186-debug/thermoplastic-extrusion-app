@@ -583,6 +583,18 @@ def render_results(predictions: Mapping[str, float]) -> None:
                 st.caption("MODEL OUTPUTS")
                 st.markdown("### 9 process estimates")
                 st.caption("Temperatures, pressures, line speeds, screw speed and extrusion rate.")
+        try:
+            validation = load_validation_summary().set_index("Model")
+            efficiency_mae = float(validation.loc["Operational efficiency", "CV MAE"])
+            scrap_mae = float(validation.loc["Scrap rate", "CV MAE"])
+            st.caption(
+                f"Historical outer-CV MAE on synthetic test folds: efficiency ±{efficiency_mae:.2f} percentage points; "
+                f"scrap rate ±{scrap_mae:.2f} percentage points. These are average absolute errors, "
+                "not confidence intervals or guarantees for this individual prediction."
+            )
+        except (OSError, ValueError, KeyError):
+            LOGGER.exception("Prediction error context could not be loaded")
+            st.caption("Cross-validation error context is unavailable.")
         st.info("All values are candidate estimates. They are not live sensor readings, approved setpoints or production recommendations.")
 
     with process_tab:
