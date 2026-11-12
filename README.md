@@ -74,6 +74,20 @@ streamlit run app/streamlit_app.py
 
 The app loads its candidate inference bundle from repository-relative paths. Run it from the repository root so Streamlit, imports, and data paths resolve consistently.
 
+## Deploy a preview to Streamlit Community Cloud
+
+Deploy the feature branch as a preview first; do not merge it into `main` until the hosted app has been checked.
+
+1. In Streamlit Community Cloud, create a new app and select this repository.
+2. Select branch `feature/professional-app-foundation`.
+3. Set the app entry point to `app/streamlit_app.py`.
+4. Open **Advanced settings** and select Python **3.13** to match the serialized candidate-model environment.
+5. Deploy. The root `requirements.txt` delegates to the pinned runtime dependencies in `requirements-app.txt`.
+
+After the first deployment, verify the app starts without errors, submit a valid input, confirm invalid tube geometry is rejected, inspect the model-limitations panel, download a CSV report, and review the application logs. A successful GitHub Actions run is not a substitute for this hosted smoke test.
+
+**Deployment status:** No Streamlit Community Cloud deployment has been performed or verified yet. Do not describe the app as hosted or production-ready until this check is complete.
+
 ## Model training
 
 Training dependencies are listed in `training/ml_requirements.txt`. The training scripts are:
