@@ -50,12 +50,12 @@ The training code is organized under `training/`; the Streamlit entry point is `
 
 ## Run locally
 
-Use Python 3.11 or 3.12 in a virtual environment.
+Use Python 3.13 in a virtual environment. The serialized candidate models were built with Python 3.13.14; the ML dependencies are pinned to the package versions recorded in their manifests.
 
 ### Windows PowerShell
 
 ```powershell
-py -3.11 -m venv .venv
+py -3.13 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements-app.txt
@@ -65,7 +65,7 @@ streamlit run app/streamlit_app.py
 ### macOS / Linux
 
 ```bash
-python3.11 -m venv .venv
+python3.13 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements-app.txt
@@ -106,7 +106,7 @@ python training/model3_quality.py
 
 Model 3 training now uses out-of-fold Model 1 predictions for downstream training rows, matching the leakage-control approach already used by Model 2. Held-out test rows are still transformed by Model 1 pipelines fitted only on the training split.
 
-The GitHub Actions workflow runs the application and candidate-inference contract tests on supported Python versions. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
+The root `requirements.txt` delegates to `requirements-app.txt` for common cloud deployment discovery. The ML dependencies are pinned to the package versions recorded in the serialized model manifests. GitHub Actions tests the app and candidate-inference contracts on Python 3.11, 3.12, and 3.13, with the training smoke test on Python 3.13. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
 ## Model improvement roadmap
 
