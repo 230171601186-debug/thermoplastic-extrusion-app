@@ -1,0 +1,163 @@
+scope,target,algorithm,selection_cv_mean_mae,selected
+outer_1,Extruder_Temperature_C,Random Forest,3.8518985665488024,False
+outer_1,Extruder_Temperature_C,XGBoost,3.7362102491930145,False
+outer_1,Extruder_Temperature_C,LightGBM,3.7121472660120443,True
+outer_1,Die_Temperature_C,Random Forest,4.883140311788402,False
+outer_1,Die_Temperature_C,XGBoost,4.75792187912685,False
+outer_1,Die_Temperature_C,LightGBM,4.7530254984028515,True
+outer_1,Cooling_Tank_Temperature_C,Random Forest,0.9521798175324107,False
+outer_1,Cooling_Tank_Temperature_C,XGBoost,0.9253209411548373,False
+outer_1,Cooling_Tank_Temperature_C,LightGBM,0.9251574745818697,True
+outer_1,Melt_Pressure_bar,Random Forest,4.923733082712038,False
+outer_1,Melt_Pressure_bar,XGBoost,4.78424153583041,True
+outer_1,Melt_Pressure_bar,LightGBM,4.795332371019717,False
+outer_1,Air_Pressure_bar,Random Forest,0.5483073063816578,False
+outer_1,Air_Pressure_bar,XGBoost,0.5403068002628966,False
+outer_1,Air_Pressure_bar,LightGBM,0.5381908036273647,True
+outer_1,Screw_RPM,Random Forest,3.7506013865539134,False
+outer_1,Screw_RPM,XGBoost,3.614817619996527,True
+outer_1,Screw_RPM,LightGBM,3.6189675880802272,False
+outer_1,Line_Speed_m_min,Random Forest,0.8352734075474152,False
+outer_1,Line_Speed_m_min,XGBoost,0.8067605621763123,False
+outer_1,Line_Speed_m_min,LightGBM,0.7989762774210819,True
+outer_1,Puller_Speed_m_min,Random Forest,0.9989885948062224,False
+outer_1,Puller_Speed_m_min,XGBoost,0.97212189347405,False
+outer_1,Puller_Speed_m_min,LightGBM,0.9664910870391368,True
+outer_1,Extrusion_Speed_kg_hr,Random Forest,6.055355532909286,False
+outer_1,Extrusion_Speed_kg_hr,XGBoost,5.873676310870635,False
+outer_1,Extrusion_Speed_kg_hr,LightGBM,5.808129479339649,True
+outer_2,Extruder_Temperature_C,Random Forest,3.9036465746171918,False
+outer_2,Extruder_Temperature_C,XGBoost,3.782994278881104,False
+outer_2,Extruder_Temperature_C,LightGBM,3.7562798670337663,True
+outer_2,Die_Temperature_C,Random Forest,4.887121649643156,False
+outer_2,Die_Temperature_C,XGBoost,4.744149068169784,False
+outer_2,Die_Temperature_C,LightGBM,4.720373163983644,True
+outer_2,Cooling_Tank_Temperature_C,Random Forest,0.9805626546291654,False
+outer_2,Cooling_Tank_Temperature_C,XGBoost,0.9582429065258724,False
+outer_2,Cooling_Tank_Temperature_C,LightGBM,0.9551371130231626,True
+outer_2,Melt_Pressure_bar,Random Forest,4.898514211195705,False
+outer_2,Melt_Pressure_bar,XGBoost,4.7637532548072175,False
+outer_2,Melt_Pressure_bar,LightGBM,4.7386506189037005,True
+outer_2,Air_Pressure_bar,Random Forest,0.5450800658869666,False
+outer_2,Air_Pressure_bar,XGBoost,0.5378615645781962,False
+outer_2,Air_Pressure_bar,LightGBM,0.5368769071805038,True
+outer_2,Screw_RPM,Random Forest,3.795848365002455,False
+outer_2,Screw_RPM,XGBoost,3.655000033369515,False
+outer_2,Screw_RPM,LightGBM,3.6365231666857007,True
+outer_2,Line_Speed_m_min,Random Forest,0.8211633026015815,False
+outer_2,Line_Speed_m_min,XGBoost,0.7900768778012953,False
+outer_2,Line_Speed_m_min,LightGBM,0.7842122305887322,True
+outer_2,Puller_Speed_m_min,Random Forest,0.9875151400690957,False
+outer_2,Puller_Speed_m_min,XGBoost,0.9567979826163303,False
+outer_2,Puller_Speed_m_min,LightGBM,0.9538762916315052,True
+outer_2,Extrusion_Speed_kg_hr,Random Forest,5.9809109930358915,False
+outer_2,Extrusion_Speed_kg_hr,XGBoost,5.831368258746352,False
+outer_2,Extrusion_Speed_kg_hr,LightGBM,5.777026712437313,True
+outer_3,Extruder_Temperature_C,Random Forest,3.9388149585724803,False
+outer_3,Extruder_Temperature_C,XGBoost,3.7902830042272537,False
+outer_3,Extruder_Temperature_C,LightGBM,3.787796005152318,True
+outer_3,Die_Temperature_C,Random Forest,4.849425860367299,False
+outer_3,Die_Temperature_C,XGBoost,4.737090905587886,False
+outer_3,Die_Temperature_C,LightGBM,4.7114593673913765,True
+outer_3,Cooling_Tank_Temperature_C,Random Forest,0.9764513214689288,False
+outer_3,Cooling_Tank_Temperature_C,XGBoost,0.9575578681268032,False
+outer_3,Cooling_Tank_Temperature_C,LightGBM,0.952561625173946,True
+outer_3,Melt_Pressure_bar,Random Forest,4.859557253798076,False
+outer_3,Melt_Pressure_bar,XGBoost,4.757611465037201,True
+outer_3,Melt_Pressure_bar,LightGBM,4.7654317191541145,False
+outer_3,Air_Pressure_bar,Random Forest,0.5402375266859875,False
+outer_3,Air_Pressure_bar,XGBoost,0.5307165834890418,True
+outer_3,Air_Pressure_bar,LightGBM,0.5316197366447556,False
+outer_3,Screw_RPM,Random Forest,3.8002357287264683,False
+outer_3,Screw_RPM,XGBoost,3.6447367181824926,False
+outer_3,Screw_RPM,LightGBM,3.6180100103149324,True
+outer_3,Line_Speed_m_min,Random Forest,0.8174369586125732,False
+outer_3,Line_Speed_m_min,XGBoost,0.7907198172756349,False
+outer_3,Line_Speed_m_min,LightGBM,0.7898433617408213,True
+outer_3,Puller_Speed_m_min,Random Forest,0.9892652421474901,False
+outer_3,Puller_Speed_m_min,XGBoost,0.960617978010832,False
+outer_3,Puller_Speed_m_min,LightGBM,0.9589935941530502,True
+outer_3,Extrusion_Speed_kg_hr,Random Forest,5.95703939986024,False
+outer_3,Extrusion_Speed_kg_hr,XGBoost,5.801098076900339,False
+outer_3,Extrusion_Speed_kg_hr,LightGBM,5.714417687780731,True
+outer_4,Extruder_Temperature_C,Random Forest,3.757432377077025,False
+outer_4,Extruder_Temperature_C,XGBoost,3.6621417516760304,False
+outer_4,Extruder_Temperature_C,LightGBM,3.6435780443472443,True
+outer_4,Die_Temperature_C,Random Forest,4.857480526863294,False
+outer_4,Die_Temperature_C,XGBoost,4.7012534749970065,True
+outer_4,Die_Temperature_C,LightGBM,4.711093231964456,False
+outer_4,Cooling_Tank_Temperature_C,Random Forest,0.9836834251214356,False
+outer_4,Cooling_Tank_Temperature_C,XGBoost,0.9521495288352261,False
+outer_4,Cooling_Tank_Temperature_C,LightGBM,0.9513673030474937,True
+outer_4,Melt_Pressure_bar,Random Forest,4.876884156686075,False
+outer_4,Melt_Pressure_bar,XGBoost,4.7399377234177456,False
+outer_4,Melt_Pressure_bar,LightGBM,4.721164652218132,True
+outer_4,Air_Pressure_bar,Random Forest,0.5507230344111336,False
+outer_4,Air_Pressure_bar,XGBoost,0.5426529553878313,False
+outer_4,Air_Pressure_bar,LightGBM,0.5419144351346663,True
+outer_4,Screw_RPM,Random Forest,3.817982624375612,False
+outer_4,Screw_RPM,XGBoost,3.6391981782952914,True
+outer_4,Screw_RPM,LightGBM,3.650681511093806,False
+outer_4,Line_Speed_m_min,Random Forest,0.8267529457678423,False
+outer_4,Line_Speed_m_min,XGBoost,0.7938468276840315,False
+outer_4,Line_Speed_m_min,LightGBM,0.7898501844809994,True
+outer_4,Puller_Speed_m_min,Random Forest,0.9798347925526688,False
+outer_4,Puller_Speed_m_min,XGBoost,0.9498277889585198,False
+outer_4,Puller_Speed_m_min,LightGBM,0.9455844712581101,True
+outer_4,Extrusion_Speed_kg_hr,Random Forest,5.9751844569275265,False
+outer_4,Extrusion_Speed_kg_hr,XGBoost,5.81747229515839,False
+outer_4,Extrusion_Speed_kg_hr,LightGBM,5.793165340084858,True
+outer_5,Extruder_Temperature_C,Random Forest,3.8134847230869755,False
+outer_5,Extruder_Temperature_C,XGBoost,3.7026320908733865,False
+outer_5,Extruder_Temperature_C,LightGBM,3.6999364495685874,True
+outer_5,Die_Temperature_C,Random Forest,4.80437507903936,False
+outer_5,Die_Temperature_C,XGBoost,4.695734462033033,False
+outer_5,Die_Temperature_C,LightGBM,4.680779460347516,True
+outer_5,Cooling_Tank_Temperature_C,Random Forest,0.9712811409341611,False
+outer_5,Cooling_Tank_Temperature_C,XGBoost,0.9496199443689401,False
+outer_5,Cooling_Tank_Temperature_C,LightGBM,0.9429108052365048,True
+outer_5,Melt_Pressure_bar,Random Forest,4.925606589979389,False
+outer_5,Melt_Pressure_bar,XGBoost,4.778815046709105,True
+outer_5,Melt_Pressure_bar,LightGBM,4.782493105274885,False
+outer_5,Air_Pressure_bar,Random Forest,0.5412471072069905,False
+outer_5,Air_Pressure_bar,XGBoost,0.5329825144897596,False
+outer_5,Air_Pressure_bar,LightGBM,0.5319297262636763,True
+outer_5,Screw_RPM,Random Forest,3.7869056383641486,False
+outer_5,Screw_RPM,XGBoost,3.6201230896602516,False
+outer_5,Screw_RPM,LightGBM,3.60328236013326,True
+outer_5,Line_Speed_m_min,Random Forest,0.8146577555748488,False
+outer_5,Line_Speed_m_min,XGBoost,0.7876857706022423,False
+outer_5,Line_Speed_m_min,LightGBM,0.7846557395609616,True
+outer_5,Puller_Speed_m_min,Random Forest,0.9866582988373104,False
+outer_5,Puller_Speed_m_min,XGBoost,0.9555685910340456,False
+outer_5,Puller_Speed_m_min,LightGBM,0.9510625191947945,True
+outer_5,Extrusion_Speed_kg_hr,Random Forest,5.9362727725320354,False
+outer_5,Extrusion_Speed_kg_hr,XGBoost,5.765728033089801,False
+outer_5,Extrusion_Speed_kg_hr,LightGBM,5.699881253318009,True
+full_training_partition,Extruder_Temperature_C,Random Forest,3.822697234535435,False
+full_training_partition,Extruder_Temperature_C,XGBoost,3.6952703072108233,False
+full_training_partition,Extruder_Temperature_C,LightGBM,3.6759779491364193,True
+full_training_partition,Die_Temperature_C,Random Forest,4.812482144467396,False
+full_training_partition,Die_Temperature_C,XGBoost,4.697352633866683,True
+full_training_partition,Die_Temperature_C,LightGBM,4.699639376376993,False
+full_training_partition,Cooling_Tank_Temperature_C,Random Forest,0.9714670834154792,False
+full_training_partition,Cooling_Tank_Temperature_C,XGBoost,0.9450830947521122,False
+full_training_partition,Cooling_Tank_Temperature_C,LightGBM,0.942531556660014,True
+full_training_partition,Melt_Pressure_bar,Random Forest,4.902874361580928,False
+full_training_partition,Melt_Pressure_bar,XGBoost,4.773040273893715,False
+full_training_partition,Melt_Pressure_bar,LightGBM,4.719385514739222,True
+full_training_partition,Air_Pressure_bar,Random Forest,0.543748086954433,False
+full_training_partition,Air_Pressure_bar,XGBoost,0.5330770411078688,False
+full_training_partition,Air_Pressure_bar,LightGBM,0.5320267089605197,True
+full_training_partition,Screw_RPM,Random Forest,3.8252645050331737,False
+full_training_partition,Screw_RPM,XGBoost,3.6391134599791966,False
+full_training_partition,Screw_RPM,LightGBM,3.6202063410812038,True
+full_training_partition,Line_Speed_m_min,Random Forest,0.8243817728431684,False
+full_training_partition,Line_Speed_m_min,XGBoost,0.7901933706443011,False
+full_training_partition,Line_Speed_m_min,LightGBM,0.7833730890894124,True
+full_training_partition,Puller_Speed_m_min,Random Forest,0.9706836162932669,False
+full_training_partition,Puller_Speed_m_min,XGBoost,0.9435694593069988,False
+full_training_partition,Puller_Speed_m_min,LightGBM,0.9401744741628385,True
+full_training_partition,Extrusion_Speed_kg_hr,Random Forest,5.9473580130972,False
+full_training_partition,Extrusion_Speed_kg_hr,XGBoost,5.816484299524016,False
+full_training_partition,Extrusion_Speed_kg_hr,LightGBM,5.732064995492614,True

@@ -1,0 +1,33 @@
+{
+  "rows": 5000,
+  "missing_target": 0,
+  "unique_target_values": 4934,
+  "target_mean": 77.09235053999998,
+  "target_std": 6.225978095366904,
+  "target_variance": 38.76280324398851,
+  "target_median": 77.6173,
+  "target_min": 16.5455,
+  "target_max": 92.4184,
+  "target_q05": 66.445705,
+  "target_q25": 73.115125,
+  "target_q75": 81.65545,
+  "target_q95": 86.24488,
+  "performance_at_or_above_one": 0,
+  "efficiency_at_or_above_100": 0,
+  "exact_target_duplicate_columns": [],
+  "component_correlations_with_efficiency": {
+    "Operational_Efficiency_pct": 1.0,
+    "Availability": 0.5879687228881549,
+    "Performance": 0.6884495653589525,
+    "Quality": 0.621883769734376,
+    "OEE": 1.0,
+    "Downtime_min": -0.5844630745273153,
+    "Run_Time_min": -0.018170788925027676,
+    "Actual_Processing_Length_m": 0.12014630634068858,
+    "Good_Length_m": 0.16788526502278073,
+    "Scrap_Length_m": -0.2587372745420932,
+    "Scrap_Rate": -0.6218834829558266
+  },
+  "mean_baseline_RMSE": 6.740695896810244,
+  "median_baseline_RMSE": 6.775193786360653
+}

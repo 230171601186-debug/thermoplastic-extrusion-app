@@ -1,0 +1,92 @@
+{
+  "seed": 42,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "subset_selection_by_outer_fold": {
+    "1": [
+      "Die_Temperature_C",
+      "Melt_Pressure_bar",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "2": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Line_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "3": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min"
+    ],
+    "4": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Screw_RPM"
+    ],
+    "5": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Air_Pressure_bar",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min"
+    ]
+  },
+  "subset_inner_cv_marginal_improvement_final_train": {
+    "Extruder_Temperature_C": 0.06877512935598862,
+    "Die_Temperature_C": 0.04633941329534963,
+    "Cooling_Tank_Temperature_C": 0.04503568344490283,
+    "Melt_Pressure_bar": 0.03597883107763433,
+    "Air_Pressure_bar": 0.023114335790644702,
+    "Screw_RPM": 0.047716023397576635,
+    "Line_Speed_m_min": 0.009129142853363525,
+    "Puller_Speed_m_min": -0.008593147805717294,
+    "Extrusion_Speed_kg_hr": 0.015982211779116184
+  },
+  "final_full_train_inner_cv_scores_and_parameters": {
+    "RandomForest": {
+      "inner_MAE": 4.738338906621795,
+      "parameters": {}
+    },
+    "ExtraTrees": {
+      "inner_MAE": 4.7598317165615365,
+      "parameters": {
+        "min_samples_leaf": 5
+      }
+    },
+    "HistGradientBoosting": {
+      "inner_MAE": 4.718017393877169,
+      "parameters": {
+        "max_iter": 120,
+        "l2_regularization": 3.0
+      }
+    },
+    "Ridge": {
+      "inner_MAE": 4.699630900497037,
+      "parameters": {
+        "alpha": 50.0
+      }
+    },
+    "LightGBM": {
+      "inner_MAE": 4.707535650781433,
+      "parameters": {
+        "n_estimators": 150,
+        "num_leaves": 15
+      }
+    }
+  },
+  "final_family_selected_using_training_only_inner_cv": "Ridge",
+  "final_parameters": {
+    "alpha": 50.0
+  },
+  "candidate_comparison_uses_outer_fold_scores_for_reporting_only": true,
+  "outer_fold_scores_used_to_select_final_family": false
+}

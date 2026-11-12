@@ -1,0 +1,59 @@
+{
+  "audit": "Polyhose Predictive Analytics pre-demo quality audit",
+  "created_at_local": "2026-10-12T02:53:35",
+  "mode": "read-only",
+  "project_root": "C:\\Users\\khale\\OneDrive\\Pictures\\Desktop\\app",
+  "primary_entry_point": "app/streamlit_app.py",
+  "active_inference_module": "training/evaluation_results/controlled_stacking/bundle_audit/candidate_inference.py",
+  "active_model_artifacts": [
+    "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/",
+    "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/"
+  ],
+  "protected_production_artifacts": [
+    "dataset/Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv",
+    "training/generate_synthetic_dataset.py",
+    "models/",
+    "models/model_metadata.json",
+    "models/data_split.json",
+    "app/"
+  ],
+  "dataset": {
+    "rows": 5000,
+    "columns": 40,
+    "sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+    "synthetic": true
+  },
+  "saved_split": {
+    "train_rows": 4000,
+    "test_rows": 1000,
+    "random_state": 42,
+    "test_holdout_used_for_tuning": false
+  },
+  "tests": {
+    "app_unittest": "2 passed",
+    "candidate_inference_unittest": "16 passed",
+    "python_syntax": "37 files compiled; 0 failures",
+    "streamlit_version": "1.58.0",
+    "live_browser_smoke": "passed; valid default submission returned outputs",
+    "pytest_attempt": "unavailable: pytest not installed"
+  },
+  "evidence_paths": [
+    "training/results/model1_metrics.csv",
+    "training/results/model2_metrics.csv",
+    "training/results/model3_metrics.csv",
+    "training/evaluation_results/controlled_stacking/model2_candidate/",
+    "training/evaluation_results/controlled_stacking/model3_candidate/",
+    "training/evaluation_results/controlled_stacking/bundle_audit/",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/",
+    "training/evaluation_results/model2_oracle_analysis_2026-10-12_012946/",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/"
+  ],
+  "limitations": [
+    "Every evaluated dataset and reported score is synthetic.",
+    "No manufacturing threshold or Polyhose-specific limit was inferred.",
+    "Local smoke test does not establish hosted deployment compatibility.",
+    "No real production accuracy, calibration, subgroup generalization, or operational safety has been established.",
+    "pytest was unavailable; the repository tests were executed via unittest."
+  ],
+  "promotion": "No model was promoted, and no candidate artifact was replaced."
+}

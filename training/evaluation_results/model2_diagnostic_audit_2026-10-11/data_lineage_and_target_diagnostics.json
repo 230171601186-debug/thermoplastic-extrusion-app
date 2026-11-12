@@ -1,0 +1,54 @@
+{
+  "production_model2_feature_order": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m",
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "customer_fields": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m"
+  ],
+  "process_fields": [
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "production_training_source": "training/model2_efficiency.py make_oof_process_features()",
+  "production_inference_source": "training/preprocessing.py attach_predicted_process() and models/process/*.pkl",
+  "candidate_bundle_source": "training/evaluation_results/controlled_stacking/train_model2_candidate.py and bundle_audit/candidate_inference.py",
+  "revised_experiment_source": "run_controlled_experiment.py rebuilds upstream predictors on revised experiment data and uses cross-fitted process predictions; it does not directly use the saved production Model 1 inference bundle.",
+  "primary_diagnostic_pipeline": "Frozen production Model 1 inference pipelines predict all nine process fields from customer features. These predicted outputs are then evaluated on identical saved 5-fold outer partitions and the saved held-out test partition.",
+  "train_inference_assessment": [
+    "Production training constructs 5-fold OOF Model 1 process predictions on the production training split; production inference appends predictions from Model 1 pipelines fit on that full training split.",
+    "This OOF-to-full-fit change is an expected stack deployment distinction, but can cause distribution shift; this audit measures process prediction errors on the revised synthetic distribution.",
+    "Production Model 2 ordinary CV applies downstream CV to process OOF columns built once over the full training set. For each downstream CV validation fold, upstream process models can have been trained on other downstream validation rows. Treat ordinary saved CV as potentially optimistic; use the controlled nested outer-CV evidence instead.",
+    "The prior revised-dataset controlled runner uses in-experiment cross-fitted process predictors, not the exact frozen production inference bundle. It uses predictions rather than actual process targets, but is a different upstream model population. This audit's main results use actual saved inference-time Model 1 artifacts.",
+    "The primary full-stack and ablation features contain no recorded process targets or post-production target components."
+  ]
+}

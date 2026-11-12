@@ -1,0 +1,187 @@
+training_scope,algorithm,feature,importance
+outer_1,XGBoost,Material_Type_PA12,0.012554842978715897
+outer_1,XGBoost,Material_Type_PE,0.013082239776849747
+outer_1,XGBoost,Material_Type_PP,0.009166031144559383
+outer_1,XGBoost,Material_Type_PVC,0.013891108334064484
+outer_1,XGBoost,Material_Type_TPU,0.020606938749551773
+outer_1,XGBoost,Material_Grade_G1,0.014090058393776417
+outer_1,XGBoost,Material_Grade_G2,0.01935705728828907
+outer_1,XGBoost,Material_Grade_G3,0.040552135556936264
+outer_1,XGBoost,Tube_Type_Composite,0.023330142721533775
+outer_1,XGBoost,Tube_Type_Hydraulic,0.02452855370938778
+outer_1,XGBoost,Tube_Type_Industrial,0.02838742733001709
+outer_1,XGBoost,Tube_Type_PTFE,0.06885448098182678
+outer_1,XGBoost,Tube_Type_Pneumatic,0.022421399131417274
+outer_1,XGBoost,Braid_Type_1-Wire,0.022555852308869362
+outer_1,XGBoost,Braid_Type_2-Wire,0.025413449853658676
+outer_1,XGBoost,Braid_Type_Helical,0.02037815935909748
+outer_1,XGBoost,Braid_Type_None,0.021376363933086395
+outer_1,XGBoost,Braid_Type_Textile,0.030816547572612762
+outer_1,XGBoost,Target_Tube_OD_mm,0.030766136944293976
+outer_1,XGBoost,Target_Tube_Wall_mm,0.029486889019608498
+outer_1,XGBoost,Target_Tube_ID_mm,0.04017341509461403
+outer_1,XGBoost,Customer_Required_Length_m,0.0380248948931694
+outer_1,XGBoost,Extruder_Temperature_C,0.030661817640066147
+outer_1,XGBoost,Die_Temperature_C,0.037016063928604126
+outer_1,XGBoost,Cooling_Tank_Temperature_C,0.03593628108501434
+outer_1,XGBoost,Melt_Pressure_bar,0.035999417304992676
+outer_1,XGBoost,Air_Pressure_bar,0.0350816510617733
+outer_1,XGBoost,Screw_RPM,0.11158083379268646
+outer_1,XGBoost,Line_Speed_m_min,0.03869973123073578
+outer_1,XGBoost,Puller_Speed_m_min,0.04046066850423813
+outer_1,XGBoost,Extrusion_Speed_kg_hr,0.06474946439266205
+outer_2,XGBoost,Material_Type_PA12,0.01663278229534626
+outer_2,XGBoost,Material_Type_PE,0.010463335551321507
+outer_2,XGBoost,Material_Type_PP,0.008213307708501816
+outer_2,XGBoost,Material_Type_PVC,0.015287678688764572
+outer_2,XGBoost,Material_Type_TPU,0.02689664624631405
+outer_2,XGBoost,Material_Grade_G1,0.016253313049674034
+outer_2,XGBoost,Material_Grade_G2,0.023490631952881813
+outer_2,XGBoost,Material_Grade_G3,0.030869362875819206
+outer_2,XGBoost,Tube_Type_Composite,0.02479325421154499
+outer_2,XGBoost,Tube_Type_Hydraulic,0.023932771757245064
+outer_2,XGBoost,Tube_Type_Industrial,0.019579630345106125
+outer_2,XGBoost,Tube_Type_PTFE,0.055825892835855484
+outer_2,XGBoost,Tube_Type_Pneumatic,0.026532892137765884
+outer_2,XGBoost,Braid_Type_1-Wire,0.026017893105745316
+outer_2,XGBoost,Braid_Type_2-Wire,0.02276686392724514
+outer_2,XGBoost,Braid_Type_Helical,0.023300474509596825
+outer_2,XGBoost,Braid_Type_None,0.02259211614727974
+outer_2,XGBoost,Braid_Type_Textile,0.026066236197948456
+outer_2,XGBoost,Target_Tube_OD_mm,0.03265557438135147
+outer_2,XGBoost,Target_Tube_Wall_mm,0.03003004752099514
+outer_2,XGBoost,Target_Tube_ID_mm,0.040486980229616165
+outer_2,XGBoost,Customer_Required_Length_m,0.037322670221328735
+outer_2,XGBoost,Extruder_Temperature_C,0.03279266878962517
+outer_2,XGBoost,Die_Temperature_C,0.040309783071279526
+outer_2,XGBoost,Cooling_Tank_Temperature_C,0.03735046833753586
+outer_2,XGBoost,Melt_Pressure_bar,0.04055064171552658
+outer_2,XGBoost,Air_Pressure_bar,0.03800150007009506
+outer_2,XGBoost,Screw_RPM,0.10906936973333359
+outer_2,XGBoost,Line_Speed_m_min,0.03427103906869888
+outer_2,XGBoost,Puller_Speed_m_min,0.035442885011434555
+outer_2,XGBoost,Extrusion_Speed_kg_hr,0.07220125198364258
+outer_3,XGBoost,Material_Type_PA12,0.015428679995238781
+outer_3,XGBoost,Material_Type_PE,0.016080500558018684
+outer_3,XGBoost,Material_Type_PP,0.006839367561042309
+outer_3,XGBoost,Material_Type_PVC,0.014606923796236515
+outer_3,XGBoost,Material_Type_TPU,0.024796882644295692
+outer_3,XGBoost,Material_Grade_G1,0.013407128863036633
+outer_3,XGBoost,Material_Grade_G2,0.014328083954751492
+outer_3,XGBoost,Material_Grade_G3,0.030093085020780563
+outer_3,XGBoost,Tube_Type_Composite,0.03062797710299492
+outer_3,XGBoost,Tube_Type_Hydraulic,0.028819745406508446
+outer_3,XGBoost,Tube_Type_Industrial,0.02617720328271389
+outer_3,XGBoost,Tube_Type_PTFE,0.05582905560731888
+outer_3,XGBoost,Tube_Type_Pneumatic,0.02322981134057045
+outer_3,XGBoost,Braid_Type_1-Wire,0.02311698906123638
+outer_3,XGBoost,Braid_Type_2-Wire,0.01965603232383728
+outer_3,XGBoost,Braid_Type_Helical,0.02300432324409485
+outer_3,XGBoost,Braid_Type_None,0.024355707690119743
+outer_3,XGBoost,Braid_Type_Textile,0.018580282106995583
+outer_3,XGBoost,Target_Tube_OD_mm,0.03237885981798172
+outer_3,XGBoost,Target_Tube_Wall_mm,0.029857493937015533
+outer_3,XGBoost,Target_Tube_ID_mm,0.03957919403910637
+outer_3,XGBoost,Customer_Required_Length_m,0.04015146568417549
+outer_3,XGBoost,Extruder_Temperature_C,0.03383040800690651
+outer_3,XGBoost,Die_Temperature_C,0.03609023243188858
+outer_3,XGBoost,Cooling_Tank_Temperature_C,0.04512955620884895
+outer_3,XGBoost,Melt_Pressure_bar,0.03954215347766876
+outer_3,XGBoost,Air_Pressure_bar,0.03901713714003563
+outer_3,XGBoost,Screw_RPM,0.10379878431558609
+outer_3,XGBoost,Line_Speed_m_min,0.03670920059084892
+outer_3,XGBoost,Puller_Speed_m_min,0.0356847383081913
+outer_3,XGBoost,Extrusion_Speed_kg_hr,0.07925309240818024
+outer_4,XGBoost,Material_Type_PA12,0.02000083588063717
+outer_4,XGBoost,Material_Type_PE,0.015058175660669804
+outer_4,XGBoost,Material_Type_PP,0.015663573518395424
+outer_4,XGBoost,Material_Type_PVC,0.014222439378499985
+outer_4,XGBoost,Material_Type_TPU,0.02599336765706539
+outer_4,XGBoost,Material_Grade_G1,0.018235985189676285
+outer_4,XGBoost,Material_Grade_G2,0.021808186545968056
+outer_4,XGBoost,Material_Grade_G3,0.028084948658943176
+outer_4,XGBoost,Tube_Type_Composite,0.020992467179894447
+outer_4,XGBoost,Tube_Type_Hydraulic,0.021077098324894905
+outer_4,XGBoost,Tube_Type_Industrial,0.014738483354449272
+outer_4,XGBoost,Tube_Type_PTFE,0.06364531815052032
+outer_4,XGBoost,Tube_Type_Pneumatic,0.020634666085243225
+outer_4,XGBoost,Braid_Type_1-Wire,0.01820475049316883
+outer_4,XGBoost,Braid_Type_2-Wire,0.025594424456357956
+outer_4,XGBoost,Braid_Type_Helical,0.022569285705685616
+outer_4,XGBoost,Braid_Type_None,0.027470309287309647
+outer_4,XGBoost,Braid_Type_Textile,0.02142610028386116
+outer_4,XGBoost,Target_Tube_OD_mm,0.030099689960479736
+outer_4,XGBoost,Target_Tube_Wall_mm,0.03001658245921135
+outer_4,XGBoost,Target_Tube_ID_mm,0.038773830980062485
+outer_4,XGBoost,Customer_Required_Length_m,0.0395183190703392
+outer_4,XGBoost,Extruder_Temperature_C,0.03310722857713699
+outer_4,XGBoost,Die_Temperature_C,0.03712572529911995
+outer_4,XGBoost,Cooling_Tank_Temperature_C,0.03775937110185623
+outer_4,XGBoost,Melt_Pressure_bar,0.036413729190826416
+outer_4,XGBoost,Air_Pressure_bar,0.04139107093214989
+outer_4,XGBoost,Screw_RPM,0.12930260598659515
+outer_4,XGBoost,Line_Speed_m_min,0.03611628711223602
+outer_4,XGBoost,Puller_Speed_m_min,0.035507164895534515
+outer_4,XGBoost,Extrusion_Speed_kg_hr,0.059447988867759705
+outer_5,Random Forest,Material_Type_PA12,0.004018751635964323
+outer_5,Random Forest,Material_Type_PE,0.003176854366122186
+outer_5,Random Forest,Material_Type_PP,0.0011355557504711886
+outer_5,Random Forest,Material_Type_PVC,0.0014763522292336434
+outer_5,Random Forest,Material_Type_TPU,0.004422030853843043
+outer_5,Random Forest,Material_Grade_G1,0.002407144813752647
+outer_5,Random Forest,Material_Grade_G2,0.005432815601229784
+outer_5,Random Forest,Material_Grade_G3,0.003928809775404554
+outer_5,Random Forest,Tube_Type_Composite,0.007545392442946662
+outer_5,Random Forest,Tube_Type_Hydraulic,0.006604070299606631
+outer_5,Random Forest,Tube_Type_Industrial,0.003597885582294835
+outer_5,Random Forest,Tube_Type_PTFE,0.008986841874932603
+outer_5,Random Forest,Tube_Type_Pneumatic,0.007088818844073234
+outer_5,Random Forest,Braid_Type_1-Wire,0.005360148779094829
+outer_5,Random Forest,Braid_Type_2-Wire,0.006801687853500887
+outer_5,Random Forest,Braid_Type_Helical,0.005657353410646749
+outer_5,Random Forest,Braid_Type_None,0.004129426373412657
+outer_5,Random Forest,Braid_Type_Textile,0.007453504081870173
+outer_5,Random Forest,Target_Tube_OD_mm,0.05265335060880835
+outer_5,Random Forest,Target_Tube_Wall_mm,0.0501946745647456
+outer_5,Random Forest,Target_Tube_ID_mm,0.0515251109052871
+outer_5,Random Forest,Customer_Required_Length_m,0.09429954199285329
+outer_5,Random Forest,Extruder_Temperature_C,0.04955374665019116
+outer_5,Random Forest,Die_Temperature_C,0.05410287956092756
+outer_5,Random Forest,Cooling_Tank_Temperature_C,0.09303168485466035
+outer_5,Random Forest,Melt_Pressure_bar,0.058463430614392846
+outer_5,Random Forest,Air_Pressure_bar,0.059539868350382094
+outer_5,Random Forest,Screw_RPM,0.1964727809070821
+outer_5,Random Forest,Line_Speed_m_min,0.04385051871978979
+outer_5,Random Forest,Puller_Speed_m_min,0.041479100673958554
+outer_5,Random Forest,Extrusion_Speed_kg_hr,0.06560986702852067
+full_training_partition,XGBoost,Material_Type_PA12,0.018142107874155045
+full_training_partition,XGBoost,Material_Type_PE,0.015316491946578026
+full_training_partition,XGBoost,Material_Type_PP,0.011889534071087837
+full_training_partition,XGBoost,Material_Type_PVC,0.006963543128222227
+full_training_partition,XGBoost,Material_Type_TPU,0.02216045744717121
+full_training_partition,XGBoost,Material_Grade_G1,0.014590800739824772
+full_training_partition,XGBoost,Material_Grade_G2,0.022270452231168747
+full_training_partition,XGBoost,Material_Grade_G3,0.03879658505320549
+full_training_partition,XGBoost,Tube_Type_Composite,0.02477257326245308
+full_training_partition,XGBoost,Tube_Type_Hydraulic,0.02992144413292408
+full_training_partition,XGBoost,Tube_Type_Industrial,0.01840418577194214
+full_training_partition,XGBoost,Tube_Type_PTFE,0.062378156930208206
+full_training_partition,XGBoost,Tube_Type_Pneumatic,0.02177249640226364
+full_training_partition,XGBoost,Braid_Type_1-Wire,0.02194560319185257
+full_training_partition,XGBoost,Braid_Type_2-Wire,0.019507259130477905
+full_training_partition,XGBoost,Braid_Type_Helical,0.013715045526623726
+full_training_partition,XGBoost,Braid_Type_None,0.023653218522667885
+full_training_partition,XGBoost,Braid_Type_Textile,0.02420094422996044
+full_training_partition,XGBoost,Target_Tube_OD_mm,0.032797154039144516
+full_training_partition,XGBoost,Target_Tube_Wall_mm,0.030357060953974724
+full_training_partition,XGBoost,Target_Tube_ID_mm,0.03870018199086189
+full_training_partition,XGBoost,Customer_Required_Length_m,0.04131332412362099
+full_training_partition,XGBoost,Extruder_Temperature_C,0.033575303852558136
+full_training_partition,XGBoost,Die_Temperature_C,0.03728485107421875
+full_training_partition,XGBoost,Cooling_Tank_Temperature_C,0.04037853330373764
+full_training_partition,XGBoost,Melt_Pressure_bar,0.03566407784819603
+full_training_partition,XGBoost,Air_Pressure_bar,0.039487481117248535
+full_training_partition,XGBoost,Screw_RPM,0.12768232822418213
+full_training_partition,XGBoost,Line_Speed_m_min,0.03360166773200035
+full_training_partition,XGBoost,Puller_Speed_m_min,0.037969011813402176
+full_training_partition,XGBoost,Extrusion_Speed_kg_hr,0.060788217931985855

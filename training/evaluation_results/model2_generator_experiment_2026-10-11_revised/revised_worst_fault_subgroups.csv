@@ -1,0 +1,9 @@
+grouping,value,configuration,count,MAE,RMSE,mean_residual
+Fault_Code,Machine Breakdown,inner_selected_full_stack,16,17.94768931898937,22.2632207324277,17.94768931898937
+Fault_Code,Cooling Failure,inner_selected_full_stack,30,8.671858021717757,9.812018643873309,8.47238385264749
+Fault_Code,Dimension Variation,inner_selected_full_stack,67,6.98435129724289,8.060785474942953,6.778060164653361
+Fault_Code,Material Scorch,inner_selected_full_stack,27,5.529953887251931,6.5174641212128135,5.157688330693611
+Fault_Code,High Throughput Stress,inner_selected_full_stack,23,5.364833746072365,6.716464073659537,4.440274770373894
+Fault_Code,Pressure Instability,inner_selected_full_stack,18,5.068492010329146,6.823584837800628,4.277223851103077
+Fault_Code,Carrier Problem,inner_selected_full_stack,53,4.7572030040790025,5.963276752237642,4.052551936319577
+Fault_Code,Power Cut,inner_selected_full_stack,9,4.755946159152728,5.065950982235534,0.2677440020462238

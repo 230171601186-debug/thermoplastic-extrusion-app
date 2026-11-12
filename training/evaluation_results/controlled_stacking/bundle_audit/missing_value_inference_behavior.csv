@@ -1,0 +1,5 @@
+case,result,exception,message,prediction_shape,prediction_dtype,finite,prediction_min,prediction_max
+model2_candidate end_to_end numeric_nan,accepted_missing_value,,No explicit missing-value rejection in the serialized inference pipeline,"(1,)",float64,True,68.19886573809522,68.19886573809522
+model2_candidate end_to_end categorical_nan,accepted_missing_value,,No explicit missing-value rejection in the serialized inference pipeline,"(1,)",float64,True,69.2719902269345,69.2719902269345
+model3_candidate end_to_end numeric_nan,accepted_missing_value,,No explicit missing-value rejection in the serialized inference pipeline,"(1,)",float64,True,0.07505208038870848,0.07505208038870848
+model3_candidate end_to_end categorical_nan,accepted_missing_value,,No explicit missing-value rejection in the serialized inference pipeline,"(1,)",float64,True,0.07122910528098822,0.07122910528098822

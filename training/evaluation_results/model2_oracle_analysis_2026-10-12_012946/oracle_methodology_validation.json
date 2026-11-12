@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "checks": {
+    "validated_successful_source_run": true,
+    "same_revised_dataset_sha256": true,
+    "all_paths_use_identical_outer_rows_and_targets": true,
+    "outer_rows_unique_and_fold_counts_match": true,
+    "saved_test_rows_separate_and_aligned": true,
+    "reported_metrics_recomputed_from_saved_predictions": true,
+    "same_fixed_model2_estimator_for_all_arms": true,
+    "oracle_uses_recorded_process_values_only_as_diagnostic": true,
+    "nested_upstream_selection_excludes_outer_validation": true,
+    "target_formula_traced_in_generator": true,
+    "accounting_validation_passed": true,
+    "no_metric_rows_mix_saved_test_with_outer_cv": true
+  },
+  "source_audit_directory": "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247",
+  "source_audit_timestamped_directory_discovery": [
+    "model1_diagnostic_audit_2026-10-11_20261011_231247"
+  ],
+  "source_validated_run": true,
+  "source_validation_checks_passed": 11,
+  "source_validation_check_count": 11,
+  "source_protected_hashes_verified": 200,
+  "source_protected_hashes_expected": 200,
+  "source_dataset_sha256": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15",
+  "row_counts_by_path_and_split": {
+    "outer_cv:A_saved_Model1_inference_predictions": {
+      "prediction_rows": 4000,
+      "unique_row_ids": 4000
+    },
+    "outer_cv:B_outer_train_only_selected_Model1_OOF": {
+      "prediction_rows": 4000,
+      "unique_row_ids": 4000
+    },
+    "outer_cv:C_oracle_recorded_process_non_deployable": {
+      "prediction_rows": 4000,
+      "unique_row_ids": 4000
+    },
+    "saved_test:A_saved_Model1_inference_predictions": {
+      "prediction_rows": 1000,
+      "unique_row_ids": 1000
+    },
+    "saved_test:B_outer_train_only_selected_Model1_OOF": {
+      "prediction_rows": 1000,
+      "unique_row_ids": 1000
+    },
+    "saved_test:C_oracle_recorded_process_non_deployable": {
+      "prediction_rows": 1000,
+      "unique_row_ids": 1000
+    }
+  },
+  "max_absolute_metric_recalculation_difference": 8.881784197001252e-16,
+  "outer_fold_direction_counts_vs_A": {
+    "B_outer_train_only_selected_Model1_OOF": {
+      "MAE_lower_than_A": 3,
+      "RMSE_lower_than_A": 1,
+      "R2_higher_than_A": 1
+    },
+    "C_oracle_recorded_process_non_deployable": {
+      "MAE_lower_than_A": 5,
+      "RMSE_lower_than_A": 5,
+      "R2_higher_than_A": 5
+    }
+  },
+  "oracle_minus_A": {
+    "MAE_improvement": 1.70190995258249,
+    "RMSE_improvement": 1.8501707644040177,
+    "R2_improvement": 0.49949751884475424
+  },
+  "B_minus_A": {
+    "MAE_improvement": 0.0005343950659311147,
+    "RMSE_improvement": -0.02190910003270652,
+    "R2_improvement": -0.006614181583575698
+  },
+  "unresolved_methodological_limit": "The synthetic dataset's generator is known, but the audit does not establish which equations or noise magnitudes match real factory data; no real production records or external validation are available."
+}

@@ -1,0 +1,2 @@
+split,model,fold_count,MAE_mean,MAE_std,RMSE_mean,RMSE_std,R2_mean,R2_std,MAE_percentage_points_mean,MAE_percentage_points_std,RMSE_percentage_points_mean,RMSE_percentage_points_std
+nested_outer_cv,corrected_candidate_full_stack_RF,5,0.02187595913180288,0.0005198672446936198,0.02693310169948812,0.0005670553221755648,0.3222448647221892,0.03750945351644114,2.1875959131802882,0.05198672446936198,2.6933101699488122,0.056705532217556476

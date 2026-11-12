@@ -1,0 +1,161 @@
+{
+  "tube_geometry_mm": {
+    "max_abs_residual": 0.01000000000000334,
+    "tolerance": 0.011,
+    "passed": true,
+    "definition": "OD = ID + 2 x wall; tolerance allows the generator's 0.01 mm rounding."
+  },
+  "actual_length_m": {
+    "max_abs_residual": 0.005000000000109139,
+    "tolerance": 0.0051,
+    "passed": true,
+    "definition": "Actual processing length = runtime x line speed; tolerance allows 0.01 m rounding."
+  },
+  "good_plus_scrap_m": {
+    "max_abs_residual": 1.8189894035458565e-12,
+    "tolerance": 0.0051,
+    "passed": true,
+    "definition": "Good length + scrap length = actual length."
+  },
+  "good_length_m": {
+    "max_abs_residual": 1.8189894035458565e-12,
+    "tolerance": 0.0051,
+    "passed": true,
+    "definition": "Good length = actual length - scrap length."
+  },
+  "scrap_length_m": {
+    "max_abs_residual": 0.0049999999999954525,
+    "tolerance": 0.0051,
+    "passed": true,
+    "definition": "Scrap length = actual length x scrap rate; tolerance allows length rounding."
+  },
+  "length_shortfall_m": {
+    "max_abs_residual": 1.8189894035458565e-12,
+    "tolerance": 1e-09,
+    "passed": true,
+    "definition": "Length shortfall = max(planned processing length - actual length, 0)."
+  },
+  "run_time_min": {
+    "max_abs_residual": 0.010000000000104592,
+    "tolerance": 0.0101,
+    "passed": true,
+    "definition": "Runtime = planned production time - downtime; tolerance allows 0.01 min rounding."
+  },
+  "availability": {
+    "max_abs_residual": 4.990414195216175e-07,
+    "tolerance": 1e-06,
+    "passed": true,
+    "definition": "Availability = runtime / planned production time."
+  },
+  "quality": {
+    "max_abs_residual": 4.99990467139888e-07,
+    "tolerance": 1e-06,
+    "passed": true,
+    "definition": "Quality = good length / actual processing length."
+  },
+  "performance_bounds": {
+    "max_abs_residual": 0.0,
+    "tolerance": 0.0,
+    "passed": true,
+    "definition": "Revised experiment requires a nonnegative Performance fraction no greater than 1."
+  },
+  "oee": {
+    "max_abs_residual": 1.460661519958606e-06,
+    "tolerance": 2e-06,
+    "passed": true,
+    "definition": "OEE = Availability x Performance x Quality."
+  },
+  "operational_efficiency_pct": {
+    "max_abs_residual": 1.4210854715202004e-14,
+    "tolerance": 1e-10,
+    "passed": true,
+    "definition": "Operational efficiency (%) = 100 x OEE."
+  },
+  "order_completion": {
+    "definition": "Completed iff Good_Length_m >= Customer_Required_Length_m.",
+    "completed_rows": 4303,
+    "rows_meeting_good_length_requirement": 4303,
+    "inconsistent_rows": 0,
+    "passed": true
+  },
+  "data_integrity": {
+    "rows": 5000,
+    "columns": 40,
+    "missing_cells": 0,
+    "duplicate_record_ids": 0,
+    "nonfinite_numeric_cells": 0,
+    "efficiency_at_or_above_100": 0,
+    "performance_at_or_above_1": 0,
+    "passed": true
+  },
+  "categorical_label_preservation": {
+    "columns": {
+      "Material_Type": {
+        "levels_match_production": true,
+        "experimental_levels": [
+          "PA12",
+          "PE",
+          "PP",
+          "PVC",
+          "TPU"
+        ],
+        "production_levels": [
+          "PA12",
+          "PE",
+          "PP",
+          "PVC",
+          "TPU"
+        ]
+      },
+      "Material_Grade": {
+        "levels_match_production": true,
+        "experimental_levels": [
+          "G1",
+          "G2",
+          "G3"
+        ],
+        "production_levels": [
+          "G1",
+          "G2",
+          "G3"
+        ]
+      },
+      "Tube_Type": {
+        "levels_match_production": true,
+        "experimental_levels": [
+          "Composite",
+          "Hydraulic",
+          "Industrial",
+          "PTFE",
+          "Pneumatic"
+        ],
+        "production_levels": [
+          "Composite",
+          "Hydraulic",
+          "Industrial",
+          "PTFE",
+          "Pneumatic"
+        ]
+      },
+      "Braid_Type": {
+        "levels_match_production": true,
+        "experimental_levels": [
+          "1-Wire",
+          "2-Wire",
+          "Helical",
+          "None",
+          "Textile"
+        ],
+        "production_levels": [
+          "1-Wire",
+          "2-Wire",
+          "Helical",
+          "None",
+          "Textile"
+        ]
+      }
+    },
+    "passed": true
+  },
+  "passed": true
+}

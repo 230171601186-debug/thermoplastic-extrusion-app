@@ -1,0 +1,43 @@
+{
+  "experiment_directory": "training/evaluation_results/model_pipeline_remediation_2026-10-12_030200",
+  "scope": "isolated pipeline lineage, inference contract, and leakage-safe fixed-estimator evaluation",
+  "production_files_modified": false,
+  "models_promoted": false,
+  "dataset_generated_or_modified": false,
+  "dataset": {
+    "path": "dataset/Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv",
+    "rows": 5000,
+    "columns": 40,
+    "sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+    "synthetic": true
+  },
+  "evaluation": {
+    "saved_split": "models/data_split.json",
+    "seed": 42,
+    "train_rows": 4000,
+    "held_out_rows": 1000,
+    "outer_folds": 5,
+    "upstream_crossfit_folds": 4,
+    "validation": "validation_results.json"
+  },
+  "outputs": [
+    "pipeline_lineage_report.md",
+    "inference_contract_audit.md",
+    "evaluation_methodology_report.md",
+    "prioritized_remediation_plan.csv",
+    "test_results.md",
+    "README.md",
+    "artifact_integrity_manifest.json",
+    "preservation_verification.json",
+    "model1_residual_diagnostics.csv",
+    "downstream_residual_by_actual_band.csv",
+    "operational_efficiency_pct_outer_cv_residuals.png",
+    "scrap_rate_outer_cv_residuals.png"
+  ],
+  "limitations": [
+    "All data and metrics are synthetic and are not factory validated.",
+    "No temporal, machine, site, or product-group holdout was evaluated.",
+    "No numeric operating/input-domain limits were inferred or invented.",
+    "Candidate-bundle deployment approval intent is unresolved."
+  ]
+}

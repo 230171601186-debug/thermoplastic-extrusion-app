@@ -1,0 +1,10 @@
+target,synthetic_generator_bound_low,synthetic_generator_bound_high,saved_test_prediction_min,saved_test_prediction_max,below_bound_count,above_bound_count,finite
+Extruder_Temperature_C,180.0,245.0,208.64366106670232,238.16607968632968,0,0,True
+Die_Temperature_C,180.0,235.0,200.82669067382812,232.38632202148438,0,0,True
+Cooling_Tank_Temperature_C,12.0,28.0,17.7057189931725,22.57066571154479,0,0,True
+Melt_Pressure_bar,90.0,200.0,116.76163797318806,147.0227660568079,0,0,True
+Air_Pressure_bar,3.0,12.0,6.484714600063073,9.62667516159972,0,0,True
+Screw_RPM,48.0,100.0,62.178895847949526,92.46259352648622,0,0,True
+Line_Speed_m_min,8.0,24.0,9.93789843420098,19.14684496520499,0,0,True
+Puller_Speed_m_min,7.0,25.0,9.701538063059747,19.138676885772337,0,0,True
+Extrusion_Speed_kg_hr,25.0,170.0,82.46723024141967,127.66251573456627,0,0,True

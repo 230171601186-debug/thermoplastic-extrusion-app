@@ -1,0 +1,5 @@
+source,relationship,count,mean,q95,q99,max,audit_rows_beyond_dataset_q99,pearson_correlation,dataset_reference_correlation
+dataset,abs(Line_Speed_m_min - Puller_Speed_m_min),5000,0.514088,1.6500000000000004,2.2699999999999996,3.1099999999999994,0.0,,
+dataset,"corr(Screw_RPM, Extrusion_Speed_kg_hr)",5000,,,,,,0.7389773706571087,0.7389773706571087
+audit_predictions,abs(Line_Speed_m_min - Puller_Speed_m_min),45,0.33499040482347786,0.48518057144092097,0.543809886759488,0.5850323501080208,0.0,,
+audit_predictions,"corr(Screw_RPM, Extrusion_Speed_kg_hr)",45,,,,,,0.8523627638383138,0.7389773706571087

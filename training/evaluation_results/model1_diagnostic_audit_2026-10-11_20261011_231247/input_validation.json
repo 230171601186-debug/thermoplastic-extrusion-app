@@ -1,0 +1,39 @@
+{
+  "dataset": "training/evaluation_results/model2_generator_experiment_2026-10-11_revised/experimental_dataset.csv",
+  "dataset_sha256": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15",
+  "dataset_shape": [
+    5000,
+    40
+  ],
+  "split_path": "models/data_split.json",
+  "split_sha256": "3da5a3e56e55cb9b8fd5f8e9484dac7f187533a0b9d3027aded8e4c5137d8fc0",
+  "train_rows": 4000,
+  "test_rows": 1000,
+  "seed": 42,
+  "features": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m"
+  ],
+  "targets": [
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "inference_feature_check": {
+    "metadata_matches_config": true,
+    "all_features_present": true,
+    "targets_excluded_from_features": true
+  }
+}

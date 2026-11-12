@@ -1,0 +1,5 @@
+case,result,exception,message
+Model 1 missing column Material_Type (Extruder_Temperature_C),rejected,ValueError,columns are missing: {'Material_Type'}
+Model2 missing process feature,rejected,ValueError,columns are missing: {'Extruder_Temperature_C'}
+Model3 missing process feature,rejected,ValueError,columns are missing: {'Extruder_Temperature_C'}
+Model1 NaN numeric input,accepted_without_required_input,,

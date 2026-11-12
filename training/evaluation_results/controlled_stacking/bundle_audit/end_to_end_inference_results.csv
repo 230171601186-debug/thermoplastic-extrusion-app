@@ -1,0 +1,5 @@
+bundle,scenario,rows,customer_input_columns,stack_columns,output_shape,output_dtype,target,unit,prediction_min,prediction_max,outside_target_bounds_count,finite
+model2_candidate,normal_and_None,5,8,17,"(5,)",float64,Operational_Efficiency_pct,percentage_points,69.20438080877975,74.49888061777798,0,True
+model2_candidate,unseen_category,1,8,17,"(1,)",float64,Operational_Efficiency_pct,percentage_points,69.2719902269345,69.2719902269345,0,True
+model3_candidate,normal_and_None,5,8,17,"(5,)",float64,Scrap_Rate,fraction,0.07147762390707656,0.09853858434343436,0,True
+model3_candidate,unseen_category,1,8,17,"(1,)",float64,Scrap_Rate,fraction,0.07122910528098822,0.07122910528098822,0,True

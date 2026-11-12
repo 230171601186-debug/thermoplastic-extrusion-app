@@ -1,0 +1,737 @@
+{
+  "disclaimer": "These models are a synthetic-data proof of concept for thermoplastic extrusion predictive analysis. They do not represent actual Polyhose machine behaviour.",
+  "dataset_rows": 5000,
+  "dataset_columns": [
+    "Record_ID",
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Customer_Required_Length_m",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Machine_ID",
+    "Shift",
+    "Ambient_Temperature_C",
+    "Humidity_percent",
+    "Planned_Scrap_Allowance_pct",
+    "Planned_Processing_Length_m",
+    "Planned_Production_Time_min",
+    "Downtime_min",
+    "Run_Time_min",
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr",
+    "Power_Consumption_kWh",
+    "Actual_Processing_Length_m",
+    "Scrap_Length_m",
+    "Good_Length_m",
+    "Length_Shortfall_m",
+    "Order_Status",
+    "Scrap_Rate",
+    "Availability",
+    "Performance",
+    "Quality",
+    "OEE",
+    "Operational_Efficiency_pct",
+    "Fault_Code"
+  ],
+  "random_state": 42,
+  "trained_at_utc": "2026-10-09T19:06:41.554541+00:00",
+  "model1": {
+    "name": "Process parameter prediction",
+    "features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m"
+    ],
+    "categorical_features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type"
+    ],
+    "numeric_features": [
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m"
+    ],
+    "excluded_post_production": [
+      "Operational_Efficiency_pct",
+      "OEE",
+      "Availability",
+      "Performance",
+      "Quality",
+      "Good_Length_m",
+      "Scrap_Length_m",
+      "Scrap_Rate",
+      "Actual_Processing_Length_m",
+      "Length_Shortfall_m",
+      "Order_Status",
+      "Fault_Code",
+      "Power_Consumption_kWh",
+      "Downtime_min",
+      "Run_Time_min"
+    ],
+    "excluded_planning_context": [
+      "Record_ID",
+      "Machine_ID",
+      "Shift",
+      "Ambient_Temperature_C",
+      "Humidity_percent",
+      "Planned_Scrap_Allowance_pct",
+      "Planned_Processing_Length_m",
+      "Planned_Production_Time_min"
+    ],
+    "targets": {
+      "Extruder_Temperature_C": {
+        "selected_algorithm": "LightGBM",
+        "file": "models/process/extruder_temperature_model.pkl",
+        "cv_metrics": {
+          "MAE": 3.7610897697989487,
+          "RMSE": 4.739476905999042,
+          "R2": 0.6276816302702994
+        },
+        "test_metrics": {
+          "MAE": 3.7175213893390344,
+          "RMSE": 4.73517882351686,
+          "R2": 0.6243366965115762
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 3.8222233066878224,
+            "RMSE": 4.805334146546305,
+            "R2": 0.6172626670093584
+          },
+          "XGBoost": {
+            "MAE": 3.7673288633728026,
+            "RMSE": 4.758877302141945,
+            "R2": 0.6246273238820259
+          },
+          "LightGBM": {
+            "MAE": 3.7610897697989487,
+            "RMSE": 4.739476905999042,
+            "R2": 0.6276816302702994
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 3.799918384503993,
+            "RMSE": 4.815826023660844,
+            "R2": 0.6114315076774325
+          },
+          "XGBoost": {
+            "MAE": 3.7207528234863285,
+            "RMSE": 4.730204164108948,
+            "R2": 0.6251256066672589
+          },
+          "LightGBM": {
+            "MAE": 3.7175213893390344,
+            "RMSE": 4.73517882351686,
+            "R2": 0.6243366965115762
+          }
+        }
+      },
+      "Die_Temperature_C": {
+        "selected_algorithm": "XGBoost",
+        "file": "models/process/die_temperature_model.pkl",
+        "cv_metrics": {
+          "MAE": 4.761573368377685,
+          "RMSE": 5.912220425474301,
+          "R2": 0.5169330652519657
+        },
+        "test_metrics": {
+          "MAE": 4.758014939575196,
+          "RMSE": 5.990911261089325,
+          "R2": 0.5097172659344502
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 4.779973774976335,
+            "RMSE": 5.942230658967491,
+            "R2": 0.5120165555552277
+          },
+          "XGBoost": {
+            "MAE": 4.761573368377685,
+            "RMSE": 5.912220425474301,
+            "R2": 0.5169330652519657
+          },
+          "LightGBM": {
+            "MAE": 4.764977973525476,
+            "RMSE": 5.92769142118322,
+            "R2": 0.5144015950992316
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 4.784500484869441,
+            "RMSE": 6.026348388946885,
+            "R2": 0.5038999213960047
+          },
+          "XGBoost": {
+            "MAE": 4.758014939575196,
+            "RMSE": 5.990911261089325,
+            "R2": 0.5097172659344502
+          },
+          "LightGBM": {
+            "MAE": 4.7059960856577545,
+            "RMSE": 5.9428798818020665,
+            "R2": 0.5175473119945599
+          }
+        }
+      },
+      "Cooling_Tank_Temperature_C": {
+        "selected_algorithm": "Random Forest",
+        "file": "models/process/cooling_temperature_model.pkl",
+        "cv_metrics": {
+          "MAE": 0.9623531512948823,
+          "RMSE": 1.3944321813193528,
+          "R2": 0.23222330573501426
+        },
+        "test_metrics": {
+          "MAE": 0.887259460190927,
+          "RMSE": 1.264837640454199,
+          "R2": 0.2869202875088166
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 0.9623531512948823,
+            "RMSE": 1.3944321813193528,
+            "R2": 0.23222330573501426
+          },
+          "XGBoost": {
+            "MAE": 0.9642273213195801,
+            "RMSE": 1.3982005346703286,
+            "R2": 0.22806797523790967
+          },
+          "LightGBM": {
+            "MAE": 0.9646735088050096,
+            "RMSE": 1.3985964090264444,
+            "R2": 0.22763079709862455
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 0.887259460190927,
+            "RMSE": 1.264837640454199,
+            "R2": 0.2869202875088166
+          },
+          "XGBoost": {
+            "MAE": 0.8871926528167726,
+            "RMSE": 1.2653258546139323,
+            "R2": 0.2863696985796438
+          },
+          "LightGBM": {
+            "MAE": 0.872321852831317,
+            "RMSE": 1.24912636851826,
+            "R2": 0.30452540466389055
+          }
+        }
+      },
+      "Melt_Pressure_bar": {
+        "selected_algorithm": "LightGBM",
+        "file": "models/process/melt_pressure_model.pkl",
+        "cv_metrics": {
+          "MAE": 4.782131110405677,
+          "RMSE": 6.028022531786172,
+          "R2": 0.496896138187078
+        },
+        "test_metrics": {
+          "MAE": 4.764360430267956,
+          "RMSE": 5.964755929315065,
+          "R2": 0.5151588781680514
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 4.834806254385214,
+            "RMSE": 6.110076330051361,
+            "R2": 0.4831063601182689
+          },
+          "XGBoost": {
+            "MAE": 4.796145239791869,
+            "RMSE": 6.038825368021857,
+            "R2": 0.4950912946937338
+          },
+          "LightGBM": {
+            "MAE": 4.782131110405677,
+            "RMSE": 6.028022531786172,
+            "R2": 0.496896138187078
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 4.880216136894742,
+            "RMSE": 6.127176587459791,
+            "R2": 0.48839487497243095
+          },
+          "XGBoost": {
+            "MAE": 4.76589553894043,
+            "RMSE": 5.95791255961933,
+            "R2": 0.5162707572584673
+          },
+          "LightGBM": {
+            "MAE": 4.764360430267956,
+            "RMSE": 5.964755929315065,
+            "R2": 0.5151588781680514
+          }
+        }
+      },
+      "Air_Pressure_bar": {
+        "selected_algorithm": "Random Forest",
+        "file": "models/process/air_pressure_model.pkl",
+        "cv_metrics": {
+          "MAE": 0.5406656882274223,
+          "RMSE": 0.6812474600680406,
+          "R2": 0.4866047276296114
+        },
+        "test_metrics": {
+          "MAE": 0.5475142164154921,
+          "RMSE": 0.6845668053288861,
+          "R2": 0.44586751018700677
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 0.5406656882274223,
+            "RMSE": 0.6812474600680406,
+            "R2": 0.4866047276296114
+          },
+          "XGBoost": {
+            "MAE": 0.5450115408086778,
+            "RMSE": 0.6844651646345912,
+            "R2": 0.4817434820205011
+          },
+          "LightGBM": {
+            "MAE": 0.543744332177005,
+            "RMSE": 0.6850646313203099,
+            "R2": 0.48083528805629583
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 0.5475142164154921,
+            "RMSE": 0.6845668053288861,
+            "R2": 0.44586751018700677
+          },
+          "XGBoost": {
+            "MAE": 0.5387967605972289,
+            "RMSE": 0.6749104457173792,
+            "R2": 0.4613902120850645
+          },
+          "LightGBM": {
+            "MAE": 0.532765805495558,
+            "RMSE": 0.669633570823373,
+            "R2": 0.46977966737569565
+          }
+        }
+      },
+      "Screw_RPM": {
+        "selected_algorithm": "LightGBM",
+        "file": "models/process/screw_rpm_model.pkl",
+        "cv_metrics": {
+          "MAE": 3.6520847407723065,
+          "RMSE": 4.621156322603945,
+          "R2": 0.584815417757381
+        },
+        "test_metrics": {
+          "MAE": 3.5111544177237977,
+          "RMSE": 4.431691052462031,
+          "R2": 0.6027959770935659
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 3.7798135455939494,
+            "RMSE": 4.763782193924438,
+            "R2": 0.5587916820122159
+          },
+          "XGBoost": {
+            "MAE": 3.660010977859497,
+            "RMSE": 4.611759678967093,
+            "R2": 0.5865021709435548
+          },
+          "LightGBM": {
+            "MAE": 3.6520847407723065,
+            "RMSE": 4.621156322603945,
+            "R2": 0.584815417757381
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 3.595694762369948,
+            "RMSE": 4.5841045829649305,
+            "R2": 0.5750050991375617
+          },
+          "XGBoost": {
+            "MAE": 3.4962735864257812,
+            "RMSE": 4.4085628055105,
+            "R2": 0.6069310401569858
+          },
+          "LightGBM": {
+            "MAE": 3.5111544177237977,
+            "RMSE": 4.431691052462031,
+            "R2": 0.6027959770935659
+          }
+        }
+      },
+      "Line_Speed_m_min": {
+        "selected_algorithm": "XGBoost",
+        "file": "models/process/line_speed_model.pkl",
+        "cv_metrics": {
+          "MAE": 0.7917899659252167,
+          "RMSE": 0.9913506989350495,
+          "R2": 0.801380178566281
+        },
+        "test_metrics": {
+          "MAE": 0.776563510017395,
+          "RMSE": 0.9920867156165472,
+          "R2": 0.7893863802550568
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 0.8127845947359742,
+            "RMSE": 1.0232225257687022,
+            "R2": 0.788403666720056
+          },
+          "XGBoost": {
+            "MAE": 0.7917899659252167,
+            "RMSE": 0.9913506989350495,
+            "R2": 0.801380178566281
+          },
+          "LightGBM": {
+            "MAE": 0.7924937986442628,
+            "RMSE": 0.9938087168855687,
+            "R2": 0.8003940162773119
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 0.803466882880105,
+            "RMSE": 1.025542451708745,
+            "R2": 0.774941993084976
+          },
+          "XGBoost": {
+            "MAE": 0.776563510017395,
+            "RMSE": 0.9920867156165472,
+            "R2": 0.7893863802550568
+          },
+          "LightGBM": {
+            "MAE": 0.7739519509814066,
+            "RMSE": 0.9878151794101547,
+            "R2": 0.7911961150932337
+          }
+        }
+      },
+      "Puller_Speed_m_min": {
+        "selected_algorithm": "LightGBM",
+        "file": "models/process/puller_speed_model.pkl",
+        "cv_metrics": {
+          "MAE": 0.9506713012174939,
+          "RMSE": 1.205516144204624,
+          "R2": 0.7319028215870191
+        },
+        "test_metrics": {
+          "MAE": 0.9470424696082985,
+          "RMSE": 1.1957551034520597,
+          "R2": 0.7191265554232988
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 0.9605339168793207,
+            "RMSE": 1.2222429274103865,
+            "R2": 0.7244114007372595
+          },
+          "XGBoost": {
+            "MAE": 0.9517460766792296,
+            "RMSE": 1.2104724898706514,
+            "R2": 0.7296937862869739
+          },
+          "LightGBM": {
+            "MAE": 0.9506713012174939,
+            "RMSE": 1.205516144204624,
+            "R2": 0.7319028215870191
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 0.9571839020778854,
+            "RMSE": 1.208063253779671,
+            "R2": 0.7133146219624156
+          },
+          "XGBoost": {
+            "MAE": 0.9412590285110474,
+            "RMSE": 1.1887051178626746,
+            "R2": 0.72242876403142
+          },
+          "LightGBM": {
+            "MAE": 0.9470424696082985,
+            "RMSE": 1.1957551034520597,
+            "R2": 0.7191265554232988
+          }
+        }
+      },
+      "Extrusion_Speed_kg_hr": {
+        "selected_algorithm": "LightGBM",
+        "file": "models/process/extrusion_rate_model.pkl",
+        "cv_metrics": {
+          "MAE": 5.861142761782791,
+          "RMSE": 7.355200137302292,
+          "R2": 0.6179646637875695
+        },
+        "test_metrics": {
+          "MAE": 5.632592105406403,
+          "RMSE": 7.05006104380811,
+          "R2": 0.6470709968889283
+        },
+        "all_algorithms_cv": {
+          "Random Forest": {
+            "MAE": 5.918102662989989,
+            "RMSE": 7.406419121264698,
+            "R2": 0.6126254230338879
+          },
+          "XGBoost": {
+            "MAE": 5.866656580657959,
+            "RMSE": 7.356603083266113,
+            "R2": 0.6178189094805624
+          },
+          "LightGBM": {
+            "MAE": 5.861142761782791,
+            "RMSE": 7.355200137302292,
+            "R2": 0.6179646637875695
+          }
+        },
+        "all_algorithms_test": {
+          "Random Forest": {
+            "MAE": 5.713112113857188,
+            "RMSE": 7.24080565798438,
+            "R2": 0.6277151380070711
+          },
+          "XGBoost": {
+            "MAE": 5.636225689697265,
+            "RMSE": 7.098033462301868,
+            "R2": 0.6422516170068837
+          },
+          "LightGBM": {
+            "MAE": 5.632592105406403,
+            "RMSE": 7.05006104380811,
+            "R2": 0.6470709968889283
+          }
+        }
+      }
+    },
+    "scientific_notes": [
+      "Cooling_Tank_Temperature_C: training-CV R2=0.2322 is weak. Treat predictions as uncertain.",
+      "Melt_Pressure_bar: training-CV R2=0.4969 is weak. Treat predictions as uncertain.",
+      "Air_Pressure_bar: training-CV R2=0.4866 is weak. Treat predictions as uncertain."
+    ]
+  },
+  "model2": {
+    "name": "Operational efficiency prediction",
+    "target": "Operational_Efficiency_pct",
+    "features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m",
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "process_features_are_model1_predictions": true,
+    "training_process_features": "5-fold out-of-fold Model 1 predictions",
+    "test_process_features": "Model 1 pipelines fit on the full 80% training split",
+    "excluded_post_production": [
+      "Operational_Efficiency_pct",
+      "OEE",
+      "Availability",
+      "Performance",
+      "Quality",
+      "Good_Length_m",
+      "Scrap_Length_m",
+      "Scrap_Rate",
+      "Actual_Processing_Length_m",
+      "Length_Shortfall_m",
+      "Order_Status",
+      "Fault_Code",
+      "Power_Consumption_kWh",
+      "Downtime_min",
+      "Run_Time_min"
+    ],
+    "excluded_planning_context": [
+      "Record_ID",
+      "Machine_ID",
+      "Shift",
+      "Ambient_Temperature_C",
+      "Humidity_percent",
+      "Planned_Scrap_Allowance_pct",
+      "Planned_Processing_Length_m",
+      "Planned_Production_Time_min"
+    ],
+    "selected_algorithm": "Random Forest",
+    "file": "models/efficiency/efficiency_model.pkl",
+    "cv_metrics": {
+      "MAE": 6.452828811952571,
+      "RMSE": 8.426957275564456,
+      "R2": 0.16658624228378682
+    },
+    "test_metrics": {
+      "MAE": 6.406045982181855,
+      "RMSE": 8.461828800497628,
+      "R2": 0.22764924919693574
+    },
+    "all_algorithms_cv": {
+      "Random Forest": {
+        "MAE": 6.452828811952571,
+        "RMSE": 8.426957275564456,
+        "R2": 0.16658624228378682
+      },
+      "XGBoost": {
+        "MAE": 6.525276788072204,
+        "RMSE": 8.543268339756311,
+        "R2": 0.1434214864575437
+      },
+      "LightGBM": {
+        "MAE": 6.573744109094483,
+        "RMSE": 8.615647433233143,
+        "R2": 0.1288460333991589
+      }
+    },
+    "all_algorithms_test": {
+      "Random Forest": {
+        "MAE": 6.406045982181855,
+        "RMSE": 8.461828800497628,
+        "R2": 0.22764924919693574
+      },
+      "XGBoost": {
+        "MAE": 6.451036417944336,
+        "RMSE": 8.565618325855779,
+        "R2": 0.2085863403846333
+      },
+      "LightGBM": {
+        "MAE": 6.44230320608817,
+        "RMSE": 8.50402831491767,
+        "R2": 0.21992654566556402
+      }
+    }
+  },
+  "updated_at_utc": "2026-10-09T19:08:26.146134+00:00",
+  "model3": {
+    "name": "Quality / scrap-rate prediction",
+    "target": "Scrap_Rate",
+    "derived_quality_note": "If Scrap_Rate is a fraction, Quality \u2248 1 - Scrap_Rate",
+    "features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m",
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "process_features_are_model1_predictions": true,
+    "excluded": [
+      "Scrap_Rate",
+      "Quality",
+      "Good_Length_m",
+      "Scrap_Length_m",
+      "Operational_Efficiency_pct",
+      "OEE",
+      "Availability",
+      "Performance",
+      "Actual_Processing_Length_m",
+      "Length_Shortfall_m",
+      "Order_Status",
+      "Fault_Code",
+      "Power_Consumption_kWh",
+      "Downtime_min",
+      "Run_Time_min"
+    ],
+    "excluded_planning_context": [
+      "Record_ID",
+      "Machine_ID",
+      "Shift",
+      "Ambient_Temperature_C",
+      "Humidity_percent",
+      "Planned_Scrap_Allowance_pct",
+      "Planned_Processing_Length_m",
+      "Planned_Production_Time_min"
+    ],
+    "selected_algorithm": "XGBoost",
+    "file": "models/quality/scrap_rate_model.pkl",
+    "cv_metrics": {
+      "MAE": 0.01956392191394538,
+      "RMSE": 0.024461323161210278,
+      "R2": 0.4422009426310767
+    },
+    "test_metrics": {
+      "MAE": 0.02043582550692797,
+      "RMSE": 0.02664604535112369,
+      "R2": 0.3347235495891935
+    },
+    "all_algorithms_cv": {
+      "Random Forest": {
+        "MAE": 0.019784408534403948,
+        "RMSE": 0.024474238689092497,
+        "R2": 0.44161175363665905
+      },
+      "XGBoost": {
+        "MAE": 0.01956392191394538,
+        "RMSE": 0.024461323161210278,
+        "R2": 0.4422009426310767
+      },
+      "LightGBM": {
+        "MAE": 0.019658933095428724,
+        "RMSE": 0.024625164975575663,
+        "R2": 0.4347036476901396
+      }
+    },
+    "all_algorithms_test": {
+      "Random Forest": {
+        "MAE": 0.02070722372305915,
+        "RMSE": 0.026752199159735868,
+        "R2": 0.329412269735461
+      },
+      "XGBoost": {
+        "MAE": 0.02043582550692797,
+        "RMSE": 0.02664604535112369,
+        "R2": 0.3347235495891935
+      },
+      "LightGBM": {
+        "MAE": 0.020717122685005918,
+        "RMSE": 0.02686740430554216,
+        "R2": 0.32362422204444485
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+dataset_version,model,split,MAE,RMSE,R2
+existing_dataset,saved_production_Model2,held_out_test,6.406045982181855,8.461828800497628,0.22764924919693574
+existing_dataset,saved_production_Model2,saved_metadata_cv_not_fold_isolated,6.452828811952571,8.426957275564456,0.16658624228378682

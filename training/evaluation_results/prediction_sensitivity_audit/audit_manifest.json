@@ -1,0 +1,116 @@
+{
+  "audit": "one_factor_candidate_prediction_sensitivity",
+  "dataset_sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+  "dataset_shape": [
+    5000,
+    40
+  ],
+  "baseline_record_id": 1,
+  "customer_feature_order": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m"
+  ],
+  "categorical_options_from_candidate_encoders": {
+    "Material_Type": [
+      "PA12",
+      "PE",
+      "PP",
+      "PVC",
+      "TPU"
+    ],
+    "Material_Grade": [
+      "G1",
+      "G2",
+      "G3"
+    ],
+    "Tube_Type": [
+      "Composite",
+      "Hydraulic",
+      "Industrial",
+      "PTFE",
+      "Pneumatic"
+    ],
+    "Braid_Type": [
+      "1-Wire",
+      "2-Wire",
+      "Helical",
+      "None",
+      "Textile"
+    ]
+  },
+  "geometry_rule": "abs(ID - (OD - 2*wall)) < 0.25 mm; ID > 0.5 mm",
+  "geometry_test_policy": "OD +/- 0.20 mm, wall +/- 0.10 mm, ID +/- 0.20 mm; vary one field at a time and retain only inputs accepted by existing candidate validation",
+  "categorical_policy": "all fitted encoder categories; literal Braid_Type='None' included",
+  "large_change_flag_definition": "absolute prediction change greater than one full-dataset standard deviation for that output; statistical screening threshold, not an engineering limit",
+  "output_bounds": {
+    "Extruder_Temperature_C": [
+      180.0,
+      245.0
+    ],
+    "Die_Temperature_C": [
+      180.0,
+      235.0
+    ],
+    "Cooling_Tank_Temperature_C": [
+      12.0,
+      28.0
+    ],
+    "Melt_Pressure_bar": [
+      90.0,
+      200.0
+    ],
+    "Air_Pressure_bar": [
+      3.0,
+      12.0
+    ],
+    "Screw_RPM": [
+      48.0,
+      100.0
+    ],
+    "Line_Speed_m_min": [
+      8.0,
+      24.0
+    ],
+    "Puller_Speed_m_min": [
+      7.0,
+      25.0
+    ],
+    "Extrusion_Speed_kg_hr": [
+      25.0,
+      170.0
+    ],
+    "Operational_Efficiency_pct": [
+      0.0,
+      100.0
+    ],
+    "Scrap_Rate": [
+      0.0,
+      1.0
+    ]
+  },
+  "artifact_and_metric_hashes": {
+    "training/evaluation_results/controlled_stacking/model2_candidate/candidate_manifest.json": "1ed0c600e561969c41f2e4a492db07559acde65fc01741ef7e5059c87086d933",
+    "training/evaluation_results/controlled_stacking/model3_candidate/candidate_manifest.json": "961110d6255d0ef1bf59bd74767e6cdc8002a1488143c9265bd2803ed3b10811",
+    "training/evaluation_results/controlled_stacking/bundle_audit/bundle_audit_summary.json": "f3d37ca43700a1b6736b84960085a0633f7601e02ce4f354c20a3c670c5c0a14",
+    "training/results/model1_metrics.csv": "d802a31578819f76bcdb532e21b7ebed8f2cf8db998603c7540b71a5df3fbc04",
+    "training/results/model2_metrics.csv": "e8ae45fadbc594cabe97c8040f6021635a5850d56e0344698fa13e034104dc15",
+    "training/results/model3_metrics.csv": "c5b3914e815d2357307fb7560d240d27650c3774b1b22de16551221c2210ac54",
+    "dataset/Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396"
+  },
+  "files_written": [
+    "one_factor_predictions.csv",
+    "input_output_sensitivity.csv",
+    "dataset_output_distributions.csv",
+    "relationship_diagnostics.csv",
+    "existing_model_metrics.csv",
+    "audit_manifest.json",
+    "audit_report.md"
+  ],
+  "read_only_scope": "No dataset, generator, model artifact, metadata, or inference module is written by this script."
+}

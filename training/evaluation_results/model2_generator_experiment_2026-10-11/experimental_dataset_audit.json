@@ -1,0 +1,194 @@
+{
+  "rows": 5000,
+  "columns": 40,
+  "missing_cells": 0,
+  "duplicate_record_ids": 0,
+  "geometry_max_abs_residual_mm": 0.01000000000000334,
+  "actual_length_max_abs_residual_m": 0.005000000000109139,
+  "efficiency_min": 48.0361,
+  "efficiency_max": 96.783,
+  "scrap_min": 0.02835,
+  "scrap_max": 0.16,
+  "fault_count": 1599,
+  "braid_none_count": 776,
+  "shape": [
+    5000,
+    40
+  ],
+  "completed_rows": 4818,
+  "completed_good_length_below_customer_requirement_rows": 289,
+  "completed_good_length_below_customer_requirement_fraction": 0.059983395599833955,
+  "fault_counts": {
+    "No Fault": 3401,
+    "Dimension Variation": 331,
+    "Carrier Problem": 281,
+    "Minor Dimension Variation": 243,
+    "High Throughput Stress": 147,
+    "Material Scorch": 145,
+    "Cooling Failure": 142,
+    "Pressure Instability": 78,
+    "Power Cut": 61,
+    "Start Up Delay": 60,
+    "Machine Breakdown": 59,
+    "Machine Cleaning": 52
+  },
+  "faulted_fraction": 0.3198,
+  "accounting_max_abs_residuals": {
+    "actual_length": 0.005000000000109139,
+    "good_plus_scrap": 1.8189894035458565e-12,
+    "scrap_length": 0.005000000000109139,
+    "length_shortfall": 2.7284841053187847e-12,
+    "runtime": 0.010000000000104592,
+    "quality": 4.999185634346759e-07,
+    "availability": 4.999704760200174e-07,
+    "oee": 1.472084751430458e-06,
+    "efficiency_pct": 1.4210854715202004e-14
+  },
+  "process_bounds": {
+    "Extruder_Temperature_C": {
+      "min": 201.26,
+      "max": 245.0,
+      "documented_synthetic_bounds": [
+        180.0,
+        245.0
+      ]
+    },
+    "Die_Temperature_C": {
+      "min": 186.65,
+      "max": 235.0,
+      "documented_synthetic_bounds": [
+        180.0,
+        235.0
+      ]
+    },
+    "Cooling_Tank_Temperature_C": {
+      "min": 15.26,
+      "max": 28.0,
+      "documented_synthetic_bounds": [
+        12.0,
+        28.0
+      ]
+    },
+    "Melt_Pressure_bar": {
+      "min": 100.7,
+      "max": 161.52,
+      "documented_synthetic_bounds": [
+        90.0,
+        200.0
+      ]
+    },
+    "Air_Pressure_bar": {
+      "min": 4.85,
+      "max": 11.16,
+      "documented_synthetic_bounds": [
+        3.0,
+        12.0
+      ]
+    },
+    "Screw_RPM": {
+      "min": 53.18,
+      "max": 99.41,
+      "documented_synthetic_bounds": [
+        48.0,
+        100.0
+      ]
+    },
+    "Line_Speed_m_min": {
+      "min": 8.0,
+      "max": 22.03,
+      "documented_synthetic_bounds": [
+        8.0,
+        24.0
+      ]
+    },
+    "Puller_Speed_m_min": {
+      "min": 7.0,
+      "max": 22.35,
+      "documented_synthetic_bounds": [
+        7.0,
+        25.0
+      ]
+    },
+    "Extrusion_Speed_kg_hr": {
+      "min": 66.69,
+      "max": 144.98,
+      "documented_synthetic_bounds": [
+        25.0,
+        170.0
+      ]
+    }
+  },
+  "target_summary": {
+    "Operational_Efficiency_pct": {
+      "count": 5000.0,
+      "mean": 86.35415769999999,
+      "std": 6.138119673074232,
+      "min": 48.0361,
+      "25%": 82.43515,
+      "50%": 87.58075,
+      "75%": 91.23875,
+      "max": 96.783
+    },
+    "Scrap_Rate": {
+      "count": 5000.0,
+      "mean": 0.10138816,
+      "std": 0.03312620681107238,
+      "min": 0.02835,
+      "25%": 0.07545,
+      "50%": 0.09572,
+      "75%": 0.12707,
+      "max": 0.16
+    },
+    "Availability": {
+      "count": 5000.0,
+      "mean": 0.9840976601999999,
+      "std": 0.03362970941336516,
+      "min": 0.567846,
+      "25%": 0.97709775,
+      "50%": 1.0,
+      "75%": 1.0,
+      "max": 1.0
+    },
+    "Performance": {
+      "count": 5000.0,
+      "mean": 0.975939905,
+      "std": 0.03709849394073173,
+      "min": 0.718316,
+      "25%": 0.96079625,
+      "50%": 1.0,
+      "75%": 1.0,
+      "max": 1.0
+    },
+    "Quality": {
+      "count": 5000.0,
+      "mean": 0.8986118367999999,
+      "std": 0.03312620515176644,
+      "min": 0.839997,
+      "25%": 0.87293,
+      "50%": 0.9042805,
+      "75%": 0.92455,
+      "max": 0.97165
+    },
+    "OEE": {
+      "count": 5000.0,
+      "mean": 0.863541577,
+      "std": 0.061381196730742306,
+      "min": 0.480361,
+      "25%": 0.8243515,
+      "50%": 0.8758075000000001,
+      "75%": 0.9123875,
+      "max": 0.96783
+    }
+  },
+  "efficiency_correlations": {
+    "Operational_Efficiency_pct": 1.0,
+    "Availability": 0.7031093913675502,
+    "Performance": 0.5258495350653949,
+    "Quality": 0.745993072147844,
+    "Downtime_min": -0.7016568582185402,
+    "Scrap_Rate": -0.7459932443654894,
+    "Line_Speed_m_min": 0.3614631086204049,
+    "Screw_RPM": -0.29928969661414573,
+    "Extrusion_Speed_kg_hr": -0.26669657879513725
+  }
+}

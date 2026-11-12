@@ -1,0 +1,13 @@
+bundle,scenario,record_id,target,prediction
+model2_candidate,normal_and_None,1502,Operational_Efficiency_pct,69.20438080877975
+model2_candidate,normal_and_None,2587,Operational_Efficiency_pct,74.49888061777798
+model2_candidate,normal_and_None,2654,Operational_Efficiency_pct,72.71153052852767
+model2_candidate,normal_and_None,1056,Operational_Efficiency_pct,73.70406841481666
+model2_candidate,normal_and_None,1502,Operational_Efficiency_pct,69.20438080877975
+model2_candidate,unseen_category,1502,Operational_Efficiency_pct,69.2719902269345
+model3_candidate,normal_and_None,1502,Scrap_Rate,0.07682635352858944
+model3_candidate,normal_and_None,2587,Scrap_Rate,0.09670628960588026
+model3_candidate,normal_and_None,2654,Scrap_Rate,0.09853858434343436
+model3_candidate,normal_and_None,1056,Scrap_Rate,0.07147762390707656
+model3_candidate,normal_and_None,1502,Scrap_Rate,0.07682635352858944
+model3_candidate,unseen_category,1502,Scrap_Rate,0.07122910528098822

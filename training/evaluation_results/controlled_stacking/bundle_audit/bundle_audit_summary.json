@@ -1,0 +1,458 @@
+{
+  "experiment": "candidate_model_bundle_integration_audit",
+  "dataset_sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+  "dataset_shape": [
+    5000,
+    40
+  ],
+  "model2_manifest_path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_manifest.json",
+  "model3_manifest_path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_manifest.json",
+  "manifest_compatibility": {
+    "dataset_sha256_equal_and_current": true,
+    "dataset_shape_equal": true,
+    "seed_equal": true,
+    "split_path_equal": true,
+    "split_definition_equal": true,
+    "saved_split_indices_equal": true,
+    "outer_and_inner_cv_equal": true,
+    "selected_upstream_algorithms_equal": true,
+    "package_versions_equal": true,
+    "full_stack_features_equal": true,
+    "customer_features_equal": true,
+    "process_features_equal": true,
+    "both_targets_correct": true
+  },
+  "upstream_artifact_byte_identical_count": 9,
+  "upstream_artifact_count": 9,
+  "upstream_prediction_parity": {
+    "Extruder_Temperature_C": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Die_Temperature_C": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Cooling_Tank_Temperature_C": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Melt_Pressure_bar": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Air_Pressure_bar": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Screw_RPM": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Line_Speed_m_min": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Puller_Speed_m_min": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    },
+    "Extrusion_Speed_kg_hr": {
+      "all_saved_test_rows_equal_within_1e-12": true,
+      "max_abs_prediction_difference": 0.0
+    }
+  },
+  "model2_downstream_actual_features": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m",
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "model3_downstream_actual_features": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m",
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "customer_feature_order": [
+    "Material_Type",
+    "Material_Grade",
+    "Tube_Type",
+    "Braid_Type",
+    "Target_Tube_OD_mm",
+    "Target_Tube_Wall_mm",
+    "Target_Tube_ID_mm",
+    "Customer_Required_Length_m"
+  ],
+  "process_feature_order": [
+    "Extruder_Temperature_C",
+    "Die_Temperature_C",
+    "Cooling_Tank_Temperature_C",
+    "Melt_Pressure_bar",
+    "Air_Pressure_bar",
+    "Screw_RPM",
+    "Line_Speed_m_min",
+    "Puller_Speed_m_min",
+    "Extrusion_Speed_kg_hr"
+  ],
+  "process_units": {
+    "Material_Type": "categorical",
+    "Material_Grade": "categorical",
+    "Tube_Type": "categorical",
+    "Braid_Type": "categorical; 'None' valid and unseen values ignored",
+    "Target_Tube_OD_mm": "mm",
+    "Target_Tube_Wall_mm": "mm",
+    "Target_Tube_ID_mm": "mm",
+    "Customer_Required_Length_m": "m",
+    "Extruder_Temperature_C": "degC",
+    "Die_Temperature_C": "degC",
+    "Cooling_Tank_Temperature_C": "degC",
+    "Melt_Pressure_bar": "bar",
+    "Air_Pressure_bar": "bar",
+    "Screw_RPM": "rpm",
+    "Line_Speed_m_min": "m/min",
+    "Puller_Speed_m_min": "m/min",
+    "Extrusion_Speed_kg_hr": "kg/hr"
+  },
+  "target_units": {
+    "Operational_Efficiency_pct": "percentage_points",
+    "Scrap_Rate": "fraction"
+  },
+  "categorical_preprocessing": {
+    "Braid_Type_None_present_in_dataset": true,
+    "fitted_encoder_category_checks": {
+      "model2_downstream_has_Braid_Type_None": true,
+      "model3_downstream_has_Braid_Type_None": true,
+      "model2_upstream_all_have_Braid_Type_None": true,
+      "model3_upstream_all_have_Braid_Type_None": true
+    },
+    "m2_handle_unknown": "ignore",
+    "m3_handle_unknown": "ignore"
+  },
+  "process_prediction_bounds_are_synthetic_generator_bounds_not_factory_limits": {
+    "Extruder_Temperature_C": [
+      180.0,
+      245.0
+    ],
+    "Die_Temperature_C": [
+      180.0,
+      235.0
+    ],
+    "Cooling_Tank_Temperature_C": [
+      12.0,
+      28.0
+    ],
+    "Melt_Pressure_bar": [
+      90.0,
+      200.0
+    ],
+    "Air_Pressure_bar": [
+      3.0,
+      12.0
+    ],
+    "Screw_RPM": [
+      48.0,
+      100.0
+    ],
+    "Line_Speed_m_min": [
+      8.0,
+      24.0
+    ],
+    "Puller_Speed_m_min": [
+      7.0,
+      25.0
+    ],
+    "Extrusion_Speed_kg_hr": [
+      25.0,
+      170.0
+    ]
+  },
+  "process_prediction_bound_checks": [
+    {
+      "target": "Extruder_Temperature_C",
+      "synthetic_generator_bound_low": 180.0,
+      "synthetic_generator_bound_high": 245.0,
+      "saved_test_prediction_min": 208.64366106670232,
+      "saved_test_prediction_max": 238.16607968632968,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Die_Temperature_C",
+      "synthetic_generator_bound_low": 180.0,
+      "synthetic_generator_bound_high": 235.0,
+      "saved_test_prediction_min": 200.82669067382812,
+      "saved_test_prediction_max": 232.38632202148438,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Cooling_Tank_Temperature_C",
+      "synthetic_generator_bound_low": 12.0,
+      "synthetic_generator_bound_high": 28.0,
+      "saved_test_prediction_min": 17.7057189931725,
+      "saved_test_prediction_max": 22.57066571154479,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Melt_Pressure_bar",
+      "synthetic_generator_bound_low": 90.0,
+      "synthetic_generator_bound_high": 200.0,
+      "saved_test_prediction_min": 116.76163797318806,
+      "saved_test_prediction_max": 147.0227660568079,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Air_Pressure_bar",
+      "synthetic_generator_bound_low": 3.0,
+      "synthetic_generator_bound_high": 12.0,
+      "saved_test_prediction_min": 6.484714600063073,
+      "saved_test_prediction_max": 9.62667516159972,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Screw_RPM",
+      "synthetic_generator_bound_low": 48.0,
+      "synthetic_generator_bound_high": 100.0,
+      "saved_test_prediction_min": 62.178895847949526,
+      "saved_test_prediction_max": 92.46259352648622,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Line_Speed_m_min",
+      "synthetic_generator_bound_low": 8.0,
+      "synthetic_generator_bound_high": 24.0,
+      "saved_test_prediction_min": 9.93789843420098,
+      "saved_test_prediction_max": 19.14684496520499,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Puller_Speed_m_min",
+      "synthetic_generator_bound_low": 7.0,
+      "synthetic_generator_bound_high": 25.0,
+      "saved_test_prediction_min": 9.701538063059747,
+      "saved_test_prediction_max": 19.138676885772337,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    },
+    {
+      "target": "Extrusion_Speed_kg_hr",
+      "synthetic_generator_bound_low": 25.0,
+      "synthetic_generator_bound_high": 170.0,
+      "saved_test_prediction_min": 82.46723024141967,
+      "saved_test_prediction_max": 127.66251573456627,
+      "below_bound_count": 0,
+      "above_bound_count": 0,
+      "finite": true
+    }
+  ],
+  "end_to_end_inference_probe_results": [
+    {
+      "bundle": "model2_candidate",
+      "scenario": "normal_and_None",
+      "rows": 5,
+      "customer_input_columns": 8,
+      "stack_columns": 17,
+      "output_shape": "(5,)",
+      "output_dtype": "float64",
+      "target": "Operational_Efficiency_pct",
+      "unit": "percentage_points",
+      "prediction_min": 69.20438080877975,
+      "prediction_max": 74.49888061777798,
+      "outside_target_bounds_count": 0,
+      "finite": true
+    },
+    {
+      "bundle": "model2_candidate",
+      "scenario": "unseen_category",
+      "rows": 1,
+      "customer_input_columns": 8,
+      "stack_columns": 17,
+      "output_shape": "(1,)",
+      "output_dtype": "float64",
+      "target": "Operational_Efficiency_pct",
+      "unit": "percentage_points",
+      "prediction_min": 69.2719902269345,
+      "prediction_max": 69.2719902269345,
+      "outside_target_bounds_count": 0,
+      "finite": true
+    },
+    {
+      "bundle": "model3_candidate",
+      "scenario": "normal_and_None",
+      "rows": 5,
+      "customer_input_columns": 8,
+      "stack_columns": 17,
+      "output_shape": "(5,)",
+      "output_dtype": "float64",
+      "target": "Scrap_Rate",
+      "unit": "fraction",
+      "prediction_min": 0.07147762390707656,
+      "prediction_max": 0.09853858434343436,
+      "outside_target_bounds_count": 0,
+      "finite": true
+    },
+    {
+      "bundle": "model3_candidate",
+      "scenario": "unseen_category",
+      "rows": 1,
+      "customer_input_columns": 8,
+      "stack_columns": 17,
+      "output_shape": "(1,)",
+      "output_dtype": "float64",
+      "target": "Scrap_Rate",
+      "unit": "fraction",
+      "prediction_min": 0.07122910528098822,
+      "prediction_max": 0.07122910528098822,
+      "outside_target_bounds_count": 0,
+      "finite": true
+    }
+  ],
+  "candidate_metrics_reproduced": [
+    {
+      "bundle": "model2_candidate",
+      "target": "Operational_Efficiency_pct",
+      "MAE": 6.369941258599522,
+      "RMSE": 8.448139479917222,
+      "R2": 0.23014620463142155,
+      "saved_report_MAE": 6.369941258599522,
+      "saved_report_RMSE": 8.448139479917222,
+      "saved_report_R2": 0.2301462046314215,
+      "metrics_match_report_within_1e-10": true,
+      "feature_order_matches_manifest": true
+    },
+    {
+      "bundle": "model3_candidate",
+      "target": "Scrap_Rate",
+      "MAE": 0.020945262500472687,
+      "RMSE": 0.026412146333495624,
+      "R2": 0.34635188277823525,
+      "saved_report_MAE": 0.0209452625004726,
+      "saved_report_RMSE": 0.0264121463334956,
+      "saved_report_R2": 0.3463518827782352,
+      "metrics_match_report_within_1e-10": true,
+      "feature_order_matches_manifest": true
+    }
+  ],
+  "missing_input_behavior": [
+    {
+      "case": "Model 1 missing column Material_Type (Extruder_Temperature_C)",
+      "result": "rejected",
+      "exception": "ValueError",
+      "message": "columns are missing: {'Material_Type'}"
+    },
+    {
+      "case": "Model2 missing process feature",
+      "result": "rejected",
+      "exception": "ValueError",
+      "message": "columns are missing: {'Extruder_Temperature_C'}"
+    },
+    {
+      "case": "Model3 missing process feature",
+      "result": "rejected",
+      "exception": "ValueError",
+      "message": "columns are missing: {'Extruder_Temperature_C'}"
+    },
+    {
+      "case": "Model1 NaN numeric input",
+      "result": "accepted_without_required_input",
+      "exception": "",
+      "message": ""
+    }
+  ],
+  "production_artifact_hashes_at_audit": [
+    {
+      "path": "models/model_metadata.json",
+      "sha256_at_audit": "61d76a1c89b9351b72b4ce0aea42ddb9b4d7762ee3903c5167d1dda7e27803b2"
+    },
+    {
+      "path": "models/data_split.json",
+      "sha256_at_audit": "3da5a3e56e55cb9b8fd5f8e9484dac7f187533a0b9d3027aded8e4c5137d8fc0"
+    },
+    {
+      "path": "models/process/extruder_temperature_model.pkl",
+      "sha256_at_audit": "a3035eacf31e3bd737778ec38ab5531551763b20b913d095f8a75dc4676be5d8"
+    },
+    {
+      "path": "models/process/die_temperature_model.pkl",
+      "sha256_at_audit": "c763df829cddc7d87b282a73b42bae645b43404f9e4f4e77c49a8e721158dd61"
+    },
+    {
+      "path": "models/process/cooling_temperature_model.pkl",
+      "sha256_at_audit": "c5222b6a0d8c2e5befd6acb7640fe8b867223fe9f4ff729ecba6e317e9c6c5d4"
+    },
+    {
+      "path": "models/process/melt_pressure_model.pkl",
+      "sha256_at_audit": "3a4f13619d15de74a43cc9bc11f293ef771e9deec3f0f01966bdf28c3205b387"
+    },
+    {
+      "path": "models/process/air_pressure_model.pkl",
+      "sha256_at_audit": "1df7e32cf35a653acbf1b328504dbc5292538b6242c4b6d96918aa57ce420ebb"
+    },
+    {
+      "path": "models/process/screw_rpm_model.pkl",
+      "sha256_at_audit": "da639ebb89fda6a5c886ff64493a905f337c0fdd198c1621684857a97e57f892"
+    },
+    {
+      "path": "models/process/line_speed_model.pkl",
+      "sha256_at_audit": "100e86b8e5fab7b9687b9025ce6308d4b8117706d418fee27e4453193c396e81"
+    },
+    {
+      "path": "models/process/puller_speed_model.pkl",
+      "sha256_at_audit": "22f46eced746cf6ac011997fdcf07d57dcfe50491e06582577b0e1b8248afd77"
+    },
+    {
+      "path": "models/process/extrusion_rate_model.pkl",
+      "sha256_at_audit": "3a168698d0480acaac6890ac9c64519506384cdd0b1f3a6fb097ec0cae085b81"
+    },
+    {
+      "path": "models/efficiency/efficiency_model.pkl",
+      "sha256_at_audit": "2f7f777b41ec70a5fff0a1face592e8a618f126c21661342c5bfcd6caf954dc5"
+    },
+    {
+      "path": "models/quality/scrap_rate_model.pkl",
+      "sha256_at_audit": "9f1565f1f5605053a1094631fa9022627c32c71cc47fb4cb40f4c419e24052e8"
+    }
+  ],
+  "production_files_modified_by_audit": false,
+  "note": "Compatibility checks on synthetic data only; successful inference is not evidence of real factory performance."
+}

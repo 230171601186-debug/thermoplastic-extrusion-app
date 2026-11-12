@@ -1,0 +1,10 @@
+target,all_saved_test_rows_equal_within_1e-12,max_abs_prediction_difference
+Extruder_Temperature_C,True,0.0
+Die_Temperature_C,True,0.0
+Cooling_Tank_Temperature_C,True,0.0
+Melt_Pressure_bar,True,0.0
+Air_Pressure_bar,True,0.0
+Screw_RPM,True,0.0
+Line_Speed_m_min,True,0.0
+Puller_Speed_m_min,True,0.0
+Extrusion_Speed_kg_hr,True,0.0

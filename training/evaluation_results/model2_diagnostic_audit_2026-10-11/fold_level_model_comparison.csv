@@ -1,0 +1,31 @@
+fold,model,features,inner_selected_parameters,MAE,RMSE,R2
+1,RandomForest,all_17_inference_inputs,{},4.788060952780759,5.96408867304259,0.03338598516292124
+1,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",4.787764801674008,5.9512190183964115,0.03755311525297533
+1,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.704978233750145,5.889309125215973,0.05747342251949439
+1,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.592415878566353,5.78976671055741,0.08906574500263365
+1,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.64603435631184,5.815310409431486,0.08101016675322303
+2,RandomForest,all_17_inference_inputs,{},4.692496635184634,5.801345789246305,0.04278989150914314
+2,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",4.655541655932564,5.764361747727519,0.054955570298342526
+2,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.567421021894591,5.686116627732099,0.08043740319375958
+2,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.5502431879051,5.644203040721615,0.09394402577341587
+2,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.572746984778075,5.702208567650236,0.07522523965378991
+3,RandomForest,all_17_inference_inputs,{},4.661555903724729,5.747673392624652,0.043746078800482646
+3,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",4.619033399579938,5.705351341463032,0.057776670034786815
+3,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.623924516647813,5.6805537375859405,0.06594938481519041
+3,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.571411194997446,5.638287629330917,0.07979726508828033
+3,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.6206519417216585,5.676481946829176,0.06728794994777487
+4,RandomForest,all_17_inference_inputs,{},4.7730425625509705,5.962486534812459,0.1002283075295809
+4,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",4.790538857258581,5.985970505425106,0.09312663147494271
+4,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.729266114003649,5.930020838824302,0.11000013184154556
+4,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.770632005927164,5.95576729160803,0.10225510565752494
+4,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.74205774990786,5.9182864475960635,0.11351893016185455
+5,RandomForest,all_17_inference_inputs,{},4.9392918695287245,6.091292836493354,0.046601550465912966
+5,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",4.973153735448304,6.13631089969217,0.03245717921923874
+5,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.914528289770273,6.067273101875325,0.0541057788589161
+5,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.887370624201202,6.004621302663195,0.07353988004385492
+5,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.9300893388437155,6.067368031312897,0.05407617943018883
+held_out_test,RandomForest,all_17_inference_inputs,{},5.046019229719877,6.506704192080739,0.06777169381841008
+held_out_test,ExtraTrees,all_17_inference_inputs,"{""min_samples_leaf"": 5}",5.039217924711785,6.521014067801603,0.06366677683027588
+held_out_test,HistGradientBoosting,all_17_inference_inputs,"{""l2_regularization"": 3.0, ""max_iter"": 120}",4.957483594648901,6.408779647502814,0.09562023178861323
+held_out_test,Ridge,all_17_inference_inputs,"{""alpha"": 50.0}",4.935736382025059,6.398081091061158,0.09863718120328147
+held_out_test,LightGBM,all_17_inference_inputs,"{""n_estimators"": 150, ""num_leaves"": 15}",4.963518387959192,6.435872791712103,0.08795752998701478

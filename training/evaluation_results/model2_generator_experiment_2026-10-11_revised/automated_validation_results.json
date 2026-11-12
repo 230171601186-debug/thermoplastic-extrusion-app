@@ -1,0 +1,50 @@
+{
+  "validation": "passed",
+  "fixed_seed": 42,
+  "fixed_seed_regeneration_exact": true,
+  "dataset_sha256": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15",
+  "dataset_shape": [
+    5000,
+    40
+  ],
+  "schema_matches_previous_experiment": true,
+  "categorical_labels_match_previous_experiment": true,
+  "performance_min": 0.711152,
+  "performance_median": 0.871338,
+  "performance_max": 0.981089,
+  "efficiency_min": 16.5455,
+  "efficiency_median": 77.6173,
+  "efficiency_max": 92.4184,
+  "completed_orders": 4303,
+  "completed_orders_below_required_good_length": 0,
+  "accounting_max_abs_residuals": {
+    "actual_length": 0.005000000000109139,
+    "good_plus_scrap": 1.8189894035458565e-12,
+    "scrap_length": 0.0049999999999954525,
+    "good_length": 1.8189894035458565e-12,
+    "length_shortfall": 1.8189894035458565e-12,
+    "runtime": 0.010000000000104592,
+    "availability": 4.990414195216175e-07,
+    "quality": 4.99990467139888e-07,
+    "oee": 1.460661519958606e-06,
+    "operational_efficiency": 1.4210854715202004e-14
+  },
+  "generator_validation_summary": {
+    "rows": 5000,
+    "columns": 40,
+    "missing_cells": 0,
+    "duplicate_record_ids": 0,
+    "geometry_max_abs_residual_mm": 0.010000000000005116,
+    "actual_length_max_abs_residual_m": 0.005000000000109139,
+    "efficiency_min": 16.5455,
+    "efficiency_max": 92.4184,
+    "scrap_min": 0.02514,
+    "scrap_max": 0.16,
+    "fault_count": 1476,
+    "braid_none_count": 802
+  },
+  "production_dataset_sha256_unchanged": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+  "production_artifact_hashes_verified_unchanged": 40,
+  "production_artifacts_changed": [],
+  "previous_experiment_files_verified_unchanged": 32
+}

@@ -1,0 +1,167 @@
+{
+  "experiment": "read_only_model2_diagnostic_audit_revised_synthetic_data",
+  "scope": "diagnostics only; no production modifications or candidate promotion",
+  "dataset_path": "training/evaluation_results/model2_generator_experiment_2026-10-11_revised/experimental_dataset.csv",
+  "dataset_sha256": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15",
+  "production_dataset_sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+  "saved_split_path": "models/data_split.json",
+  "split": {
+    "train_rows": 4000,
+    "test_rows": 1000,
+    "outer_folds": 5,
+    "outer_shuffle": true,
+    "outer_random_state": 42,
+    "inner_folds": 3,
+    "test_touched_for_model_selection": false
+  },
+  "feature_groups": {
+    "customer_only": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m"
+    ],
+    "predicted_process_only": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "full_stack": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m",
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "customer_plus_process_subset": "process columns selected by inner-fold positive marginal MAE improvement; details in selected_process_features_by_outer_fold.csv"
+  },
+  "candidate_models": {
+    "RandomForest": [
+      {},
+      {}
+    ],
+    "ExtraTrees": [
+      {
+        "min_samples_leaf": 2
+      },
+      {
+        "min_samples_leaf": 5
+      }
+    ],
+    "HistGradientBoosting": [
+      {
+        "max_iter": 120,
+        "l2_regularization": 3.0
+      },
+      {
+        "max_iter": 220,
+        "l2_regularization": 5.0
+      }
+    ],
+    "Ridge": [
+      {
+        "alpha": 1.0
+      },
+      {
+        "alpha": 10.0
+      },
+      {
+        "alpha": 50.0
+      }
+    ],
+    "LightGBM": [
+      {
+        "n_estimators": 150,
+        "num_leaves": 15
+      },
+      {
+        "n_estimators": 200,
+        "num_leaves": 31
+      }
+    ]
+  },
+  "versions": {
+    "python": "3.13.14",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.9.0",
+    "joblib": "1.5.3",
+    "matplotlib": "3.11.0"
+  },
+  "final_training_only_selected_model": "Ridge",
+  "final_training_only_selected_parameters": {
+    "alpha": 50.0
+  },
+  "heldout_metrics_and_residual_summary": {
+    "model": "Ridge",
+    "count": 1000,
+    "mean": 0.1095609629039089,
+    "median": -0.30143928637509276,
+    "std": 6.40034393182488,
+    "q05": -8.904922011822949,
+    "q95": 10.396263854752677,
+    "absolute_error_q50": 4.305318325074282,
+    "absolute_error_q90": 9.51636803859511,
+    "MAE": 4.935736382025059,
+    "RMSE": 6.398081091061158,
+    "R2": 0.09863718120328147
+  },
+  "production_preservation_verified": true,
+  "preservation_verified_file_count": 162,
+  "outputs": [
+    "README.md",
+    "aggregate_model_comparison.csv",
+    "customer_input_sensitivity.csv",
+    "data_lineage_and_target_diagnostics.json",
+    "dataset_accounting_validation.json",
+    "efficiency_target_histogram.png",
+    "efficiency_vs_oee_components.png",
+    "feature_group_ablation_aggregate.csv",
+    "feature_group_ablation_results.csv",
+    "feature_relationship_diagnostics.csv",
+    "feature_role_and_leakage_audit.csv",
+    "finalize_model2_diagnostic_audit.py",
+    "fold_level_model_comparison.csv",
+    "heldout_residual_by_fault.png",
+    "heldout_residual_diagnostics.png",
+    "model1_process_prediction_diagnostics.csv",
+    "model2_diagnostic_report.md",
+    "model_selection_log.json",
+    "near_duplicate_numeric_features.csv",
+    "outer_cv_actual_vs_predicted_full_stack_rf.png",
+    "process_input_source_validation.csv",
+    "production_preservation_manifest.json",
+    "production_preservation_verification.json",
+    "residual_diagnostics.csv",
+    "run_model2_diagnostic_audit.py",
+    "selected_model_feature_importance.csv",
+    "selected_process_features_by_outer_fold.csv",
+    "subgroup_error_analysis.csv",
+    "target_construction_diagnostics.json",
+    "target_distribution_summary.csv",
+    "verify_preservation.py"
+  ],
+  "dataset_accounting_validation_passed": true
+}

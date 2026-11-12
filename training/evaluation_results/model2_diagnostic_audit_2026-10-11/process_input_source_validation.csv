@@ -1,0 +1,10 @@
+process_feature,modeling_source,mean_abs_difference_from_recorded_value,max_abs_difference_from_recorded_value,predictions_not_exact_recorded_copy
+Extruder_Temperature_C,frozen production Model 1 prediction,3.7142530384639407,18.79995359663667,True
+Die_Temperature_C,frozen production Model 1 prediction,4.768515316040039,21.676400146484383,True
+Cooling_Tank_Temperature_C,frozen production Model 1 prediction,1.0105021436557713,7.936635752164495,True
+Melt_Pressure_bar,frozen production Model 1 prediction,4.656931481402294,32.657241479393875,True
+Air_Pressure_bar,frozen production Model 1 prediction,0.5261173936098462,2.415991071428575,True
+Screw_RPM,frozen production Model 1 prediction,3.491207140009351,18.919618743962346,True
+Line_Speed_m_min,frozen production Model 1 prediction,1.8832954987335209,5.278050918579101,True
+Puller_Speed_m_min,frozen production Model 1 prediction,1.9102680565315633,6.087809282642606,True
+Extrusion_Speed_kg_hr,frozen production Model 1 prediction,5.661512344742573,27.152210864242406,True

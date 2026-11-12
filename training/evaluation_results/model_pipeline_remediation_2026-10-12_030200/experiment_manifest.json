@@ -1,0 +1,179 @@
+{
+  "experiment": "fixed_estimator_nested_cross_fitted_stacking_remediation",
+  "created_at_utc": "2026-10-11T22:02:13.019550+00:00",
+  "dataset_path": "dataset/Thermoplastic_Extrusion_5000Rows_ML_Final_Dataset.csv",
+  "dataset_sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396",
+  "dataset_shape": [
+    5000,
+    40
+  ],
+  "saved_split_path": "models/data_split.json",
+  "seed": 42,
+  "train_rows": 4000,
+  "held_out_rows": 1000,
+  "outer_folds": 5,
+  "upstream_crossfit_folds": 4,
+  "fixed_process_model": {
+    "class": "RandomForestRegressor",
+    "n_estimators": 60,
+    "max_depth": 20,
+    "min_samples_leaf": 2,
+    "n_jobs": 1,
+    "random_state": 42
+  },
+  "fixed_downstream_model": {
+    "class": "RandomForestRegressor",
+    "n_estimators": 100,
+    "max_depth": 20,
+    "min_samples_leaf": 2,
+    "n_jobs": 1,
+    "random_state": 42
+  },
+  "selection": "No model or hyperparameter selection in this run. Fixed estimator classes and parameters were declared before outer evaluation.",
+  "feature_contract": {
+    "customer_features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m"
+    ],
+    "process_targets": [
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "downstream_features": [
+      "Material_Type",
+      "Material_Grade",
+      "Tube_Type",
+      "Braid_Type",
+      "Target_Tube_OD_mm",
+      "Target_Tube_Wall_mm",
+      "Target_Tube_ID_mm",
+      "Customer_Required_Length_m",
+      "Extruder_Temperature_C",
+      "Die_Temperature_C",
+      "Cooling_Tank_Temperature_C",
+      "Melt_Pressure_bar",
+      "Air_Pressure_bar",
+      "Screw_RPM",
+      "Line_Speed_m_min",
+      "Puller_Speed_m_min",
+      "Extrusion_Speed_kg_hr"
+    ],
+    "prohibited_intersection": []
+  },
+  "config_baselines": [
+    "training-target mean",
+    "customer-input-only RF",
+    "cross-fitted 17-feature RF"
+  ],
+  "package_versions": {
+    "python": "3.13.14",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.9.0",
+    "joblib": "1.5.3"
+  },
+  "loaded_app_artifact_hashes": [
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/air_pressure_model.pkl",
+      "sha256": "91ff87c5a4876005f7b7c90c19d47d59d9fdb6e79c830c40c5d11e373816daad"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/cooling_temperature_model.pkl",
+      "sha256": "783afb95168a025a7b6d1c9243a1153d29afec0075ebff9aac65d0933ed77725"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/die_temperature_model.pkl",
+      "sha256": "b104f0246c73adf484717863adaaae85d29c8b35cd76cc9024a1d9c6ffb66615"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/efficiency_model_candidate.pkl",
+      "sha256": "3ce32480d723fbe52dd2c76ac062d2143d2f68043591b9c5a034c0eef015ecc5"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/extruder_temperature_model.pkl",
+      "sha256": "a81baddf803ba8708d5bfd156353bdaf2d7a9acc49679f5c09671c33ad8b1644"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/extrusion_rate_model.pkl",
+      "sha256": "9871a77c3b890ea305f8d1cf8172a2242fc1aa87b15f4ae7aeedb8d93f5e535e"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/line_speed_model.pkl",
+      "sha256": "ba3059dac1ac610ade414d04b93aa374c79bc3ae154dc2938aa95bcbac4ac452"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/melt_pressure_model.pkl",
+      "sha256": "8bfb120d6b57ecedf4558cf18b263af3f92af319604c4003c1be802c79107e2a"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/puller_speed_model.pkl",
+      "sha256": "619088f02794242c51f16face7a848b319a8ac3336a7316d4deed42509bcf18d"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model2_candidate/candidate_artifacts/screw_rpm_model.pkl",
+      "sha256": "e38179d1daa224c258066dfd20eb8a403d740cbec3ffe092197eeb5f515de6b6"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/air_pressure_model.pkl",
+      "sha256": "91ff87c5a4876005f7b7c90c19d47d59d9fdb6e79c830c40c5d11e373816daad"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/cooling_temperature_model.pkl",
+      "sha256": "783afb95168a025a7b6d1c9243a1153d29afec0075ebff9aac65d0933ed77725"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/die_temperature_model.pkl",
+      "sha256": "b104f0246c73adf484717863adaaae85d29c8b35cd76cc9024a1d9c6ffb66615"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/extruder_temperature_model.pkl",
+      "sha256": "a81baddf803ba8708d5bfd156353bdaf2d7a9acc49679f5c09671c33ad8b1644"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/extrusion_rate_model.pkl",
+      "sha256": "9871a77c3b890ea305f8d1cf8172a2242fc1aa87b15f4ae7aeedb8d93f5e535e"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/line_speed_model.pkl",
+      "sha256": "ba3059dac1ac610ade414d04b93aa374c79bc3ae154dc2938aa95bcbac4ac452"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/melt_pressure_model.pkl",
+      "sha256": "8bfb120d6b57ecedf4558cf18b263af3f92af319604c4003c1be802c79107e2a"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/puller_speed_model.pkl",
+      "sha256": "619088f02794242c51f16face7a848b319a8ac3336a7316d4deed42509bcf18d"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/scrap_rate_model_candidate.pkl",
+      "sha256": "3cc7d06b4322e0db96e758269379db715d45fde9254b1557826d9e6be89acd4f"
+    },
+    {
+      "path": "training/evaluation_results/controlled_stacking/model3_candidate/candidate_artifacts/screw_rpm_model.pkl",
+      "sha256": "e38179d1daa224c258066dfd20eb8a403d740cbec3ffe092197eeb5f515de6b6"
+    }
+  ],
+  "notes": [
+    "All data are synthetic; metric evidence is not factory validation.",
+    "No actual process or post-run outcome value enters downstream predictor features.",
+    "Every outer validation row is excluded from upstream process fitting and preprocessing fitting.",
+    "Model 1 training-stack process features are row-excluded OOF predictions within each outer training fold.",
+    "Saved held-out test partition is evaluated once after outer-fold reporting and is not used for selection.",
+    "Existing candidate model artifacts are hashed and identified but not reused for this fixed-estimator evaluation.",
+    "Numeric prediction bounds are copied only as existing synthetic assertions; they are not plant operating limits."
+  ]
+}

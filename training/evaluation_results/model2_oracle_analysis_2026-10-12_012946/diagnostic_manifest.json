@@ -1,0 +1,38 @@
+{
+  "analysis": "read-only interpretation and validation of existing revised-synthetic Model 2 oracle arms",
+  "analysis_directory": "training/evaluation_results/model2_oracle_analysis_2026-10-12_012946",
+  "created_utc_or_local": "2026-10-12T01:29:46+05:30",
+  "input_artifacts": {
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/model1_diagnostic_report.md": "e6c5eb6613955485ecc7779325814c8b3ca7a77757c43464dac10ce5bbb2dc52",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/model2_downstream_summary.csv": "ca77da9ec1fd90f22ac9b8ad5b4ef4497dbad369a8a7efe84c866367d8ecc110",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/model2_downstream_impact.csv": "42634e9852710f7504c83af831a6596559834944f6127ea9b59b46d388eee4e8",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/model2_downstream_predictions.csv": "0ac835f84f823d6cb75885515eda48e404a43bec9e5fa6ff9c782092f9bc2cd1",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/run_model1_diagnostic.py": "0de10d22bb91fe8828a6e6e1b416fdda83bdb3091a614a7207814a055db4354e",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/diagnostic_manifest.json": "db03d0e2cad07349c1f9dc090ac9a10e19dca8f6d787fb87b4006088e6cda940",
+    "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247/validation_results.json": "8606c1a626c13958a4090b1ec50b9b32345f5e12ceb1183930b3c9dab7fae3fe",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/model2_diagnostic_report.md": "6f5db5b3c67b03fc26a4cc5eb4e6895161c66e4ab76b8b53bcf536206fdd3ae1",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/aggregate_model_comparison.csv": "9fdeef380473bc07238feaac11104005562ae82614639f44154e2c7852e7313b",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/feature_group_ablation_aggregate.csv": "4b76be19b6daa7a124fdd542f989cbf8ac00870d84d5f28c46c2ae481c2fa05c",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/target_construction_diagnostics.json": "0becb663f367b3e580235d325616c03f5c7a7a1e89426dda647b1d3dfd06b073",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/dataset_accounting_validation.json": "686957d227de182e52e1e21b2b975a8b20cb950756b0c64c1884eb9ba882921a",
+    "training/evaluation_results/model2_diagnostic_audit_2026-10-11/diagnostic_manifest.json": "1313153ddec0a0cf40a6d3f4858ec33ec246373b33a0d956b258d8aba80c9b20",
+    "training/evaluation_results/model2_generator_experiment_2026-10-11_revised/experimental_generator.py": "030960558d85a2c5495a39b5a8278034046dd3d15a08fba7862767e2dd2c44a5",
+    "training/evaluation_results/model2_generator_experiment_2026-10-11_revised/experimental_dataset.csv": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15"
+  },
+  "source_validated_run": "training/evaluation_results/model1_diagnostic_audit_2026-10-11_20261011_231247",
+  "source_dataset_sha256": "0db6c6d33f0a3d580b2f673cc3761b4c2551f48c1ca68d296303d9854a669b15",
+  "methodology_validation_passed": true,
+  "outputs": [
+    "oracle_analysis_report.md",
+    "oracle_comparison_summary.csv",
+    "oracle_methodology_validation.json",
+    "diagnostic_manifest.json",
+    "README.md",
+    "run_oracle_analysis.py"
+  ],
+  "limitations": [
+    "All results are synthetic and do not verify real manufacturing behavior.",
+    "Oracle process features are recorded post-run process targets and are non-deployable.",
+    "The oracle is diagnostic, not a guaranteed upper bound for all possible models."
+  ]
+}

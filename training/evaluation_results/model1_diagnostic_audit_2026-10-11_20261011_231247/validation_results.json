@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": {
+    "required_deliverables_present": true,
+    "all_nine_model1_targets_reported_once": true,
+    "baselines_cover_every_target": true,
+    "candidate_and_saved_folds_have_five_results_each": true,
+    "model2_arms_have_five_outer_folds_and_saved_test": true,
+    "oracle_marked_non_deployable": true,
+    "model2_fold_results_are_18_rows": true,
+    "model2_prediction_outputs_nonempty_and_finite": true,
+    "residual_diagnostics_nonempty_and_finite": true,
+    "speed_plots_are_valid_pngs": true,
+    "preservation_hashes_verified": true
+  },
+  "model1_target_rows": 9,
+  "model1_fold_result_rows": 270,
+  "model2_impact_rows": 18,
+  "model2_prediction_rows": 15000,
+  "residual_rows": 36000,
+  "production_dataset_sha256": "cbd42684bc475ca9a7ad4f5b4512962c785034f2aae7c4944f0804e624c20396"
+}

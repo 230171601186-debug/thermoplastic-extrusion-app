@@ -1,0 +1,2 @@
+-r training/ml_requirements.txt
+streamlit>=1.58.0

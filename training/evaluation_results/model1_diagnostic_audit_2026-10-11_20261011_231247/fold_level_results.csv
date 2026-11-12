@@ -1,0 +1,271 @@
+task,target,evaluation_arm,configuration,fold,MAE,RMSE,R2
+Model1,Extruder_Temperature_C,Ridge,"{""alpha"": 5.0}",1,3.6806243838612023,4.6554079449385,0.649990502501014
+Model1,Extruder_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,3.900896305788137,4.958273420816165,0.6029682059250829
+Model1,Extruder_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,4.029879809847656,5.120272610885312,0.5766003346898956
+Model1,Extruder_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,3.727823327276734,4.734724367598816,0.6379623431690595
+Model1,Extruder_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,3.6806243838612023,4.6554079449385,0.649990502501014
+Model1,Extruder_Temperature_C,Ridge,"{""alpha"": 5.0}",2,3.580477655738481,4.5892096237194515,0.6700353999780644
+Model1,Extruder_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,3.84873931615566,4.863046274028787,0.6294828094494485
+Model1,Extruder_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,3.9498014672513677,5.005977994219577,0.607382701471747
+Model1,Extruder_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,3.6490884461830784,4.661112900479594,0.6596146946376815
+Model1,Extruder_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,3.580477655738481,4.5892096237194515,0.6700353999780644
+Model1,Extruder_Temperature_C,Ridge,"{""alpha"": 5.0}",3,3.3841912159723258,4.314703108811266,0.6894958321609432
+Model1,Extruder_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,3.666787530779443,4.653842510010766,0.6387657145351497
+Model1,Extruder_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,3.6821548738385514,4.6937883663639015,0.6325378538484872
+Model1,Extruder_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,3.4371592217216556,4.389083985245073,0.6786980353904857
+Model1,Extruder_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,3.3841912159723258,4.314703108811266,0.6894958321609432
+Model1,Extruder_Temperature_C,Ridge,"{""alpha"": 5.0}",4,3.766030622088719,4.698856620569181,0.6734187390174599
+Model1,Extruder_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,3.9769356023216273,4.99951393159561,0.630288941681695
+Model1,Extruder_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,4.1093898048973925,5.178189918910313,0.6033907629378414
+Model1,Extruder_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,3.819541919172659,4.77774423285693,0.6623609506141852
+Model1,Extruder_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,3.766030622088719,4.698856620569181,0.6734187390174599
+Model1,Extruder_Temperature_C,Ridge,"{""alpha"": 5.0}",5,3.6915668723686896,4.82484260021881,0.633327487925113
+Model1,Extruder_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,3.8769806784674388,5.065742939437971,0.595798101098107
+Model1,Extruder_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,3.9938426630489903,5.217562743789724,0.5712072688484295
+Model1,Extruder_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,3.7318479038662167,4.86362829814284,0.6274086165309651
+Model1,Extruder_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,3.6915668723686896,4.82484260021881,0.633327487925113
+Model1,Die_Temperature_C,Ridge,"{""alpha"": 5.0}",1,4.628838183648875,5.685633088690995,0.5586235868838407
+Model1,Die_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,5.052956056287305,6.168307022292589,0.4805025433907206
+Model1,Die_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,5.127707605849869,6.233383183541435,0.4694832368089916
+Model1,Die_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,4.724876500419292,5.80167236955927,0.5404234497878518
+Model1,Die_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,4.628838183648875,5.685633088690995,0.5586235868838407
+Model1,Die_Temperature_C,Ridge,"{""alpha"": 5.0}",2,4.686176729734586,5.85245771583243,0.5536968094331166
+Model1,Die_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,4.905534435952197,6.157604737784425,0.5059430217657914
+Model1,Die_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,4.972038134934,6.204517470405191,0.4983862346828134
+Model1,Die_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,4.756925429748718,5.926708050944716,0.5423004438084525
+Model1,Die_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,4.686176729734586,5.85245771583243,0.5536968094331166
+Model1,Die_Temperature_C,Ridge,"{""alpha"": 5.0}",3,4.7379624341762385,5.863134507569815,0.5443406087810561
+Model1,Die_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,4.9591640847556615,6.129669090747097,0.5019709565652601
+Model1,Die_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,5.02847255056815,6.297930855872093,0.4742535038354414
+Model1,Die_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,4.714653354973189,5.854185679600352,0.5457304816183383
+Model1,Die_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,4.7379624341762385,5.863134507569815,0.5443406087810561
+Model1,Die_Temperature_C,Ridge,"{""alpha"": 5.0}",4,4.7379440846442495,5.856145700590536,0.5730304693686417
+Model1,Die_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,4.972969574914987,6.209261842537837,0.5199869044592154
+Model1,Die_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,5.298900708047101,6.559631076969325,0.46428726982417545
+Model1,Die_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,4.820290979596307,5.979798742900388,0.5548091063206141
+Model1,Die_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,4.7379440846442495,5.856145700590536,0.5730304693686417
+Model1,Die_Temperature_C,Ridge,"{""alpha"": 5.0}",5,4.5306739687782365,5.675439934430075,0.5517399875316482
+Model1,Die_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,4.838665487743783,6.037793826102681,0.4926735638832971
+Model1,Die_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,4.888243320299178,6.0948154598737165,0.483045813899351
+Model1,Die_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,4.621205743644865,5.744611004379899,0.5407468042178223
+Model1,Die_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,4.5306739687782365,5.675439934430075,0.5517399875316482
+Model1,Cooling_Tank_Temperature_C,Ridge,"{""alpha"": 5.0}",1,0.8752424662905998,1.2759292958098654,0.37080557302918526
+Model1,Cooling_Tank_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,0.9413836839181654,1.348559632126702,0.2971349319420614
+Model1,Cooling_Tank_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,0.9626778960077621,1.3557680843829953,0.2896008039369956
+Model1,Cooling_Tank_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.8998430690545792,1.3061295345380286,0.34066800816151543
+Model1,Cooling_Tank_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,0.8752424662905998,1.2759292958098654,0.37080557302918526
+Model1,Cooling_Tank_Temperature_C,Ridge,"{""alpha"": 5.0}",2,0.8604118759540568,1.2565475459276472,0.3439954343105903
+Model1,Cooling_Tank_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,0.9397062878101028,1.3471348403675771,0.24600034718978248
+Model1,Cooling_Tank_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,0.9465301894875375,1.3608877667309305,0.2305265673777247
+Model1,Cooling_Tank_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.8839644065456104,1.282492495263873,0.31662564929031745
+Model1,Cooling_Tank_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,0.8604118759540568,1.2565475459276472,0.3439954343105903
+Model1,Cooling_Tank_Temperature_C,Ridge,"{""alpha"": 5.0}",3,0.8575490231381981,1.239902580175554,0.334970744299537
+Model1,Cooling_Tank_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,0.9296814258530329,1.3116319207217766,0.25580014968902043
+Model1,Cooling_Tank_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,0.9387009155693746,1.3190588204841585,0.24734847091522305
+Model1,Cooling_Tank_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,0.8852671951159989,1.2623558456293131,0.31066677014442223
+Model1,Cooling_Tank_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,0.8575490231381981,1.239902580175554,0.334970744299537
+Model1,Cooling_Tank_Temperature_C,Ridge,"{""alpha"": 5.0}",4,0.8716024798843458,1.2837019830225527,0.34721693549782806
+Model1,Cooling_Tank_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,0.9455438050562119,1.3727880990013965,0.2534696550077066
+Model1,Cooling_Tank_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,0.9811245920666631,1.409858969802152,0.21260654946376534
+Model1,Cooling_Tank_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.8951762799829325,1.3075401016440629,0.32274769893558974
+Model1,Cooling_Tank_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,0.8716024798843458,1.2837019830225527,0.34721693549782806
+Model1,Cooling_Tank_Temperature_C,Ridge,"{""alpha"": 5.0}",5,0.8778224155293225,1.253380612806137,0.3499240822059766
+Model1,Cooling_Tank_Temperature_C,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,0.9290796476024425,1.331183609525101,0.2667128821567617
+Model1,Cooling_Tank_Temperature_C,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,0.9549053444508487,1.3496870576932898,0.24618582634946662
+Model1,Cooling_Tank_Temperature_C,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.8953913097800884,1.2658699392131563,0.3369041563637719
+Model1,Cooling_Tank_Temperature_C,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,0.8778224155293225,1.253380612806137,0.3499240822059766
+Model1,Melt_Pressure_bar,Ridge,"{""alpha"": 5.0}",1,4.470235468379246,5.732397721037323,0.5477209858977081
+Model1,Melt_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,4.696017970027944,5.99380227502933,0.5055314980145525
+Model1,Melt_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,4.6829856264524174,5.976488651191046,0.5083840035163951
+Model1,Melt_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,4.544980226750198,5.832811532501054,0.5317371594760163
+Model1,Melt_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,4.470235468379246,5.732397721037323,0.5477209858977081
+Model1,Melt_Pressure_bar,Ridge,"{""alpha"": 5.0}",2,4.3924122282701115,5.603624205357587,0.563272664788586
+Model1,Melt_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,4.7998364802697004,6.058208725850829,0.4895410358235899
+Model1,Melt_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,4.8443042753802,6.105834832883696,0.4814836266098913
+Model1,Melt_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,4.545784511913087,5.747635351612197,0.5405367448114495
+Model1,Melt_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,4.3924122282701115,5.603624205357587,0.563272664788586
+Model1,Melt_Pressure_bar,Ridge,"{""alpha"": 5.0}",3,4.534332056224596,5.6795093729944846,0.5421185853355726
+Model1,Melt_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,4.994479208625915,6.227871689395064,0.44943235285459204
+Model1,Melt_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,5.061745432122468,6.229247785951906,0.44918902159026386
+Model1,Melt_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,4.719234904900585,5.89070265665537,0.5074326991178408
+Model1,Melt_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,4.534332056224596,5.6795093729944846,0.5421185853355726
+Model1,Melt_Pressure_bar,Ridge,"{""alpha"": 5.0}",4,4.52403377493669,5.653631031939826,0.5785534461427345
+Model1,Melt_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,4.79859338877698,5.962063615681579,0.5313152808386215
+Model1,Melt_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,4.90163576941033,6.086642221537449,0.5115241116861459
+Model1,Melt_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,4.609865138770578,5.708398892469999,0.5703486218051563
+Model1,Melt_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,4.52403377493669,5.653631031939826,0.5785534461427345
+Model1,Melt_Pressure_bar,Ridge,"{""alpha"": 5.0}",5,4.4403157983854324,5.63053851068793,0.5725300490361142
+Model1,Melt_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,4.779055856678476,6.025079501326101,0.5105241281932196
+Model1,Melt_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,4.83239470401399,6.070924616095738,0.5030468986162953
+Model1,Melt_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,4.561928918831849,5.763841226683106,0.5520497915720739
+Model1,Melt_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,4.4403157983854324,5.63053851068793,0.5725300490361142
+Model1,Air_Pressure_bar,Ridge,"{""alpha"": 5.0}",1,0.5098552329299711,0.6396508864049674,0.5416717672076466
+Model1,Air_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,0.5341303259651204,0.67220781191962,0.4938284764714296
+Model1,Air_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,0.5436557458798642,0.68019745157727,0.48172459552865265
+Model1,Air_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.5158531572071543,0.6494878267478245,0.527466471248394
+Model1,Air_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,0.5098552329299711,0.6396508864049674,0.5416717672076466
+Model1,Air_Pressure_bar,Ridge,"{""alpha"": 5.0}",2,0.5187053126889819,0.6546819508372907,0.5449919155337621
+Model1,Air_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,0.5448657855100297,0.6858332807887045,0.500660997680082
+Model1,Air_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,0.5483356085739398,0.6915601220115991,0.49228702541022795
+Model1,Air_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.5275695112264319,0.6640061306857981,0.531938892625823
+Model1,Air_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,0.5187053126889819,0.6546819508372907,0.5449919155337621
+Model1,Air_Pressure_bar,Ridge,"{""alpha"": 5.0}",3,0.5173087112409072,0.6380863037008414,0.5346483952134407
+Model1,Air_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,0.534339011661478,0.663861921482056,0.4962931143354571
+Model1,Air_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,0.5414857409081493,0.6726407045737682,0.48288318450388035
+Model1,Air_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,0.5230382820776194,0.6463048067981786,0.5225838102930227
+Model1,Air_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,0.5173087112409072,0.6380863037008414,0.5346483952134407
+Model1,Air_Pressure_bar,Ridge,"{""alpha"": 5.0}",4,0.5096258832607163,0.6398706092466947,0.5643517644510874
+Model1,Air_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,0.5384299690229999,0.6801519515190909,0.5077751543584426
+Model1,Air_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,0.5509985802550625,0.6937778410221506,0.4878555348661877
+Model1,Air_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.5245757290177611,0.6587900480774868,0.5382087556571052
+Model1,Air_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,0.5096258832607163,0.6398706092466947,0.5643517644510874
+Model1,Air_Pressure_bar,Ridge,"{""alpha"": 5.0}",5,0.5196442485169954,0.6519895615208591,0.5408293978360872
+Model1,Air_Pressure_bar,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,0.5519666167377627,0.6889035862128265,0.48736331589614745
+Model1,Air_Pressure_bar,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,0.5494730125771065,0.6867278161792914,0.4905963319562535
+Model1,Air_Pressure_bar,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.5303487247144442,0.6656678781515186,0.5213611009279076
+Model1,Air_Pressure_bar,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,0.5196442485169954,0.6519895615208591,0.5408293978360872
+Model1,Screw_RPM,Ridge,"{""alpha"": 5.0}",1,3.3967484325223882,4.26067882292475,0.6459098704590972
+Model1,Screw_RPM,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,3.8573205379973037,4.7778051225599025,0.5547406079160291
+Model1,Screw_RPM,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,3.7579394368622463,4.702235312383475,0.5687144151060948
+Model1,Screw_RPM,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,3.6142035096288443,4.510280919496932,0.6032075404850461
+Model1,Screw_RPM,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,3.3967484325223882,4.26067882292475,0.6459098704590972
+Model1,Screw_RPM,Ridge,"{""alpha"": 5.0}",2,3.3269205684727012,4.189691252377047,0.6479795273589414
+Model1,Screw_RPM,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,3.753315094433922,4.677954372655002,0.5611502607045609
+Model1,Screw_RPM,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,3.6892871950113375,4.590779340851081,0.577354043066496
+Model1,Screw_RPM,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,3.4404262672910146,4.327366587472862,0.6244642762663375
+Model1,Screw_RPM,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,3.3269205684727012,4.189691252377047,0.6479795273589414
+Model1,Screw_RPM,Ridge,"{""alpha"": 5.0}",3,3.37406304505057,4.262542584184817,0.6196804453217435
+Model1,Screw_RPM,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,3.6200389748301465,4.5799201778843015,0.5609368265230739
+Model1,Screw_RPM,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,3.6564216293225615,4.545678166551422,0.5674776406947698
+Model1,Screw_RPM,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,3.4900888490575177,4.420410842396711,0.5909876088450962
+Model1,Screw_RPM,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,3.37406304505057,4.262542584184817,0.6196804453217435
+Model1,Screw_RPM,Ridge,"{""alpha"": 5.0}",4,3.346059766186612,4.28456929147187,0.6460829572324768
+Model1,Screw_RPM,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,3.634294016926938,4.642678275089427,0.5844490174822925
+Model1,Screw_RPM,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,3.60478421832483,4.61635644724052,0.5891476220014681
+Model1,Screw_RPM,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,3.4796146109324173,4.446911018277903,0.6187551254903827
+Model1,Screw_RPM,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,3.346059766186612,4.28456929147187,0.6460829572324768
+Model1,Screw_RPM,Ridge,"{""alpha"": 5.0}",5,3.3837343590979843,4.183671010256403,0.6552994160844212
+Model1,Screw_RPM,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,3.5684164744731537,4.522192687808942,0.5972596951813107
+Model1,Screw_RPM,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,3.6316081226615653,4.581888617345362,0.5865566387741697
+Model1,Screw_RPM,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,3.4345915305383867,4.323313210854069,0.6319046191965225
+Model1,Screw_RPM,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,3.3837343590979843,4.183671010256403,0.6552994160844212
+Model1,Line_Speed_m_min,Ridge,"{""alpha"": 5.0}",1,0.6239039192552001,0.7736650899217766,0.8186766867099147
+Model1,Line_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,0.6138944402951494,0.7757099132547121,0.8177169325965767
+Model1,Line_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,0.6274361771920643,0.7897865844364986,0.8110411880240982
+Model1,Line_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.5952725481612928,0.7445478824995074,0.8320682125352764
+Model1,Line_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.5952725481612928,0.7445478824995074,0.8320682125352764
+Model1,Line_Speed_m_min,Ridge,"{""alpha"": 5.0}",2,0.5978894318690199,0.7479324596085247,0.8103064187749148
+Model1,Line_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,0.6042863221090253,0.7454585716548499,0.8115592178873735
+Model1,Line_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,0.6156593131413021,0.7572990583725097,0.8055254809853336
+Model1,Line_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.569698597449208,0.7058101817356403,0.8310711947768602
+Model1,Line_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.569698597449208,0.7058101817356403,0.8310711947768602
+Model1,Line_Speed_m_min,Ridge,"{""alpha"": 5.0}",3,0.6007829310493459,0.7426759873839767,0.8247658078914822
+Model1,Line_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,0.6111383836816903,0.7657472883978456,0.8137093657706823
+Model1,Line_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,0.6078580697353242,0.7565785307971353,0.8181437997203889
+Model1,Line_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,0.5903776796476083,0.73380467315092,0.8289271729060659
+Model1,Line_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,0.5903776796476083,0.73380467315092,0.8289271729060659
+Model1,Line_Speed_m_min,Ridge,"{""alpha"": 5.0}",4,0.6141311987477777,0.7560283614002596,0.8103803276468959
+Model1,Line_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,0.6170194488170678,0.7582926383277271,0.8092428190112495
+Model1,Line_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,0.6192966491251805,0.7697613723540045,0.8034290014099427
+Model1,Line_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.5973307914971965,0.7337183706984325,0.8214063545283565
+Model1,Line_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.5973307914971965,0.7337183706984325,0.8214063545283565
+Model1,Line_Speed_m_min,Ridge,"{""alpha"": 5.0}",5,0.6565875328654285,0.7999380223872887,0.7860430903578947
+Model1,Line_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,0.6404548746601211,0.7988872875072678,0.7866047947248163
+Model1,Line_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,0.6425654495747389,0.8022135908762178,0.7848240806647295
+Model1,Line_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.6118097418709679,0.762138364643677,0.8057856642142976
+Model1,Line_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.6118097418709679,0.762138364643677,0.8057856642142976
+Model1,Puller_Speed_m_min,Ridge,"{""alpha"": 5.0}",1,0.8084492883751813,1.047680756043488,0.7014664229785087
+Model1,Puller_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,0.8365339584362113,1.073667183989069,0.6864732433598392
+Model1,Puller_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,0.8545413579377411,1.0930010595711894,0.6750800206049554
+Model1,Puller_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.8091636964682549,1.0345359994772771,0.7089105493246094
+Model1,Puller_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,0.8091636964682549,1.0345359994772771,0.7089105493246094
+Model1,Puller_Speed_m_min,Ridge,"{""alpha"": 5.0}",2,0.7839116870211359,1.0086487901646066,0.7065195694934603
+Model1,Puller_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,0.8081910817233477,1.0260940952900734,0.6962798676290276
+Model1,Puller_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,0.8148833449970604,1.0348615848677296,0.6910674030776669
+Model1,Puller_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.7780181780037239,0.9920998018893173,0.7160708845722525
+Model1,Puller_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,0.7780181780037239,0.9920998018893173,0.7160708845722525
+Model1,Puller_Speed_m_min,Ridge,"{""alpha"": 5.0}",3,0.8079634178843921,1.0318832760889607,0.7175338458634439
+Model1,Puller_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,0.8422513744509047,1.0559414652593444,0.7042089984496377
+Model1,Puller_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,0.8374625112873083,1.0508831284179254,0.7070360999096363
+Model1,Puller_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,0.8080650775115957,1.0207325647659953,0.7236056187450355
+Model1,Puller_Speed_m_min,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,0.8079634178843921,1.0318832760889607,0.7175338458634439
+Model1,Puller_Speed_m_min,Ridge,"{""alpha"": 5.0}",4,0.8318608496592137,1.0627649592263673,0.696439986817815
+Model1,Puller_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,0.8480785617170288,1.0691489411634976,0.6927820902551648
+Model1,Puller_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,0.8654816536446223,1.0920441806228314,0.6794833998285724
+Model1,Puller_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.8272729869525925,1.0438185010467367,0.7071669506222266
+Model1,Puller_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,0.8272729869525925,1.0438185010467367,0.7071669506222266
+Model1,Puller_Speed_m_min,Ridge,"{""alpha"": 5.0}",5,0.827225012174935,1.0545654554326478,0.6859089049878141
+Model1,Puller_Speed_m_min,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,0.8794573129697802,1.1166836625762269,0.64781661258932
+Model1,Puller_Speed_m_min,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,0.8656844036608233,1.1086969066880272,0.6528363759463351
+Model1,Puller_Speed_m_min,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.8299948740279671,1.064498457162271,0.6799641616570606
+Model1,Puller_Speed_m_min,inner_selected,"{""family"": ""HistGradientBoosting"", ""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,0.8299948740279671,1.064498457162271,0.6799641616570606
+Model1,Extrusion_Speed_kg_hr,Ridge,"{""alpha"": 5.0}",1,5.2368847032642485,6.557459599291189,0.6907116284583865
+Model1,Extrusion_Speed_kg_hr,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",1,5.77027128850066,7.132202006539383,0.6341192039223735
+Model1,Extrusion_Speed_kg_hr,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",1,5.71682478905073,7.031069721749144,0.6444217781245978
+Model1,Extrusion_Speed_kg_hr,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",1,5.501569099505737,6.835841741167969,0.663893939023928
+Model1,Extrusion_Speed_kg_hr,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",1,5.2368847032642485,6.557459599291189,0.6907116284583865
+Model1,Extrusion_Speed_kg_hr,Ridge,"{""alpha"": 5.0}",2,5.445415414299186,6.808188674465411,0.6772666153619034
+Model1,Extrusion_Speed_kg_hr,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",2,6.040418838885266,7.500219389706551,0.6083224663940163
+Model1,Extrusion_Speed_kg_hr,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",2,5.882635579229798,7.3120041929191295,0.6277338133430799
+Model1,Extrusion_Speed_kg_hr,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",2,5.658011264179595,7.033541310468303,0.6555479195558864
+Model1,Extrusion_Speed_kg_hr,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",2,5.445415414299186,6.808188674465411,0.6772666153619034
+Model1,Extrusion_Speed_kg_hr,Ridge,"{""alpha"": 5.0}",3,5.499640857085192,6.849236786864306,0.6698591243643666
+Model1,Extrusion_Speed_kg_hr,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",3,6.100117458975631,7.646198567619034,0.5885604066180183
+Model1,Extrusion_Speed_kg_hr,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",3,5.945747619999954,7.426647434294216,0.611849140751504
+Model1,Extrusion_Speed_kg_hr,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",3,5.683780296674727,7.118163564776771,0.6434250219790376
+Model1,Extrusion_Speed_kg_hr,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",3,5.499640857085192,6.849236786864306,0.6698591243643666
+Model1,Extrusion_Speed_kg_hr,Ridge,"{""alpha"": 5.0}",4,5.36213514831903,6.791495730701686,0.6792615118951153
+Model1,Extrusion_Speed_kg_hr,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",4,5.890029714330808,7.440581936031841,0.615023676507533
+Model1,Extrusion_Speed_kg_hr,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",4,5.852517750425169,7.337896088158101,0.6255763017979064
+Model1,Extrusion_Speed_kg_hr,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",4,5.567734897491744,7.027433487020997,0.656589396095456
+Model1,Extrusion_Speed_kg_hr,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",4,5.36213514831903,6.791495730701686,0.6792615118951153
+Model1,Extrusion_Speed_kg_hr,Ridge,"{""alpha"": 5.0}",5,5.584653048412032,7.010098355892865,0.6707178052176106
+Model1,Extrusion_Speed_kg_hr,RandomForest,"{""max_depth"": 20, ""max_features"": 1.0, ""min_samples_leaf"": 2, ""n_estimators"": 60}",5,6.0067106989989165,7.528156183686134,0.6202504514231105
+Model1,Extrusion_Speed_kg_hr,ExtraTrees,"{""max_depth"": 20, ""max_features"": 0.8, ""min_samples_leaf"": 2, ""n_estimators"": 70}",5,5.975082414576248,7.4819420565239,0.6248985819439636
+Model1,Extrusion_Speed_kg_hr,HistGradientBoosting,"{""l2_regularization"": 3.0, ""max_iter"": 120, ""max_leaf_nodes"": 15}",5,5.847822273449359,7.252659297929362,0.6475361523329628
+Model1,Extrusion_Speed_kg_hr,inner_selected,"{""alpha"": 5.0, ""family"": ""Ridge""}",5,5.584653048412032,7.010098355892865,0.6707178052176106
+Model1,Extruder_Temperature_C,Saved_Model1,,1,3.726898877552602,4.7586246435280115,0.6342980796011626
+Model1,Die_Temperature_C,Saved_Model1,,1,4.7494124473571775,5.813847174842888,0.5384925838325658
+Model1,Cooling_Tank_Temperature_C,Saved_Model1,,1,1.0030898107971526,1.3822168921734266,0.2616130008085499
+Model1,Melt_Pressure_bar,Saved_Model1,,1,4.662944065166314,5.957370864435774,0.5115241675974147
+Model1,Air_Pressure_bar,Saved_Model1,,1,0.5160361098197714,0.6517067867500068,0.5242321561434874
+Model1,Screw_RPM,Saved_Model1,,1,3.557599259955796,4.458630564715124,0.612243395887516
+Model1,Line_Speed_m_min,Saved_Model1,,1,1.8819213056087494,2.0748505169916847,-0.3041311597049168
+Model1,Puller_Speed_m_min,Saved_Model1,,1,1.9132245211023895,2.187455170058921,-0.30140830450977996
+Model1,Extrusion_Speed_kg_hr,Saved_Model1,,1,5.537380900037288,6.921923590151747,0.6553756606422956
+Model1,Extruder_Temperature_C,Saved_Model1,,2,3.6993884957766965,4.679732867729701,0.6568897563433318
+Model1,Die_Temperature_C,Saved_Model1,,2,4.840776871490479,6.02886341724745,0.5263862388244588
+Model1,Cooling_Tank_Temperature_C,Saved_Model1,,2,0.990372520912479,1.3534364848496545,0.23892970989815165
+Model1,Melt_Pressure_bar,Saved_Model1,,2,4.670054734343266,5.891336527867201,0.5172747308277843
+Model1,Air_Pressure_bar,Saved_Model1,,2,0.5149736527674181,0.6545169007323071,0.5452213083419599
+Model1,Screw_RPM,Saved_Model1,,2,3.46338144447875,4.351344055992434,0.6202911414039858
+Model1,Line_Speed_m_min,Saved_Model1,,2,1.8357587786674499,2.029452263916849,-0.3966434639653562
+Model1,Puller_Speed_m_min,Saved_Model1,,2,1.8825389190030228,2.1458208673697468,-0.32826929162825724
+Model1,Extrusion_Speed_kg_hr,Saved_Model1,,2,5.709458472498251,7.16029624265387,0.6430209672259313
+Model1,Extruder_Temperature_C,Saved_Model1,,3,3.514960145350189,4.475309846596104,0.6659497380890195
+Model1,Die_Temperature_C,Saved_Model1,,3,4.746287525939941,5.977903572596469,0.526327227902927
+Model1,Cooling_Tank_Temperature_C,Saved_Model1,,3,0.9817924000296739,1.3378533034950213,0.22574750368941143
+Model1,Melt_Pressure_bar,Saved_Model1,,3,4.606144580063969,5.798179138252827,0.5227843993300976
+Model1,Air_Pressure_bar,Saved_Model1,,3,0.53361145367712,0.6637514445068846,0.49646074974562937
+Model1,Screw_RPM,Saved_Model1,,3,3.43337249339386,4.381760540365147,0.5981088207077356
+Model1,Line_Speed_m_min,Saved_Model1,,3,1.9044440461158751,2.0841479352246717,-0.37999391361049817
+Model1,Puller_Speed_m_min,Saved_Model1,,3,1.9870152445347735,2.2533426019767564,-0.3469755869242983
+Model1,Extrusion_Speed_kg_hr,Saved_Model1,,3,5.65226712987788,7.079336733851167,0.6473043702348251
+Model1,Extruder_Temperature_C,Saved_Model1,,4,3.8910718653735183,4.8533367133337855,0.6515923193959903
+Model1,Die_Temperature_C,Saved_Model1,,4,4.786877571105957,5.9326388647437165,0.5618034416619799
+Model1,Cooling_Tank_Temperature_C,Saved_Model1,,4,1.0043277093286511,1.3941352713514443,0.2300716977869739
+Model1,Melt_Pressure_bar,Saved_Model1,,4,4.730698642431374,5.8760000719216965,0.5447487282520309
+Model1,Air_Pressure_bar,Saved_Model1,,4,0.5229547004805792,0.6585353638282705,0.5385657380458373
+Model1,Screw_RPM,Saved_Model1,,4,3.5211342326657973,4.4631502336856625,0.6159655837313714
+Model1,Line_Speed_m_min,Saved_Model1,,4,1.9256158241271972,2.113109327899136,-0.48132772225837606
+Model1,Puller_Speed_m_min,Saved_Model1,,4,1.9058473342926396,2.187869269710444,-0.28650905188575027
+Model1,Extrusion_Speed_kg_hr,Saved_Model1,,4,5.626483678048624,7.098584512514691,0.6496002980512459
+Model1,Extruder_Temperature_C,Saved_Model1,,5,3.7407188031883254,4.885454829793198,0.6240569518961072
+Model1,Die_Temperature_C,Saved_Model1,,5,4.674498006439209,5.858633208282308,0.5223348536831369
+Model1,Cooling_Tank_Temperature_C,Saved_Model1,,5,1.0458960542157067,1.413387254299155,0.17335227773487027
+Model1,Melt_Pressure_bar,Saved_Model1,,5,4.584595745380722,5.794566745201608,0.5472612532748846
+Model1,Air_Pressure_bar,Saved_Model1,,5,0.5314485204952372,0.6680430262409998,0.5179393752835092
+Model1,Screw_RPM,Saved_Model1,,5,3.49447297736912,4.342164441122925,0.6286875591096422
+Model1,Line_Speed_m_min,Saved_Model1,,5,1.8701048750400542,2.0790218933121123,-0.4452126749673686
+Model1,Puller_Speed_m_min,Saved_Model1,,5,1.874820591933488,2.1540301057029847,-0.3104247272529803
+Model1,Extrusion_Speed_kg_hr,Saved_Model1,,5,5.8594179820592505,7.324967054926448,0.6404731113017343

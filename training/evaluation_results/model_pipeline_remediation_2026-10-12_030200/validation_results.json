@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "all_downstream_outer_rows_once": true,
+    "all_downstream_saved_test_rows_once": true,
+    "cv_summary_recomputed_from_fold_metrics": true,
+    "downstream_prediction_schema": true,
+    "fold_metrics_recomputed_from_saved_predictions": true,
+    "manifest_has_no_prohibited_feature": true,
+    "no_process_prediction_out_of_existing_synthetic_bounds": true,
+    "outer_folds_have_800_rows": true,
+    "outer_training_excludes_outer_validation": true,
+    "process_metrics_have_nine_targets": true,
+    "process_outer_rows_cover_training_partition": true,
+    "saved_test_partition_excluded_from_upstream_fitting": true,
+    "scrap_metrics_include_percentage_points": true,
+    "upstream_oof_fit_predict_disjoint": true
+  },
+  "downstream_prediction_rows": 30000,
+  "outer_cv_rows_per_target_configuration": 4000,
+  "passed": true,
+  "process_outer_prediction_rows": 36000,
+  "saved_test_rows_per_target_configuration": 1000,
+  "upstream_oof_audit_rows": 216
+}
