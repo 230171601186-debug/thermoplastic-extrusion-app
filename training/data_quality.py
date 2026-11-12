@@ -8,14 +8,24 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from config import (
-    CATEGORICAL_FEATURES,
-    CUSTOMER_NUMERIC_FEATURES,
-    EFFICIENCY_TARGET,
-    MODEL1_FEATURES,
-    PROCESS_TARGETS,
-    SCRAP_TARGET,
-)
+try:
+    from .config import (
+        CATEGORICAL_FEATURES,
+        CUSTOMER_NUMERIC_FEATURES,
+        EFFICIENCY_TARGET,
+        MODEL1_FEATURES,
+        PROCESS_TARGETS,
+        SCRAP_TARGET,
+    )
+except ImportError:  # Support the training scripts' direct-module execution.
+    from config import (
+        CATEGORICAL_FEATURES,
+        CUSTOMER_NUMERIC_FEATURES,
+        EFFICIENCY_TARGET,
+        MODEL1_FEATURES,
+        PROCESS_TARGETS,
+        SCRAP_TARGET,
+    )
 
 REQUIRED_MODEL_COLUMNS = (
     MODEL1_FEATURES + PROCESS_TARGETS + [EFFICIENCY_TARGET, SCRAP_TARGET]
