@@ -38,8 +38,8 @@ jobs:
       - name: Compile application and training modules
         run: python -m compileall -q app training
 
-      - name: Run application tests
-        run: python -m pytest app/tests -q
+      - name: Run application and candidate-inference tests
+        run: python -m pytest app/tests training/evaluation_results/controlled_stacking/bundle_audit/tests -q
 
   training-smoke:
     runs-on: ubuntu-latest
