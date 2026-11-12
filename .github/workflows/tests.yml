@@ -40,3 +40,24 @@ jobs:
 
       - name: Run application tests
         run: python -m pytest app/tests -q
+
+  training-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: training/ml_requirements.txt
+
+      - name: Install ML training dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r training/ml_requirements.txt pytest
+
+      - name: Test leakage-safe Model 3 feature generation
+        run: python -m pytest training/tests -q
