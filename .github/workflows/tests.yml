@@ -35,11 +35,73 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-app.txt pytest
 
+      - name: Verify installed dependency consistency
+        run: python -m pip check
+
       - name: Compile application and training modules
         run: python -m compileall -q app training
 
       - name: Run application and candidate-inference tests
         run: python -m pytest app/tests training/evaluation_results/controlled_stacking/bundle_audit/tests -q
+
+  streamlit-server-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-app.txt
+
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-app.txt
+
+      - name: Verify dependency consistency
+        run: python -m pip check
+
+      - name: Start Streamlit and verify HTTP health
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m streamlit run app/streamlit_app.py             --server.headless true             --server.address 127.0.0.1             --server.port 8501             --browser.gatherUsageStats false > streamlit.log 2>&1 &
+          STREAMLIT_PID=$!
+          cleanup() {
+            kill "$STREAMLIT_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          python - <<'PY'
+          import time
+          import urllib.error
+          import urllib.request
+
+          health_url = "http://127.0.0.1:8501/_stcore/health"
+          app_url = "http://127.0.0.1:8501/"
+          deadline = time.monotonic() + 90
+          last_error = None
+          while time.monotonic() < deadline:
+              try:
+                  with urllib.request.urlopen(health_url, timeout=3) as response:
+                      if response.status == 200:
+                          break
+              except (OSError, urllib.error.URLError) as error:
+                  last_error = error
+                  time.sleep(1)
+          else:
+              raise SystemExit(f"Streamlit health endpoint did not become ready: {last_error}")
+
+          with urllib.request.urlopen(app_url, timeout=10) as response:
+              body = response.read().decode("utf-8", errors="replace")
+              if response.status != 200 or "streamlit" not in body.lower():
+                  raise SystemExit("Streamlit root page did not return the expected HTML")
+          print("Streamlit health endpoint and root page returned HTTP 200.")
+          PY
+          cat streamlit.log
 
   training-smoke:
     runs-on: ubuntu-latest
