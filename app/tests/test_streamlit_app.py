@@ -20,6 +20,7 @@ from app.streamlit_app import (
     build_customer_inputs,
     build_prediction_report,
     build_process_chart_data,
+    build_validation_summary,
     efficiency_percentage,
     execute_prediction,
     format_scrap_percentage,
@@ -187,6 +188,56 @@ class StreamlitAppHelperTests(unittest.TestCase):
                 result.predictions.loc[0, target] = invalid
                 with self.assertRaises(PredictionOutputError):
                     validate_prediction_outputs(result)
+
+    def test_validation_summary_uses_saved_held_out_candidate_rows(self):
+        metadata = {
+            "model1": {
+                "targets": {
+                    "Extruder_Temperature_C": {
+                        "test_metrics": {"MAE": 3.7, "R2": 0.62}
+                    }
+                }
+            }
+        }
+        model2 = pd.DataFrame(
+            [
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "customer_only_fixed_RF",
+                    "MAE_percentage_points": 6.49,
+                    "R2": 0.21,
+                },
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "corrected_candidate_full_stack_RF",
+                    "MAE_percentage_points": 6.37,
+                    "R2": 0.23,
+                },
+            ]
+        )
+        model3 = pd.DataFrame(
+            [
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "corrected_candidate_full_stack_RF",
+                    "MAE_percentage_points": 2.09,
+                    "R2": 0.35,
+                }
+            ]
+        )
+
+        summary = build_validation_summary(metadata, model2, model3)
+
+        self.assertEqual(len(summary), 3)
+        self.assertAlmostEqual(
+            summary.loc[summary["Model"] == "Operational efficiency", "Held-out R²"].iloc[0],
+            0.23,
+        )
+        self.assertAlmostEqual(
+            summary.loc[summary["Model"] == "Scrap rate", "MAE"].iloc[0],
+            2.09,
+        )
+        self.assertTrue((summary["Test rows"] == 1000).all())
 
     def test_process_chart_data_groups_shared_units_and_preserves_values(self):
         predictions = {
