@@ -553,7 +553,7 @@ def main() -> None:
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
         layout="wide",
-        initial_sidebar_state="collapsed",
+        initial_sidebar_state="expanded",
     )
     st.markdown(
         """
