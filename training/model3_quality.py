@@ -58,6 +58,7 @@ from preprocessing import (  # noqa: E402
     attach_predicted_process,
     load_dataset,
     load_process_pipelines,
+    make_regressor_pipeline,
     make_stacked_pipeline,
     merge_metadata,
     require_columns,
