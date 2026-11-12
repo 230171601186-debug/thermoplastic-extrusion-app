@@ -2,9 +2,13 @@ name: Application tests
 
 on:
   push:
-    branches: ["main", "feature/**"]
+    branches: ["main"]
   pull_request:
   workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -69,7 +73,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m streamlit run app/streamlit_app.py             --server.headless true             --server.address 127.0.0.1             --server.port 8501             --browser.gatherUsageStats false > streamlit.log 2>&1 &
+          python -m streamlit run app/streamlit_app.py \
+            --server.headless true \
+            --server.address 127.0.0.1 \
+            --server.port 8501 \
+            --browser.gatherUsageStats false > streamlit.log 2>&1 &
           STREAMLIT_PID=$!
           cleanup() {
             kill "$STREAMLIT_PID" 2>/dev/null || true
@@ -102,6 +110,26 @@ jobs:
           print("Streamlit health endpoint and root page returned HTTP 200.")
           PY
           cat streamlit.log
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install pip-audit
+        run: python -m pip install --upgrade pip pip-audit
+
+      - name: Audit application runtime dependencies
+        run: pip-audit -r requirements-app.txt
+
+      - name: Audit ML training dependencies
+        run: pip-audit -r training/ml_requirements.txt
 
   training-smoke:
     runs-on: ubuntu-latest
