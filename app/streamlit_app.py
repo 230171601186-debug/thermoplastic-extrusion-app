@@ -21,6 +21,11 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from training.config import CATEGORICAL_FEATURES, CUSTOMER_NUMERIC_FEATURES, MODEL1_FEATURES  # noqa: E402
+from app.production_intelligence import (  # noqa: E402
+    append_prediction_history,
+    audit_downtime_records,
+    history_frame,
+)
 from training.evaluation_results.controlled_stacking.bundle_audit.candidate_inference import (  # noqa: E402
     CandidateInferenceBundle,
     InferenceValidationError,
@@ -740,7 +745,7 @@ def main() -> None:
         st.markdown("**WORKSPACE**")
         workspace = st.radio(
             "Workspace navigation",
-            ("Production planning", "Process intelligence", "Model governance"),
+            ("Production planning", "Process intelligence", "Production intelligence", "Model governance"),
             index=0,
             key="workspace_navigation",
             label_visibility="collapsed",
