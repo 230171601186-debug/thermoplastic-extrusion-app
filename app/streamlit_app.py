@@ -451,6 +451,83 @@ def main() -> None:
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
         layout="wide",
+        initial_sidebar_state="collapsed",
+    )
+    st.markdown(
+        """
+        <style>
+        :root {
+            --app-ink: #17233b;
+            --app-muted: #64748b;
+            --app-border: #e5eaf2;
+            --app-surface: #ffffff;
+            --app-accent: #1769aa;
+        }
+        .stApp {
+            background:
+                radial-gradient(ellipse at 12% 0%, rgba(23, 105, 170, .07), transparent 34%),
+                #f5f7fb;
+            color: var(--app-ink);
+        }
+        [data-testid="stHeader"] { background: rgba(245,247,251,.82); }
+        [data-testid="stMainBlockContainer"] {
+            max-width: 1440px;
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+        h1, h2, h3 { color: var(--app-ink); letter-spacing: -.025em; }
+        h1 { font-weight: 760 !important; }
+        [data-testid="stMetric"] {
+            background: var(--app-surface);
+            border: 1px solid var(--app-border);
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, .035);
+        }
+        [data-testid="stForm"], [data-testid="stVerticalBlockBorderWrapper"] {
+            border-color: var(--app-border) !important;
+            border-radius: 16px !important;
+            background: rgba(255,255,255,.88);
+        }
+        [data-testid="stDownloadButton"] button,
+        [data-testid="stFormSubmitButton"] button {
+            border-radius: 10px;
+            min-height: 2.8rem;
+            font-weight: 650;
+        }
+        [data-testid="stAlert"] { border-radius: 12px; }
+        [data-testid="stDataFrame"], [data-testid="stTable"] {
+            border: 1px solid var(--app-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .app-eyebrow {
+            color: var(--app-accent);
+            font-size: .76rem;
+            font-weight: 750;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: .35rem;
+        }
+        .app-subtitle {
+            color: var(--app-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 850px;
+            margin-top: -.25rem;
+            margin-bottom: 1.25rem;
+        }
+        @media (max-width: 768px) {
+            [data-testid="stMainBlockContainer"] {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-top: 1rem;
+            }
+        }
+        </style>
+        <div class="app-eyebrow">Manufacturing intelligence · Decision support prototype</div>
+        """,
+        unsafe_allow_html=True,
     )
     st.title(APP_TITLE)
     st.caption(
