@@ -86,14 +86,27 @@ Training and evaluation can be computationally expensive. Do not retrain product
 
 ## Validation
 
-Run the existing application tests with:
+The app includes a **Model validation & limitations** panel sourced from the saved held-out evaluation artifacts. It reports per-target process-model metrics and the downstream candidate-model results on the fixed 1,000-row synthetic test split. These scores are shown as evidence, not as a production-readiness badge.
+
+Run the application tests with:
 
 ```bash
 python -m pip install pytest
 python -m pytest app/tests -q
 ```
 
-The GitHub Actions workflow runs this test suite on supported Python versions for pushes and pull requests.
+Run the full ML training stack only in a separate environment:
+
+```bash
+python -m pip install -r training/ml_requirements.txt
+python training/model1_process_parameters.py
+python training/model2_efficiency.py
+python training/model3_quality.py
+```
+
+Model 3 training now uses out-of-fold Model 1 predictions for downstream training rows, matching the leakage-control approach already used by Model 2. Held-out test rows are still transformed by Model 1 pipelines fitted only on the training split.
+
+The GitHub Actions workflow runs the application contract tests on supported Python versions. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
 ## Data and model governance
 
