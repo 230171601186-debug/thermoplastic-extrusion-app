@@ -567,29 +567,83 @@ def main() -> None:
     st.markdown(
         """
         <style>
-        :root { --ink:#14233b; --muted:#68788f; --border:#dce4ee; }
-        .stApp { background:linear-gradient(145deg,#edf3f9 0%,#f7f9fc 48%,#f1f5f9 100%); color:var(--ink); }
-        [data-testid="stHeader"] { background:rgba(246,248,251,.9); }
-        [data-testid="stMainBlockContainer"] { max-width:1520px; padding:1.35rem 2.4rem 3.5rem; }
-        [data-testid="stSidebar"] { background:linear-gradient(180deg,#10243d,#1b3859); }
-        [data-testid="stSidebar"] * { color:#e7eef7; }
-        [data-testid="stSidebar"] hr { border-color:rgba(255,255,255,.16); }
-        h1,h2,h3 { color:var(--ink); letter-spacing:-.035em; }
-        h1 { font-weight:780 !important; letter-spacing:-.045em; }
-        [data-testid="stMetric"] { background:linear-gradient(145deg,#fff,#f8fbff); border:1px solid var(--border); border-radius:16px; padding:1.15rem 1.25rem; box-shadow:0 5px 18px rgba(20,35,59,.055); min-height:122px; }
-        [data-testid="stMetricLabel"] { color:#63748b !important; font-weight:650; }
-        [data-testid="stMetricValue"] { color:#142b49 !important; font-weight:760; }
-        [data-testid="stForm"],[data-testid="stVerticalBlockBorderWrapper"] { border-color:var(--border) !important; border-radius:17px !important; background:rgba(255,255,255,.95); box-shadow:0 4px 18px rgba(20,35,59,.035); }
-        [data-testid="stDownloadButton"] button,[data-testid="stFormSubmitButton"] button { border-radius:10px; min-height:2.9rem; font-weight:700; }
-        [data-testid="stAlert"] { border-radius:13px; }
-        [data-testid="stDataFrame"],[data-testid="stTable"] { border:1px solid var(--border); border-radius:12px; overflow:hidden; }
-        .app-eyebrow { color:#3676aa; font-size:.72rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; margin-bottom:.55rem; }
-        .app-subtitle { color:var(--muted); font-size:1.02rem; line-height:1.65; max-width:900px; margin-top:-.3rem; margin-bottom:1.1rem; }
-        .app-header { padding:.4rem 0 1.1rem; border-bottom:1px solid var(--border); margin-bottom:1.2rem; }
-        .app-status { display:inline-flex; align-items:center; gap:.45rem; color:#276247; background:#e8f5ee; border:1px solid #cde8d8; border-radius:999px; padding:.32rem .7rem; font-size:.76rem; font-weight:700; }
-        .app-status-dot { width:.45rem; height:.45rem; border-radius:50%; background:#26945c; display:inline-block; }
-        .app-section-kicker { color:#718198; font-size:.74rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
-        @media(max-width:900px) { [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; } }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+        :root {
+            --bg:#080f1b; --panel:#111d2d; --panel-2:#162438;
+            --line:rgba(148,174,207,.17); --text:#e8f0fb; --muted:#91a4bd;
+            --cyan:#42c8f5; --blue:#4c83ff; --green:#39d6a0;
+        }
+        html, body, [class*="css"] { font-family:'Manrope',sans-serif; }
+        .stApp {
+            background:
+              radial-gradient(ellipse at 78% -12%,rgba(42,111,202,.23),transparent 36%),
+              radial-gradient(ellipse at 8% 25%,rgba(23,172,190,.09),transparent 28%),
+              linear-gradient(145deg,#080f1b 0%,#0b1422 55%,#0c1727 100%);
+            color:var(--text);
+        }
+        [data-testid="stHeader"] { background:rgba(8,15,27,.84); backdrop-filter:blur(16px); }
+        [data-testid="stMainBlockContainer"] { max-width:1580px; padding:1.5rem 2.5rem 4rem; }
+        [data-testid="stSidebar"] {
+            background:linear-gradient(180deg,#0d1a2b 0%,#101f33 58%,#0c1929 100%);
+            border-right:1px solid var(--line);
+        }
+        [data-testid="stSidebar"] * { color:#dce8f7; }
+        [data-testid="stSidebar"] hr { border-color:var(--line); }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label { color:#c8d8eb; font-weight:650; }
+        h1,h2,h3 { color:#edf5ff; letter-spacing:-.045em; }
+        h1 { font-size:clamp(2.1rem,4vw,3.25rem)!important; font-weight:800!important; }
+        h2 { font-weight:760!important; }
+        h3 { font-weight:700!important; }
+        p, label, [data-testid="stMarkdownContainer"] { color:inherit; }
+        [data-testid="stMetric"] {
+            background:linear-gradient(145deg,rgba(22,39,60,.98),rgba(15,29,46,.98));
+            border:1px solid rgba(115,161,213,.22); border-radius:18px;
+            padding:1.2rem 1.3rem; min-height:132px;
+            box-shadow:0 14px 34px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        [data-testid="stMetricLabel"] { color:#9eb3cc!important; font-weight:700; }
+        [data-testid="stMetricValue"] { color:#f2f8ff!important; font-weight:800; }
+        [data-testid="stMetricDelta"] { font-family:'DM Mono',monospace; }
+        [data-testid="stForm"],[data-testid="stVerticalBlockBorderWrapper"] {
+            background:linear-gradient(145deg,rgba(18,32,50,.97),rgba(13,25,41,.98))!important;
+            border:1px solid var(--line)!important; border-radius:20px!important;
+            box-shadow:0 18px 48px rgba(0,0,0,.17),inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        [data-testid="stTextInput"] input,[data-testid="stNumberInput"] input,
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div {
+            background:#0b1726!important; color:#edf5ff!important;
+            border-color:#2a405b!important; border-radius:10px!important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] * { color:#edf5ff!important; }
+        [data-testid="stFormSubmitButton"] button,[data-testid="stDownloadButton"] button {
+            border-radius:11px; min-height:3rem; font-weight:800;
+            border:1px solid rgba(76,131,255,.45);
+            box-shadow:0 8px 24px rgba(41,103,220,.18);
+        }
+        [data-testid="stFormSubmitButton"] button[kind="primary"] {
+            background:linear-gradient(105deg,#2368e8,#19a9d1); color:white;
+        }
+        [data-testid="stAlert"] { border-radius:14px; border:1px solid var(--line); }
+        [data-testid="stDataFrame"],[data-testid="stTable"] {
+            border:1px solid var(--line); border-radius:13px; overflow:hidden;
+        }
+        [data-testid="stExpander"] { border:1px solid var(--line); border-radius:13px; background:rgba(17,29,45,.65); }
+        [data-testid="stExpander"] summary { color:#e4efff; font-weight:700; }
+        [data-testid="stPlotlyChart"],[data-testid="stVegaLiteChart"] {
+            background:rgba(12,24,39,.55); border:1px solid var(--line);
+            border-radius:15px; padding:.35rem;
+        }
+        .app-eyebrow { color:#6bbbe7; font-family:'DM Mono',monospace; font-size:.72rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.7rem; }
+        .app-subtitle { color:#9db0c8; font-size:1.02rem; line-height:1.7; max-width:880px; margin-top:-.35rem; margin-bottom:1.3rem; }
+        .app-header { padding:.4rem 0 1.3rem; border-bottom:1px solid var(--line); margin-bottom:1.35rem; }
+        .app-status { display:inline-flex; align-items:center; gap:.5rem; color:#83f0c3; background:rgba(35,174,125,.11); border:1px solid rgba(57,214,160,.28); border-radius:999px; padding:.38rem .8rem; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.08em; }
+        .app-status-dot { width:.46rem; height:.46rem; border-radius:50%; background:#39d6a0; box-shadow:0 0 12px #39d6a0; display:inline-block; }
+        .app-section-kicker { color:#61bce8; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; margin-top:.7rem; }
+        .app-hero-line { height:2px; width:72px; background:linear-gradient(90deg,#42c8f5,#4c83ff); border-radius:2px; margin:.8rem 0 1.1rem; }
+        @media(max-width:900px) {
+            [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; }
+            h1 { font-size:2rem!important; }
+        }
         </style>
         <div class="app-header">
           <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
@@ -608,9 +662,13 @@ def main() -> None:
         st.caption("PROCESS ANALYTICS PLATFORM")
         st.divider()
         st.markdown("**WORKSPACE**")
-        st.markdown("01  ·  Production planning")
-        st.markdown("02  ·  Process estimates")
-        st.markdown("03  ·  Model governance")
+        workspace = st.radio(
+            "Workspace navigation",
+            ("Production planning", "Process intelligence", "Model governance"),
+            index=0,
+            key="workspace_navigation",
+            label_visibility="collapsed",
+        )
         st.divider()
         st.caption("MODEL STATUS")
         st.markdown("Candidate bundle · Loaded on demand")
@@ -619,7 +677,43 @@ def main() -> None:
         "SYNTHETIC-DATA PROOF OF CONCEPT — This candidate model has not been validated on "
         "Polyhose production data. Do not use its outputs as factory settings or production advice."
     )
-    render_model_validation()
+
+    if workspace == "Model governance":
+        st.markdown('<div class="app-section-kicker">03 / Model governance</div>', unsafe_allow_html=True)
+        st.title("Model validation & governance")
+        render_model_validation()
+        st.info(
+            "This prototype uses synthetic training data. Model scores describe performance on "
+            "the project's held-out synthetic test split; they do not establish factory readiness."
+        )
+        st.stop()
+
+    if workspace == "Process intelligence":
+        st.markdown('<div class="app-section-kicker">02 / Process intelligence</div>', unsafe_allow_html=True)
+        st.title("Process intelligence")
+        saved_predictions = st.session_state.get("validated_predictions")
+        if saved_predictions is None:
+            st.info("Generate a prediction in Production planning to inspect its process estimates here.")
+        else:
+            render_results(saved_predictions)
+            render_input_summary(st.session_state["submitted_inputs"])
+            st.download_button(
+                "Download prediction report",
+                data=build_prediction_report(
+                    st.session_state["submitted_inputs"],
+                    saved_predictions,
+                    st.session_state["prediction_generated_at_utc"],
+                ),
+                file_name=REPORT_FILENAME,
+                mime="text/csv",
+                icon=":material/download:",
+                on_click="ignore",
+                key="download_prediction_report_process",
+            )
+        st.stop()
+
+    st.markdown('<div class="app-section-kicker">01 / Production planning</div>', unsafe_allow_html=True)
+    st.markdown('<div class="app-hero-line"></div>', unsafe_allow_html=True)
 
     try:
         bundle = load_inference_bundle()
