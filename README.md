@@ -106,7 +106,7 @@ python training/model3_quality.py
 
 Model 3 training now uses out-of-fold Model 1 predictions for downstream training rows, matching the leakage-control approach already used by Model 2. Held-out test rows are still transformed by Model 1 pipelines fitted only on the training split.
 
-The root `requirements.txt` delegates to `requirements-app.txt` for common cloud deployment discovery. The ML dependencies are pinned to the package versions recorded in the serialized model manifests. GitHub Actions tests the app and candidate-inference contracts on Python 3.11, 3.12, and 3.13, with the training smoke test on Python 3.13. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
+The root `requirements.txt` delegates to `requirements-app.txt` for common cloud deployment discovery. The ML dependencies are pinned to the package versions recorded in the serialized model manifests. GitHub Actions tests the app and candidate-inference contracts on Python 3.12 and 3.13, with the training smoke test on Python 3.13. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
 ## Model improvement roadmap
 
