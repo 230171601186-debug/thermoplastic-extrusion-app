@@ -654,6 +654,83 @@ def render_production_intelligence() -> None:
     else:
         st.info("No predictions have been generated in this session yet. Run a production estimate first.")
 
+    if history:
+        latest = history[0]
+        st.divider()
+        st.subheader("Order-length scenario comparison")
+        st.caption(
+            "Compare a different requested order length using the most recent successful input profile. "
+            "All other product specifications remain unchanged. This is a model what-if estimate, not an approved production plan."
+        )
+        base_inputs = {
+            feature: latest.get(f"Input_{feature}")
+            for feature in MODEL1_FEATURES
+        }
+        if all(value is not None for value in base_inputs.values()):
+            baseline_length = float(base_inputs["Customer_Required_Length_m"])
+            alternative_length = st.number_input(
+                "Alternative order length (m)",
+                min_value=1.0,
+                value=max(1.0, round(baseline_length * 1.2, 2)),
+                step=100.0,
+                key="scenario_order_length_m",
+            )
+            if st.button("Compare scenario", type="primary", key="compare_scenario_button"):
+                scenario_inputs = dict(base_inputs)
+                scenario_inputs["Customer_Required_Length_m"] = float(alternative_length)
+                try:
+                    scenario_bundle = load_inference_bundle()
+                    scenario_predictions, scenario_warnings, scenario_errors = execute_prediction(
+                        scenario_bundle,
+                        scenario_inputs,
+                        scenario_bundle.category_values,
+                    )
+                except Exception:
+                    LOGGER.exception("Scenario comparison failed")
+                    scenario_predictions, scenario_warnings, scenario_errors = (
+                        None,
+                        (),
+                        ("Scenario comparison is temporarily unavailable. No result was produced.",),
+                    )
+                if scenario_errors:
+                    for issue in scenario_errors:
+                        st.error(issue)
+                elif scenario_predictions is not None:
+                    baseline_efficiency = float(latest.get("Prediction_Operational_Efficiency_pct", float("nan")))
+                    baseline_scrap = float(latest.get("Prediction_Scrap_Rate", float("nan"))) * 100.0
+                    efficiency_delta = scenario_predictions[EFFICIENCY_TARGET] - baseline_efficiency
+                    scrap_delta = scrap_percentage(scenario_predictions[SCRAP_TARGET]) - baseline_scrap
+                    left, right = st.columns(2)
+                    left.metric(
+                        "Alternative efficiency estimate",
+                        efficiency_percentage(scenario_predictions[EFFICIENCY_TARGET]),
+                        f"{efficiency_delta:+.2f} percentage points vs baseline",
+                    )
+                    right.metric(
+                        "Alternative scrap estimate",
+                        f"{scrap_percentage(scenario_predictions[SCRAP_TARGET]):.2f}%",
+                        f"{scrap_delta:+.2f} percentage points vs baseline",
+                        delta_color="inverse",
+                    )
+                    st.caption(
+                        f"Baseline order: {baseline_length:,.0f} m · Alternative order: {alternative_length:,.0f} m. "
+                        "A positive or negative change is a model output, not evidence of a causal process effect."
+                    )
+                    for warning in scenario_warnings:
+                        st.warning(warning)
+                    st.dataframe(
+                        pd.DataFrame(
+                            [
+                                {"Indicator": "Operational efficiency", "Baseline": baseline_efficiency, "Alternative": scenario_predictions[EFFICIENCY_TARGET], "Change": efficiency_delta, "Unit": "percentage points"},
+                                {"Indicator": "Scrap rate", "Baseline": baseline_scrap, "Alternative": scrap_percentage(scenario_predictions[SCRAP_TARGET]), "Change": scrap_delta, "Unit": "percentage points"},
+                            ]
+                        ),
+                        hide_index=True,
+                        width="stretch",
+                    )
+        else:
+            st.warning("The latest history record is incomplete; scenario comparison is unavailable.")
+
     st.divider()
     st.subheader("Downtime records analysis")
     st.caption(
@@ -693,7 +770,10 @@ def render_production_intelligence() -> None:
         st.markdown("**Downtime by fault code**")
         st.dataframe(audit["by_fault"], hide_index=True, width="stretch")
         st.bar_chart(audit["by_fault"], x="Fault_Code", y="Total_downtime_min")
-    st.caption("Descriptive historical analysis only. Results depend on the completeness and accuracy of the uploaded records.")
+    if not audit["by_day"].empty:
+        st.markdown("**Daily downtime trend**")
+        st.line_chart(audit["by_day"], x="Date", y="Total_downtime_min")
+    st.caption("Descriptive historical analysis only. Results depend on the completeness and accuracy of the uploaded records. No downtime prediction or root-cause attribution is performed.")
 
 
 def main() -> None:
