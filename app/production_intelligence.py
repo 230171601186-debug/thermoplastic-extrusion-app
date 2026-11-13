@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from typing import Mapping, Sequence
 
+import numpy as np
 import pandas as pd
 
 REQUIRED_DOWNTIME_COLUMNS = (
@@ -55,14 +56,14 @@ def audit_downtime_records(frame: pd.DataFrame) -> dict[str, object]:
         downtime = pd.to_numeric(frame["Downtime_min"], errors="coerce")
         if timestamps.isna().any():
             issues.append("Timestamp contains missing or unparseable values.")
-        if downtime.isna().any():
-            issues.append("Downtime_min contains missing or non-numeric values.")
+        if downtime.isna().any() or not np.isfinite(downtime.dropna()).all():
+            issues.append("Downtime_min contains missing, non-numeric or non-finite values.")
         elif (downtime < 0).any():
             issues.append("Downtime_min cannot contain negative values.")
-        if frame["Machine_ID"].astype("string").str.strip().eq("").any():
-            issues.append("Machine_ID contains blank values.")
-        if frame["Fault_Code"].astype("string").str.strip().eq("").any():
-            issues.append("Fault_Code contains blank values.")
+        if frame["Machine_ID"].isna().any() or frame["Machine_ID"].astype("string").str.strip().eq("").any():
+            issues.append("Machine_ID contains missing or blank values.")
+        if frame["Fault_Code"].isna().any() or frame["Fault_Code"].astype("string").str.strip().eq("").any():
+            issues.append("Fault_Code contains missing or blank values.")
 
     if issues:
         return {
@@ -90,6 +91,13 @@ def audit_downtime_records(frame: pd.DataFrame) -> dict[str, object]:
         .reset_index()
         .sort_values("Total_downtime_min", ascending=False)
     )
+    clean["Date"] = clean["Timestamp"].dt.floor("D")
+    by_day = (
+        clean.groupby("Date", as_index=False)["Downtime_min"]
+        .sum()
+        .rename(columns={"Downtime_min": "Total_downtime_min"})
+        .sort_values("Date")
+    )
     return {
         "passed": True,
         "issues": [],
@@ -98,4 +106,5 @@ def audit_downtime_records(frame: pd.DataFrame) -> dict[str, object]:
         "total_downtime_min": float(clean["Downtime_min"].sum()),
         "by_machine": by_machine,
         "by_fault": by_fault,
+        "by_day": by_day,
     }
