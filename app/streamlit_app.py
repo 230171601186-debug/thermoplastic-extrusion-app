@@ -882,6 +882,40 @@ def main() -> None:
         .app-section-kicker { color:#61bce8; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; margin-top:.7rem; }
         .app-hero-line { height:2px; width:72px; background:linear-gradient(90deg,#42c8f5,#4c83ff); border-radius:2px; margin:.8rem 0 1.1rem; }
 
+        /* High-contrast industrial dashboard treatment */
+        .stApp:before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22; background-image:linear-gradient(rgba(120,166,214,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(120,166,214,.075) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 82%); }
+        [data-testid="stMainBlockContainer"] { position:relative; z-index:1; }
+        .app-header { min-height:116px; padding:1.1rem 1.25rem 1rem; margin:0 0 1.1rem; border:1px solid rgba(66,200,245,.19); border-radius:20px; background:linear-gradient(110deg,rgba(17,39,61,.92),rgba(12,25,43,.68) 58%,rgba(25,64,101,.55)); box-shadow:inset 0 1px rgba(255,255,255,.04),0 18px 55px rgba(0,0,0,.18); }
+        .app-header:before { right:8%; top:-135px; width:290px; height:290px; border-color:rgba(66,200,245,.3); }
+        .app-header:after { right:12%; top:-105px; width:190px; height:190px; }
+        .app-eyebrow { color:#82d9f7; font-family:'DM Mono',monospace; font-size:.67rem; letter-spacing:.19em; text-transform:uppercase; margin-bottom:.75rem; }
+        .app-status { background:rgba(20,177,139,.12); border-color:rgba(57,214,160,.32); color:#8cf0ca; }
+        .app-status-dot { background:#55edb7; box-shadow:0 0 16px #39d6a0; }
+        .app-hero-line { width:108px; height:3px; box-shadow:0 0 18px rgba(66,200,245,.38); }
+        [data-testid="stSidebar"] { box-shadow:12px 0 42px rgba(0,0,0,.16); }
+        [data-testid="stSidebar"] h3 { color:#f1f7ff; letter-spacing:.025em; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] > div { gap:.42rem; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label { border:1px solid transparent; border-radius:10px; padding:.48rem .6rem; transition:all .2s ease; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) { background:linear-gradient(90deg,rgba(44,153,220,.2),rgba(44,153,220,.045)); border-color:rgba(66,200,245,.24); color:#f3fbff; }
+        [data-testid="stVerticalBlockBorderWrapper"] { background:linear-gradient(145deg,rgba(19,36,56,.88),rgba(13,27,44,.9)); border:1px solid rgba(112,157,205,.2)!important; border-radius:18px!important; }
+        [data-testid="stForm"] { background:linear-gradient(145deg,rgba(18,35,55,.94),rgba(12,25,42,.94)); border:1px solid rgba(66,200,245,.23)!important; border-radius:20px!important; padding:1.25rem!important; box-shadow:0 20px 60px rgba(0,0,0,.16); }
+        [data-testid="stTextInput"] input,[data-testid="stNumberInput"] input,[data-testid="stDateInput"] input { background:#0b1727!important; color:#edf6ff!important; border:1px solid rgba(124,164,207,.3)!important; border-radius:10px!important; }
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div { background:#0b1727!important; color:#edf6ff!important; border:1px solid rgba(124,164,207,.3)!important; border-radius:10px!important; }
+        [data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"] { background:#12243a!important; border:1px solid rgba(66,200,245,.25)!important; }
+        [role="option"] { color:#eaf4ff!important; }
+        [role="option"]:hover { background:rgba(66,200,245,.16)!important; }
+        [data-testid="stFormSubmitButton"] button,[data-testid="stButton"] button { border:1px solid rgba(95,207,247,.35)!important; border-radius:11px!important; font-weight:800!important; letter-spacing:.015em; box-shadow:0 8px 24px rgba(29,112,201,.18); }
+        [data-testid="stTabs"] [role="tablist"] { gap:.45rem; border-bottom:1px solid rgba(126,166,209,.2); }
+        [data-testid="stTabs"] [role="tab"] { border:1px solid transparent; border-radius:10px 10px 0 0; padding:.55rem .9rem; }
+        [data-testid="stTabs"] [role="tab"][aria-selected="true"] { color:#8de1ff!important; background:rgba(47,153,214,.1); border-color:rgba(66,200,245,.25); }
+        [data-testid="stExpander"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; background:rgba(15,30,48,.55); }
+        [data-testid="stDataFrame"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; overflow:hidden; }
+        [data-testid="stAlert"] { border-radius:13px; }
+        [data-testid="stMetric"] { min-height:132px; padding:1rem 1.1rem; border-radius:17px; background:linear-gradient(145deg,rgba(23,48,73,.98),rgba(13,29,47,.98)); }
+        [data-testid="stMetricLabel"] { color:#9fb7d2!important; font-size:.78rem!important; letter-spacing:.045em; text-transform:uppercase; }
+        [data-testid="stMetricValue"] { color:#f2f8ff!important; font-weight:800!important; }
+        @media(max-width:900px) { .app-header { min-height:96px; padding:1rem; } [data-testid="stForm"] { padding:.8rem!important; } }
+
         /* Motion and visual polish: CSS-only, no new runtime dependency. */
         @keyframes appFadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
         @keyframes appGlowPulse { 0%,100% { box-shadow:0 0 0 0 rgba(57,214,160,.12),0 0 12px rgba(57,214,160,.12); } 50% { box-shadow:0 0 0 6px rgba(57,214,160,0),0 0 20px rgba(57,214,160,.32); } }
@@ -916,6 +950,11 @@ def main() -> None:
         <div class="app-header">
           <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
           <div class="app-status"><span class="app-status-dot"></span> DEMONSTRATION ENVIRONMENT</div>
+          <div style="display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1rem">
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">01 / PROCESS CONFIGURATION</span>
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">02 / QUALITY ESTIMATION</span>
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">03 / PRODUCTION REVIEW</span>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
