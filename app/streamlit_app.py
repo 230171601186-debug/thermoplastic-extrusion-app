@@ -946,6 +946,78 @@ def main() -> None:
             [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; }
             h1 { font-size:2rem!important; }
         }
+
+        /* Final control-system pass: keep Streamlit numeric steppers inside the dark theme. */
+        [data-testid="stNumberInput"] [data-baseweb="input"],
+        [data-testid="stNumberInput"] [data-baseweb="base-input"] {
+            background:#0b1727!important;
+            border:1px solid #38516f!important;
+            border-radius:11px!important;
+            box-shadow:inset 0 1px 2px rgba(0,0,0,.28)!important;
+            overflow:hidden!important;
+        }
+        [data-testid="stNumberInput"] input {
+            background:#0b1727!important;
+            color:#f1f6fd!important;
+            -webkit-text-fill-color:#f1f6fd!important;
+            border:0!important;
+            border-radius:10px!important;
+            caret-color:#54c8ed!important;
+            font-variant-numeric:tabular-nums;
+        }
+        [data-testid="stNumberInput"] button,
+        [data-testid="stNumberInput"] button[kind="secondary"],
+        [data-testid="stNumberInput"] [data-testid="stNumberInputStepDown"],
+        [data-testid="stNumberInput"] [data-testid="stNumberInputStepUp"] {
+            min-width:2.65rem!important;
+            width:2.65rem!important;
+            height:2.65rem!important;
+            padding:0!important;
+            color:#c7d9ed!important;
+            background:#14263b!important;
+            border:0!important;
+            border-left:1px solid #304964!important;
+            border-radius:0!important;
+            box-shadow:none!important;
+            opacity:1!important;
+            transition:background .18s ease,color .18s ease!important;
+        }
+        [data-testid="stNumberInput"] button:hover,
+        [data-testid="stNumberInput"] [data-testid="stNumberInputStepDown"]:hover,
+        [data-testid="stNumberInput"] [data-testid="stNumberInputStepUp"]:hover {
+            color:#ffffff!important;
+            background:#1d4567!important;
+        }
+        [data-testid="stNumberInput"] button:disabled {
+            color:#66819d!important;
+            background:#101e30!important;
+            opacity:.75!important;
+        }
+        [data-testid="stNumberInput"] button svg {
+            fill:currentColor!important;
+            color:inherit!important;
+            opacity:1!important;
+        }
+        [data-testid="stNumberInput"] button:focus-visible,
+        [data-testid="stNumberInput"] input:focus-visible {
+            outline:2px solid #42c8f5!important;
+            outline-offset:-2px!important;
+        }
+        [data-testid="stTextInput"] [data-baseweb="input"],
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div {
+            background:#0b1727!important;
+            border:1px solid #38516f!important;
+            border-radius:11px!important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] svg {
+            fill:#d6e6f7!important;
+            color:#d6e6f7!important;
+        }
+        [data-testid="stFormSubmitButton"] button,
+        [data-testid="stButton"] button,
+        [data-testid="stDownloadButton"] button {
+            color:#f7fbff!important;
+        }
         </style>
         <div class="app-header">
           <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
