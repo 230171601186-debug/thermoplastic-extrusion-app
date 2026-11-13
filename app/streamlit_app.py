@@ -949,6 +949,65 @@ def main() -> None:
             h1 { font-size:2rem!important; }
         }
 
+        /* Dark-theme file upload and status surfaces. */
+        [data-testid="stFileUploader"] section,
+        [data-testid="stFileUploaderDropzone"] {
+            background:linear-gradient(145deg,#101f32,#0c1929)!important;
+            border:1px dashed #46627f!important;
+            border-radius:14px!important;
+            color:#dce8f7!important;
+        }
+        [data-testid="stFileUploader"] section:hover,
+        [data-testid="stFileUploaderDropzone"]:hover {
+            border-color:#45b9d8!important;
+            background:linear-gradient(145deg,#14283d,#102238)!important;
+        }
+        [data-testid="stFileUploader"] section *,
+        [data-testid="stFileUploaderDropzone"] * {
+            color:#dce8f7!important;
+        }
+        [data-testid="stFileUploader"] button {
+            background:#18334d!important;
+            color:#f2f8ff!important;
+            border:1px solid #456987!important;
+            border-radius:9px!important;
+        }
+        [data-testid="stFileUploader"] button:hover {
+            background:#204866!important;
+            border-color:#56c5e8!important;
+        }
+        [data-testid="stAlert"] {
+            background:#12283a!important;
+            border:1px solid #31536b!important;
+            border-left:4px solid #43b9c7!important;
+            border-radius:12px!important;
+            color:#dceaf5!important;
+        }
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {
+            color:#dceaf5!important;
+        }
+        [data-testid="stAlert"] svg { color:#63c7d5!important; fill:#63c7d5!important; }
+        [data-testid="stAlert"][kind="info"] {
+            background:linear-gradient(100deg,#102a3b,#132b40)!important;
+            border-color:#31566d!important;
+            border-left-color:#43b9c7!important;
+        }
+        [data-testid="stAlert"][kind="warning"] {
+            background:#302719!important;
+            border-color:#735b32!important;
+            border-left-color:#e4b65b!important;
+        }
+        [data-testid="stAlert"][kind="error"] {
+            background:#321f29!important;
+            border-color:#75404a!important;
+            border-left-color:#e27683!important;
+        }
+        [data-testid="stAlert"][kind="success"] {
+            background:#142d2b!important;
+            border-color:#32675b!important;
+            border-left-color:#55c9a3!important;
+        }
         /* Progress indicators: labels sit outside the track; the track stays slim and readable. */
         [data-testid="stProgress"] { margin:.25rem 0 .65rem!important; }
         [data-testid="stProgress"] > div {
