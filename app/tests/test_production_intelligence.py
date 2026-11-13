@@ -46,6 +46,8 @@ class ProductionIntelligenceTests(unittest.TestCase):
         self.assertEqual(report["machine_count"], 1)
         self.assertEqual(report["total_downtime_min"], 30.0)
         self.assertEqual(report["by_fault"].shape[0], 2)
+        self.assertEqual(report["by_day"].shape[0], 1)
+        self.assertEqual(float(report["by_day"]["Total_downtime_min"].iloc[0]), 30.0)
 
     def test_downtime_audit_fails_closed_for_missing_or_invalid_data(self):
         missing = audit_downtime_records(pd.DataFrame({"Machine_ID": ["EXT-01"]}))
@@ -65,6 +67,19 @@ class ProductionIntelligenceTests(unittest.TestCase):
         self.assertFalse(invalid["passed"])
         self.assertTrue(any("Timestamp" in item for item in invalid["issues"]))
         self.assertTrue(any("negative" in item for item in invalid["issues"]))
+
+        missing_machine = audit_downtime_records(
+            pd.DataFrame(
+                {
+                    "Timestamp": ["2026-11-01T10:00:00Z"],
+                    "Machine_ID": [None],
+                    "Downtime_min": [5],
+                    "Fault_Code": ["F01"],
+                }
+            )
+        )
+        self.assertFalse(missing_machine["passed"])
+        self.assertTrue(any("Machine_ID" in item for item in missing_machine["issues"]))
 
 
 if __name__ == "__main__":
