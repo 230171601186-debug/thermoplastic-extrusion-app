@@ -1,0 +1,2 @@
+# Streamlit Community Cloud and standard pip entry point.
+-r requirements-app.txt
