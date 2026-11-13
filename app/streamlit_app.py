@@ -629,7 +629,75 @@ def render_results(predictions: Mapping[str, float]) -> None:
         render_input_summary(st.session_state["submitted_inputs"])
 
 
+def render_production_intelligence() -> None:
+    """Render session-scoped prediction history and descriptive downtime analytics."""
+    st.markdown('<div class="app-section-kicker">04 / Operational analytics</div>', unsafe_allow_html=True)
+    st.title("Production intelligence")
+    st.caption(
+        "Explore predictions generated in this browser session and audit historical downtime records. "
+        "Uploaded records are summarized descriptively; no failure prediction is inferred."
+    )
+
+    st.subheader("Prediction history")
+    history = st.session_state.get("prediction_history", [])
+    if history:
+        frame = history_frame(history)
+        st.metric("Predictions this session", len(frame))
+        st.dataframe(frame, hide_index=True, width="stretch")
+        st.download_button(
+            "Download prediction history",
+            data=frame.to_csv(index=False).encode("utf-8"),
+            file_name="thermoplastic_prediction_history.csv",
+            mime="text/csv",
+            key="download_prediction_history",
+        )
+    else:
+        st.info("No predictions have been generated in this session yet. Run a production estimate first.")
+
+    st.divider()
+    st.subheader("Downtime records analysis")
+    st.caption(
+        "Upload a CSV containing Timestamp, Machine_ID, Downtime_min and Fault_Code. "
+        "Optional fields such as Shift and Production_Order_ID are retained in the uploaded source."
+    )
+    uploaded = st.file_uploader(
+        "Upload historical downtime CSV",
+        type=["csv"],
+        key="downtime_csv_upload",
+    )
+    if uploaded is None:
+        st.info("No downtime file uploaded. The analytics will appear after a valid CSV is supplied.")
+        return
+    try:
+        downtime_frame = pd.read_csv(uploaded)
+        audit = audit_downtime_records(downtime_frame)
+    except (pd.errors.ParserError, UnicodeDecodeError, ValueError) as exc:
+        st.error(f"Could not read this CSV: {exc}")
+        return
+
+    st.metric("Uploaded records", f"{audit['rows']:,}")
+    if not audit["passed"]:
+        for issue in audit["issues"]:
+            st.error(issue)
+        return
+
+    first, second = st.columns(2)
+    first.metric("Machines represented", int(audit["machine_count"]))
+    second.metric("Total recorded downtime", f"{audit['total_downtime_min']:,.1f} min")
+    machine_col, fault_col = st.columns(2, gap="large")
+    with machine_col:
+        st.markdown("**Downtime by machine**")
+        st.dataframe(audit["by_machine"], hide_index=True, width="stretch")
+        st.bar_chart(audit["by_machine"], x="Machine_ID", y="Total_downtime_min")
+    with fault_col:
+        st.markdown("**Downtime by fault code**")
+        st.dataframe(audit["by_fault"], hide_index=True, width="stretch")
+        st.bar_chart(audit["by_fault"], x="Fault_Code", y="Total_downtime_min")
+    st.caption("Descriptive historical analysis only. Results depend on the completeness and accuracy of the uploaded records.")
+
+
 def main() -> None:
+    st.session_state.setdefault("prediction_history", [])
     st.set_page_config(
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
@@ -770,6 +838,10 @@ def main() -> None:
         "SYNTHETIC-DATA PROOF OF CONCEPT — This candidate model has not been validated on "
         "Polyhose production data. Do not use its outputs as factory settings or production advice."
     )
+
+    if workspace == "Production intelligence":
+        render_production_intelligence()
+        st.stop()
 
     if workspace == "Model governance":
         st.markdown('<div class="app-section-kicker">03 / Model governance</div>', unsafe_allow_html=True)
@@ -938,9 +1010,14 @@ def main() -> None:
             st.session_state["validated_predictions"] = predictions
             st.session_state["prediction_warnings"] = warnings
             st.session_state["submitted_inputs"] = customer_inputs
-            st.session_state["prediction_generated_at_utc"] = datetime.now(
-                timezone.utc
-            ).isoformat(timespec="seconds")
+            generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            st.session_state["prediction_generated_at_utc"] = generated_at
+            st.session_state["prediction_history"] = append_prediction_history(
+                st.session_state["prediction_history"],
+                customer_inputs,
+                predictions,
+                generated_at,
+            )
 
     predictions = st.session_state.get("validated_predictions")
     if predictions is not None:
