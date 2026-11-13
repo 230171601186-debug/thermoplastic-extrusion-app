@@ -1025,6 +1025,37 @@ def main() -> None:
             border-radius:999px!important;
             transition:width .55s cubic-bezier(.2,.75,.25,1)!important;
         }
+
+        /* Downtime CSV uploader and empty-state notice: remove light surfaces in dark mode. */
+        [data-testid="stFileUploader"] section {
+            background:#101f32!important;
+            border:1px dashed #42617f!important;
+            border-radius:14px!important;
+        }
+        [data-testid="stFileUploader"] section,
+        [data-testid="stFileUploader"] section * {
+            color:#dce9f7!important;
+        }
+        [data-testid="stFileUploader"] section button {
+            background:#18334e!important;
+            color:#eaf5ff!important;
+            border:1px solid #42617f!important;
+            border-radius:9px!important;
+        }
+        [data-testid="stFileUploader"] section button:hover {
+            background:#214765!important;
+            border-color:#58b8d8!important;
+        }
+        [data-testid="stAlert"] {
+            background:#10263a!important;
+            color:#d7e8f7!important;
+            border:1px solid #294b68!important;
+            border-radius:13px!important;
+        }
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {
+            color:#d7e8f7!important;
+        }
         /* Final control-system pass: keep Streamlit numeric steppers inside the dark theme. */
         [data-testid="stNumberInput"] [data-baseweb="input"],
         [data-testid="stNumberInput"] [data-baseweb="base-input"] {
