@@ -1026,6 +1026,32 @@ def main() -> None:
             transition:width .55s cubic-bezier(.2,.75,.25,1)!important;
         }
 
+
+        /* Consistent dark-mode treatment for every Streamlit alert (warning, info, success, error). */
+        [data-testid="stAlert"],
+        [data-testid="stAlert"] [role="alert"],
+        div[role="alert"] {
+            background:#14283d!important;
+            background-color:#14283d!important;
+            border:1px solid #355675!important;
+            border-radius:13px!important;
+            color:#e7f0fa!important;
+        }
+        [data-testid="stAlert"] *,
+        [data-testid="stAlert"] [role="alert"] *,
+        div[role="alert"] * {
+            color:#e7f0fa!important;
+            -webkit-text-fill-color:#e7f0fa!important;
+        }
+        [data-testid="stAlert"] svg,
+        [data-testid="stAlert"] svg * {
+            fill:currentColor!important;
+            color:#8ed8f2!important;
+        }
+        [data-testid="stAlert"] a {
+            color:#7dd7f4!important;
+            text-decoration:underline!important;
+        }
         /* Downtime CSV uploader and empty-state notice: remove light surfaces in dark mode. */
         [data-testid="stFileUploader"] section {
             background:#101f32!important;
