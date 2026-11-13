@@ -19,7 +19,7 @@ The candidate inference workflow then estimates:
 2. Operational efficiency (reported on a 0–100 percentage-point scale)
 3. Scrap rate (internally represented as a fraction and displayed as a percentage)
 
-The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction.
+The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction. The Production intelligence workspace adds session-scoped prediction history with CSV export, a what-if comparison for alternative order lengths using the latest successful product profile, and descriptive downtime analysis from an uploaded CSV. Valid downtime uploads are summarized by machine, fault code, and day; missing, malformed, negative, or non-finite values are rejected. Scenario outputs are model comparisons, not causal estimates or approved production plans.
 
 ## Architecture
 
@@ -79,14 +79,14 @@ The app loads its candidate inference bundle from repository-relative paths. Run
 Deploy the feature branch as a preview first; do not merge it into `main` until the hosted app has been checked.
 
 1. In Streamlit Community Cloud, create a new app and select this repository.
-2. Select branch `feature/professional-app-foundation`.
+2. Select branch `feature/production-intelligence-upgrades`.
 3. Set the app entry point to `app/streamlit_app.py`.
 4. Open **Advanced settings** and select Python **3.13** to match the serialized candidate-model environment.
 5. Deploy. The root `requirements.txt` delegates to the pinned runtime dependencies in `requirements-app.txt`.
 
 After the first deployment, verify the app starts without errors, submit a valid input, confirm invalid tube geometry is rejected, inspect the model-limitations panel, download a CSV report, and review the application logs. A successful GitHub Actions run is not a substitute for this hosted smoke test.
 
-**Deployment status:** A Streamlit Community Cloud preview is deployed and has been observed rendering the feature-branch UI in the browser. The hosted end-to-end prediction, navigation-state, and CSV-download checks still need to be completed after the latest project commits. A working preview is not production approval.
+**Deployment status:** A Streamlit Community Cloud preview was previously observed rendering an earlier feature-branch UI. The new `feature/production-intelligence-upgrades` branch still requires a fresh deployment or branch update and hosted end-to-end verification. A working preview is not production approval.
 
 ## Dataset quality gate
 
@@ -132,6 +132,14 @@ Model 3 training now uses out-of-fold Model 1 predictions for downstream trainin
 
 The root `requirements.txt` delegates to `requirements-app.txt` for common cloud deployment discovery. The ML dependencies are pinned to the package versions recorded in the serialized model manifests. GitHub Actions tests the app and candidate-inference contracts on Python 3.12 and 3.13, with the training smoke test on Python 3.13. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
+## Project report
+
+See [`docs/internship-project-report.md`](docs/internship-project-report.md) for the project overview, system workflow, model evaluation results, implemented features, limitations, and recommended next steps. The report distinguishes implemented prototype capabilities from future factory-integration work.
+
+## Project report
+
+See [`docs/internship-project-report.md`](docs/internship-project-report.md) for the submission-oriented technical report covering the problem statement, architecture, implemented modules, model evaluation, limitations, and recommended next steps.
+
 ## Model improvement roadmap
 
 See [`docs/model-improvement-roadmap.md`](docs/model-improvement-roadmap.md) for the current controlled-evaluation metrics, feature gaps, production-data requirements, and a staged plan for planning-time efficiency forecasting, live production nowcasting, and downtime-risk modeling.
@@ -154,6 +162,8 @@ Before any real operational pilot:
 |---|---|
 | `app/streamlit_app.py` | Streamlit user interface and prediction workflow |
 | `app/tests/` | App contract and validation tests |
+| `docs/internship-project-report.md` | Internship project technical report |
+| `docs/internship-project-report.md` | Submission-oriented technical project report |
 | `dataset/` | Synthetic modeling dataset |
 | `training/` | Data quality gates, preprocessing, training, evaluation, and experiment records |
 | `models/` | Serialized pipelines, split metadata, and model metadata |

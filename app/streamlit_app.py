@@ -21,6 +21,11 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from training.config import CATEGORICAL_FEATURES, CUSTOMER_NUMERIC_FEATURES, MODEL1_FEATURES  # noqa: E402
+from app.production_intelligence import (  # noqa: E402
+    append_prediction_history,
+    audit_downtime_records,
+    history_frame,
+)
 from training.evaluation_results.controlled_stacking.bundle_audit.candidate_inference import (  # noqa: E402
     CandidateInferenceBundle,
     InferenceValidationError,
@@ -578,6 +583,18 @@ def render_results(predictions: Mapping[str, float]) -> None:
                 st.caption("MODEL OUTPUTS")
                 st.markdown("### 9 process estimates")
                 st.caption("Temperatures, pressures, line speeds, screw speed and extrusion rate.")
+        try:
+            validation = load_validation_summary().set_index("Model")
+            efficiency_mae = float(validation.loc["Operational efficiency", "CV MAE"])
+            scrap_mae = float(validation.loc["Scrap rate", "CV MAE"])
+            st.caption(
+                f"Historical outer-CV MAE on synthetic test folds: efficiency ±{efficiency_mae:.2f} percentage points; "
+                f"scrap rate ±{scrap_mae:.2f} percentage points. These are average absolute errors, "
+                "not confidence intervals or guarantees for this individual prediction."
+            )
+        except (OSError, ValueError, KeyError):
+            LOGGER.exception("Prediction error context could not be loaded")
+            st.caption("Cross-validation error context is unavailable.")
         st.info("All values are candidate estimates. They are not live sensor readings, approved setpoints or production recommendations.")
 
     with process_tab:
@@ -612,7 +629,155 @@ def render_results(predictions: Mapping[str, float]) -> None:
         render_input_summary(st.session_state["submitted_inputs"])
 
 
+def render_production_intelligence() -> None:
+    """Render session-scoped prediction history and descriptive downtime analytics."""
+    st.markdown('<div class="app-section-kicker">04 / Operational analytics</div>', unsafe_allow_html=True)
+    st.title("Production intelligence")
+    st.caption(
+        "Explore predictions generated in this browser session and audit historical downtime records. "
+        "Uploaded records are summarized descriptively; no failure prediction is inferred."
+    )
+
+    st.subheader("Prediction history")
+    history = st.session_state.get("prediction_history", [])
+    if history:
+        frame = history_frame(history)
+        st.metric("Predictions this session", len(frame))
+        st.dataframe(frame, hide_index=True, width="stretch")
+        st.download_button(
+            "Download prediction history",
+            data=frame.to_csv(index=False).encode("utf-8"),
+            file_name="thermoplastic_prediction_history.csv",
+            mime="text/csv",
+            key="download_prediction_history",
+        )
+    else:
+        st.info("No predictions have been generated in this session yet. Run a production estimate first.")
+
+    if history:
+        latest = history[0]
+        st.divider()
+        st.subheader("Order-length scenario comparison")
+        st.caption(
+            "Compare a different requested order length using the most recent successful input profile. "
+            "All other product specifications remain unchanged. This is a model what-if estimate, not an approved production plan."
+        )
+        base_inputs = {
+            feature: latest.get(f"Input_{feature}")
+            for feature in MODEL1_FEATURES
+        }
+        if all(value is not None for value in base_inputs.values()):
+            baseline_length = float(base_inputs["Customer_Required_Length_m"])
+            alternative_length = st.number_input(
+                "Alternative order length (m)",
+                min_value=1.0,
+                value=max(1.0, round(baseline_length * 1.2, 2)),
+                step=100.0,
+                key="scenario_order_length_m",
+            )
+            if st.button("Compare scenario", type="primary", key="compare_scenario_button"):
+                scenario_inputs = dict(base_inputs)
+                scenario_inputs["Customer_Required_Length_m"] = float(alternative_length)
+                try:
+                    scenario_bundle = load_inference_bundle()
+                    scenario_predictions, scenario_warnings, scenario_errors = execute_prediction(
+                        scenario_bundle,
+                        scenario_inputs,
+                        scenario_bundle.category_values,
+                    )
+                except Exception:
+                    LOGGER.exception("Scenario comparison failed")
+                    scenario_predictions, scenario_warnings, scenario_errors = (
+                        None,
+                        (),
+                        ("Scenario comparison is temporarily unavailable. No result was produced.",),
+                    )
+                if scenario_errors:
+                    for issue in scenario_errors:
+                        st.error(issue)
+                elif scenario_predictions is not None:
+                    baseline_efficiency = float(latest.get("Prediction_Operational_Efficiency_pct", float("nan")))
+                    baseline_scrap = float(latest.get("Prediction_Scrap_Rate", float("nan"))) * 100.0
+                    efficiency_delta = scenario_predictions[EFFICIENCY_TARGET] - baseline_efficiency
+                    scrap_delta = scrap_percentage(scenario_predictions[SCRAP_TARGET]) - baseline_scrap
+                    left, right = st.columns(2)
+                    left.metric(
+                        "Alternative efficiency estimate",
+                        efficiency_percentage(scenario_predictions[EFFICIENCY_TARGET]),
+                        f"{efficiency_delta:+.2f} percentage points vs baseline",
+                    )
+                    right.metric(
+                        "Alternative scrap estimate",
+                        f"{scrap_percentage(scenario_predictions[SCRAP_TARGET]):.2f}%",
+                        f"{scrap_delta:+.2f} percentage points vs baseline",
+                        delta_color="inverse",
+                    )
+                    st.caption(
+                        f"Baseline order: {baseline_length:,.0f} m · Alternative order: {alternative_length:,.0f} m. "
+                        "A positive or negative change is a model output, not evidence of a causal process effect."
+                    )
+                    for warning in scenario_warnings:
+                        st.warning(warning)
+                    st.dataframe(
+                        pd.DataFrame(
+                            [
+                                {"Indicator": "Operational efficiency", "Baseline": baseline_efficiency, "Alternative": scenario_predictions[EFFICIENCY_TARGET], "Change": efficiency_delta, "Unit": "percentage points"},
+                                {"Indicator": "Scrap rate", "Baseline": baseline_scrap, "Alternative": scrap_percentage(scenario_predictions[SCRAP_TARGET]), "Change": scrap_delta, "Unit": "percentage points"},
+                            ]
+                        ),
+                        hide_index=True,
+                        width="stretch",
+                    )
+        else:
+            st.warning("The latest history record is incomplete; scenario comparison is unavailable.")
+
+    st.divider()
+    st.subheader("Downtime records analysis")
+    st.caption(
+        "Upload a CSV containing Timestamp, Machine_ID, Downtime_min and Fault_Code. "
+        "Optional fields such as Shift and Production_Order_ID are retained in the uploaded source."
+    )
+    uploaded = st.file_uploader(
+        "Upload historical downtime CSV",
+        type=["csv"],
+        key="downtime_csv_upload",
+    )
+    if uploaded is None:
+        st.info("No downtime file uploaded. The analytics will appear after a valid CSV is supplied.")
+        return
+    try:
+        downtime_frame = pd.read_csv(uploaded)
+        audit = audit_downtime_records(downtime_frame)
+    except (pd.errors.ParserError, UnicodeDecodeError, ValueError) as exc:
+        st.error(f"Could not read this CSV: {exc}")
+        return
+
+    st.metric("Uploaded records", f"{audit['rows']:,}")
+    if not audit["passed"]:
+        for issue in audit["issues"]:
+            st.error(issue)
+        return
+
+    first, second = st.columns(2)
+    first.metric("Machines represented", int(audit["machine_count"]))
+    second.metric("Total recorded downtime", f"{audit['total_downtime_min']:,.1f} min")
+    machine_col, fault_col = st.columns(2, gap="large")
+    with machine_col:
+        st.markdown("**Downtime by machine**")
+        st.dataframe(audit["by_machine"], hide_index=True, width="stretch")
+        st.bar_chart(audit["by_machine"], x="Machine_ID", y="Total_downtime_min")
+    with fault_col:
+        st.markdown("**Downtime by fault code**")
+        st.dataframe(audit["by_fault"], hide_index=True, width="stretch")
+        st.bar_chart(audit["by_fault"], x="Fault_Code", y="Total_downtime_min")
+    if not audit["by_day"].empty:
+        st.markdown("**Daily downtime trend**")
+        st.line_chart(audit["by_day"], x="Date", y="Total_downtime_min")
+    st.caption("Descriptive historical analysis only. Results depend on the completeness and accuracy of the uploaded records. No downtime prediction or root-cause attribution is performed.")
+
+
 def main() -> None:
+    st.session_state.setdefault("prediction_history", [])
     st.set_page_config(
         page_title=APP_TITLE,
         page_icon=":material/precision_manufacturing:",
@@ -716,6 +881,67 @@ def main() -> None:
         .app-status-dot { width:.46rem; height:.46rem; border-radius:50%; background:#39d6a0; box-shadow:0 0 12px #39d6a0; display:inline-block; }
         .app-section-kicker { color:#61bce8; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; margin-top:.7rem; }
         .app-hero-line { height:2px; width:72px; background:linear-gradient(90deg,#42c8f5,#4c83ff); border-radius:2px; margin:.8rem 0 1.1rem; }
+
+        /* High-contrast industrial dashboard treatment */
+        .stApp:before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.22; background-image:linear-gradient(rgba(120,166,214,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(120,166,214,.075) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 82%); }
+        [data-testid="stMainBlockContainer"] { position:relative; z-index:1; }
+        .app-header { min-height:116px; padding:1.1rem 1.25rem 1rem; margin:0 0 1.1rem; border:1px solid rgba(66,200,245,.19); border-radius:20px; background:linear-gradient(110deg,rgba(17,39,61,.92),rgba(12,25,43,.68) 58%,rgba(25,64,101,.55)); box-shadow:inset 0 1px rgba(255,255,255,.04),0 18px 55px rgba(0,0,0,.18); }
+        .app-header:before { right:8%; top:-135px; width:290px; height:290px; border-color:rgba(66,200,245,.3); }
+        .app-header:after { right:12%; top:-105px; width:190px; height:190px; }
+        .app-eyebrow { color:#82d9f7; font-family:'DM Mono',monospace; font-size:.67rem; letter-spacing:.19em; text-transform:uppercase; margin-bottom:.75rem; }
+        .app-status { background:rgba(20,177,139,.12); border-color:rgba(57,214,160,.32); color:#8cf0ca; }
+        .app-status-dot { background:#55edb7; box-shadow:0 0 16px #39d6a0; }
+        .app-hero-line { width:108px; height:3px; box-shadow:0 0 18px rgba(66,200,245,.38); }
+        [data-testid="stSidebar"] { box-shadow:12px 0 42px rgba(0,0,0,.16); }
+        [data-testid="stSidebar"] h3 { color:#f1f7ff; letter-spacing:.025em; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] > div { gap:.42rem; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label { border:1px solid transparent; border-radius:10px; padding:.48rem .6rem; transition:all .2s ease; }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) { background:linear-gradient(90deg,rgba(44,153,220,.2),rgba(44,153,220,.045)); border-color:rgba(66,200,245,.24); color:#f3fbff; }
+        [data-testid="stVerticalBlockBorderWrapper"] { background:linear-gradient(145deg,rgba(19,36,56,.88),rgba(13,27,44,.9)); border:1px solid rgba(112,157,205,.2)!important; border-radius:18px!important; }
+        [data-testid="stForm"] { background:linear-gradient(145deg,rgba(18,35,55,.94),rgba(12,25,42,.94)); border:1px solid rgba(66,200,245,.23)!important; border-radius:20px!important; padding:1.25rem!important; box-shadow:0 20px 60px rgba(0,0,0,.16); }
+        [data-testid="stTextInput"] input,[data-testid="stNumberInput"] input,[data-testid="stDateInput"] input { background:#0b1727!important; color:#edf6ff!important; border:1px solid rgba(124,164,207,.3)!important; border-radius:10px!important; }
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div { background:#0b1727!important; color:#edf6ff!important; border:1px solid rgba(124,164,207,.3)!important; border-radius:10px!important; }
+        [data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"] { background:#12243a!important; border:1px solid rgba(66,200,245,.25)!important; }
+        [role="option"] { color:#eaf4ff!important; }
+        [role="option"]:hover { background:rgba(66,200,245,.16)!important; }
+        [data-testid="stFormSubmitButton"] button,[data-testid="stButton"] button { border:1px solid rgba(95,207,247,.35)!important; border-radius:11px!important; font-weight:800!important; letter-spacing:.015em; box-shadow:0 8px 24px rgba(29,112,201,.18); }
+        [data-testid="stTabs"] [role="tablist"] { gap:.45rem; border-bottom:1px solid rgba(126,166,209,.2); }
+        [data-testid="stTabs"] [role="tab"] { border:1px solid transparent; border-radius:10px 10px 0 0; padding:.55rem .9rem; }
+        [data-testid="stTabs"] [role="tab"][aria-selected="true"] { color:#8de1ff!important; background:rgba(47,153,214,.1); border-color:rgba(66,200,245,.25); }
+        [data-testid="stExpander"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; background:rgba(15,30,48,.55); }
+        [data-testid="stDataFrame"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; overflow:hidden; }
+        [data-testid="stAlert"] { border-radius:13px; }
+        [data-testid="stMetric"] { min-height:132px; padding:1rem 1.1rem; border-radius:17px; background:linear-gradient(145deg,rgba(23,48,73,.98),rgba(13,29,47,.98)); }
+        [data-testid="stMetricLabel"] { color:#9fb7d2!important; font-size:.78rem!important; letter-spacing:.045em; text-transform:uppercase; }
+        [data-testid="stMetricValue"] { color:#f2f8ff!important; font-weight:800!important; }
+        @media(max-width:900px) { .app-header { min-height:96px; padding:1rem; } [data-testid="stForm"] { padding:.8rem!important; } }
+
+        /* Motion and visual polish: CSS-only, no new runtime dependency. */
+        @keyframes appFadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes appGlowPulse { 0%,100% { box-shadow:0 0 0 0 rgba(57,214,160,.12),0 0 12px rgba(57,214,160,.12); } 50% { box-shadow:0 0 0 6px rgba(57,214,160,0),0 0 20px rgba(57,214,160,.32); } }
+        @keyframes appGradientDrift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes appOrbit { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        @keyframes appShimmer { 0% { background-position:-180% 0; } 100% { background-position:180% 0; } }
+        .app-header { position:relative; overflow:hidden; isolation:isolate; animation:appFadeUp .7s cubic-bezier(.2,.75,.25,1) both; }
+        .app-header:before { content:""; position:absolute; z-index:-1; width:250px; height:250px; right:3%; top:-175px; border:1px solid rgba(66,200,245,.24); border-radius:50%; box-shadow:0 0 0 22px rgba(66,200,245,.035),0 0 0 48px rgba(76,131,255,.025),0 0 70px rgba(66,200,245,.12); animation:appOrbit 32s linear infinite; }
+        .app-header:after { content:""; position:absolute; z-index:-1; width:130px; height:130px; right:7%; top:-95px; border:1px dashed rgba(76,131,255,.35); border-radius:50%; animation:appOrbit 22s linear infinite reverse; }
+        .app-status-dot { animation:appGlowPulse 2.6s ease-in-out infinite; }
+        [data-testid="stMainBlockContainer"] > div { animation:appFadeUp .55s ease both; }
+        [data-testid="stMetric"] { position:relative; overflow:hidden; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; animation:appFadeUp .65s ease both; }
+        [data-testid="stMetric"]:before { content:""; position:absolute; inset:0 auto 0 -65%; width:48%; pointer-events:none; background:linear-gradient(105deg,transparent,rgba(255,255,255,.075),transparent); transform:skewX(-18deg); transition:left .65s ease; }
+        [data-testid="stMetric"]:hover { transform:translateY(-4px); border-color:rgba(66,200,245,.48); box-shadow:0 20px 42px rgba(0,0,0,.28),0 0 24px rgba(66,200,245,.08); }
+        [data-testid="stMetric"]:hover:before { left:125%; }
+        [data-testid="stVerticalBlockBorderWrapper"],[data-testid="stForm"] { transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease; }
+        [data-testid="stVerticalBlockBorderWrapper"]:hover { border-color:rgba(66,200,245,.3)!important; box-shadow:0 20px 52px rgba(0,0,0,.23),0 0 24px rgba(66,200,245,.045)!important; }
+        [data-testid="stFormSubmitButton"] button,[data-testid="stDownloadButton"] button { background-size:200% 100%; background-image:linear-gradient(105deg,#2368e8 0%,#19a9d1 48%,#2368e8 100%); transition:transform .2s ease,box-shadow .2s ease,background-position .45s ease; }
+        [data-testid="stFormSubmitButton"] button:hover,[data-testid="stDownloadButton"] button:hover { transform:translateY(-2px); background-position:100% 0; box-shadow:0 12px 30px rgba(41,130,230,.3); }
+        [data-testid="stTabs"] [role="tab"] { transition:color .2s ease,background .2s ease; }
+        [data-testid="stTabs"] [role="tab"]:hover { color:#e9f8ff!important; background:rgba(66,200,245,.06); border-radius:9px 9px 0 0; }
+        [data-testid="stPlotlyChart"],[data-testid="stVegaLiteChart"] { transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+        [data-testid="stPlotlyChart"]:hover,[data-testid="stVegaLiteChart"]:hover { transform:translateY(-2px); border-color:rgba(66,200,245,.32); box-shadow:0 14px 32px rgba(0,0,0,.18); }
+        [data-testid="stProgress"] > div > div { background-size:200% 100%!important; animation:appGradientDrift 3.5s ease infinite; }
+        [data-testid="stSpinner"] > div { border-top-color:#42c8f5!important; }
+        @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
         @media(max-width:900px) {
             [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; }
             h1 { font-size:2rem!important; }
@@ -724,6 +950,11 @@ def main() -> None:
         <div class="app-header">
           <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
           <div class="app-status"><span class="app-status-dot"></span> DEMONSTRATION ENVIRONMENT</div>
+          <div style="display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1rem">
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">01 / PROCESS CONFIGURATION</span>
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">02 / QUALITY ESTIMATION</span>
+            <span style="font:500 .64rem 'DM Mono',monospace;letter-spacing:.1em;color:#b6cce4;border:1px solid rgba(132,174,217,.22);border-radius:7px;padding:.32rem .55rem;background:rgba(255,255,255,.025)">03 / PRODUCTION REVIEW</span>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -740,7 +971,7 @@ def main() -> None:
         st.markdown("**WORKSPACE**")
         workspace = st.radio(
             "Workspace navigation",
-            ("Production planning", "Process intelligence", "Model governance"),
+            ("Production planning", "Process intelligence", "Production intelligence", "Model governance"),
             index=0,
             key="workspace_navigation",
             label_visibility="collapsed",
@@ -753,6 +984,10 @@ def main() -> None:
         "SYNTHETIC-DATA PROOF OF CONCEPT — This candidate model has not been validated on "
         "Polyhose production data. Do not use its outputs as factory settings or production advice."
     )
+
+    if workspace == "Production intelligence":
+        render_production_intelligence()
+        st.stop()
 
     if workspace == "Model governance":
         st.markdown('<div class="app-section-kicker">03 / Model governance</div>', unsafe_allow_html=True)
@@ -921,9 +1156,14 @@ def main() -> None:
             st.session_state["validated_predictions"] = predictions
             st.session_state["prediction_warnings"] = warnings
             st.session_state["submitted_inputs"] = customer_inputs
-            st.session_state["prediction_generated_at_utc"] = datetime.now(
-                timezone.utc
-            ).isoformat(timespec="seconds")
+            generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            st.session_state["prediction_generated_at_utc"] = generated_at
+            st.session_state["prediction_history"] = append_prediction_history(
+                st.session_state["prediction_history"],
+                customer_inputs,
+                predictions,
+                generated_at,
+            )
 
     predictions = st.session_state.get("validated_predictions")
     if predictions is not None:
