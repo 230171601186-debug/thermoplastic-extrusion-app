@@ -881,6 +881,33 @@ def main() -> None:
         .app-status-dot { width:.46rem; height:.46rem; border-radius:50%; background:#39d6a0; box-shadow:0 0 12px #39d6a0; display:inline-block; }
         .app-section-kicker { color:#61bce8; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; margin-top:.7rem; }
         .app-hero-line { height:2px; width:72px; background:linear-gradient(90deg,#42c8f5,#4c83ff); border-radius:2px; margin:.8rem 0 1.1rem; }
+
+        /* Motion and visual polish: CSS-only, no new runtime dependency. */
+        @keyframes appFadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes appGlowPulse { 0%,100% { box-shadow:0 0 0 0 rgba(57,214,160,.12),0 0 12px rgba(57,214,160,.12); } 50% { box-shadow:0 0 0 6px rgba(57,214,160,0),0 0 20px rgba(57,214,160,.32); } }
+        @keyframes appGradientDrift { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes appOrbit { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        @keyframes appShimmer { 0% { background-position:-180% 0; } 100% { background-position:180% 0; } }
+        .app-header { position:relative; overflow:hidden; isolation:isolate; animation:appFadeUp .7s cubic-bezier(.2,.75,.25,1) both; }
+        .app-header:before { content:""; position:absolute; z-index:-1; width:250px; height:250px; right:3%; top:-175px; border:1px solid rgba(66,200,245,.24); border-radius:50%; box-shadow:0 0 0 22px rgba(66,200,245,.035),0 0 0 48px rgba(76,131,255,.025),0 0 70px rgba(66,200,245,.12); animation:appOrbit 32s linear infinite; }
+        .app-header:after { content:""; position:absolute; z-index:-1; width:130px; height:130px; right:7%; top:-95px; border:1px dashed rgba(76,131,255,.35); border-radius:50%; animation:appOrbit 22s linear infinite reverse; }
+        .app-status-dot { animation:appGlowPulse 2.6s ease-in-out infinite; }
+        [data-testid="stMainBlockContainer"] > div { animation:appFadeUp .55s ease both; }
+        [data-testid="stMetric"] { position:relative; overflow:hidden; transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; animation:appFadeUp .65s ease both; }
+        [data-testid="stMetric"]:before { content:""; position:absolute; inset:0 auto 0 -65%; width:48%; pointer-events:none; background:linear-gradient(105deg,transparent,rgba(255,255,255,.075),transparent); transform:skewX(-18deg); transition:left .65s ease; }
+        [data-testid="stMetric"]:hover { transform:translateY(-4px); border-color:rgba(66,200,245,.48); box-shadow:0 20px 42px rgba(0,0,0,.28),0 0 24px rgba(66,200,245,.08); }
+        [data-testid="stMetric"]:hover:before { left:125%; }
+        [data-testid="stVerticalBlockBorderWrapper"],[data-testid="stForm"] { transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease; }
+        [data-testid="stVerticalBlockBorderWrapper"]:hover { border-color:rgba(66,200,245,.3)!important; box-shadow:0 20px 52px rgba(0,0,0,.23),0 0 24px rgba(66,200,245,.045)!important; }
+        [data-testid="stFormSubmitButton"] button,[data-testid="stDownloadButton"] button { background-size:200% 100%; background-image:linear-gradient(105deg,#2368e8 0%,#19a9d1 48%,#2368e8 100%); transition:transform .2s ease,box-shadow .2s ease,background-position .45s ease; }
+        [data-testid="stFormSubmitButton"] button:hover,[data-testid="stDownloadButton"] button:hover { transform:translateY(-2px); background-position:100% 0; box-shadow:0 12px 30px rgba(41,130,230,.3); }
+        [data-testid="stTabs"] [role="tab"] { transition:color .2s ease,background .2s ease; }
+        [data-testid="stTabs"] [role="tab"]:hover { color:#e9f8ff!important; background:rgba(66,200,245,.06); border-radius:9px 9px 0 0; }
+        [data-testid="stPlotlyChart"],[data-testid="stVegaLiteChart"] { transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+        [data-testid="stPlotlyChart"]:hover,[data-testid="stVegaLiteChart"]:hover { transform:translateY(-2px); border-color:rgba(66,200,245,.32); box-shadow:0 14px 32px rgba(0,0,0,.18); }
+        [data-testid="stProgress"] > div > div { background-size:200% 100%!important; animation:appGradientDrift 3.5s ease infinite; }
+        [data-testid="stSpinner"] > div { border-top-color:#42c8f5!important; }
+        @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
         @media(max-width:900px) {
             [data-testid="stMainBlockContainer"] { padding:1rem 1rem 2.5rem; }
             h1 { font-size:2rem!important; }
