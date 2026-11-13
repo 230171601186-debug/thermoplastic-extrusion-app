@@ -19,7 +19,7 @@ The candidate inference workflow then estimates:
 2. Operational efficiency (reported on a 0–100 percentage-point scale)
 3. Scrap rate (internally represented as a fraction and displayed as a percentage)
 
-The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction. The Production intelligence workspace adds session-scoped prediction history, side-by-side order-length scenario estimates, and descriptive downtime-record analysis from an uploaded CSV.
+The app validates input categories, finite numeric values, tube geometry, prediction schema, units, and output ranges before displaying a result. It also warns when numeric inputs fall outside the checked-in synthetic training-data ranges; these are extrapolation warnings, not factory operating limits. A CSV report can be downloaded for each successful prediction. The Production intelligence workspace adds session-scoped prediction history with CSV export, a what-if comparison for alternative order lengths using the latest successful product profile, and descriptive downtime analysis from an uploaded CSV. Valid downtime uploads are summarized by machine, fault code, and day; missing, malformed, negative, or non-finite values are rejected. Scenario outputs are model comparisons, not causal estimates or approved production plans.
 
 ## Architecture
 
@@ -132,6 +132,10 @@ Model 3 training now uses out-of-fold Model 1 predictions for downstream trainin
 
 The root `requirements.txt` delegates to `requirements-app.txt` for common cloud deployment discovery. The ML dependencies are pinned to the package versions recorded in the serialized model manifests. GitHub Actions tests the app and candidate-inference contracts on Python 3.12 and 3.13, with the training smoke test on Python 3.13. Training scripts should be retrained only after reviewing the saved split, leakage controls, held-out metrics, and artifact compatibility.
 
+## Project report
+
+See [`docs/internship-project-report.md`](docs/internship-project-report.md) for the project overview, system workflow, model evaluation results, implemented features, limitations, and recommended next steps. The report distinguishes implemented prototype capabilities from future factory-integration work.
+
 ## Model improvement roadmap
 
 See [`docs/model-improvement-roadmap.md`](docs/model-improvement-roadmap.md) for the current controlled-evaluation metrics, feature gaps, production-data requirements, and a staged plan for planning-time efficiency forecasting, live production nowcasting, and downtime-risk modeling.
@@ -154,6 +158,7 @@ Before any real operational pilot:
 |---|---|
 | `app/streamlit_app.py` | Streamlit user interface and prediction workflow |
 | `app/tests/` | App contract and validation tests |
+| `docs/internship-project-report.md` | Submission-oriented technical project report |
 | `dataset/` | Synthetic modeling dataset |
 | `training/` | Data quality gates, preprocessing, training, evaluation, and experiment records |
 | `models/` | Serialized pipelines, split metadata, and model metadata |
