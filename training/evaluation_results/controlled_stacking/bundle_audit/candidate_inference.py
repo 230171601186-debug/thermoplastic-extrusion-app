@@ -149,10 +149,8 @@ class CandidateInferenceBundle:
             raise InferenceValidationError("Model 2 and Model 3 manifests reference different Model 1 targets")
 
         try:
-            model3_upstream = {
-                target: joblib.load(path)
-                for target, path in model3_upstream_paths.items()
-            }
+            # Both candidate manifests must reference byte-identical Model 1 artifacts.
+            # Hash the Model 3 paths, then load the shared pipelines only once.
             for target in PROCESS_TARGETS:
                 if cls._file_sha256(model2_upstream_paths[target]) != cls._file_sha256(
                     model3_upstream_paths[target]
@@ -168,11 +166,12 @@ class CandidateInferenceBundle:
             downstream3_path = project_root / model3_downstream_path
             downstream2 = joblib.load(downstream2_path)
             downstream3 = joblib.load(downstream3_path)
+        except InferenceValidationError:
+            raise
         except (OSError, ValueError, KeyError, ImportError) as error:
             raise InferenceValidationError("A candidate model artifact could not be loaded") from error
 
         cls._validate_pipeline_schemas(upstream, downstream2, downstream3)
-        cls._validate_pipeline_schemas(model3_upstream, downstream3, downstream3)
         category_values = cls._category_values(downstream2, downstream3)
         return cls(
             upstream,
