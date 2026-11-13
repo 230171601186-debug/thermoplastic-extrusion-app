@@ -2,7 +2,10 @@ name: Application tests
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
+      - "feature/professional-app-foundation"
+      - "feature/production-intelligence-upgrades"
   pull_request:
   workflow_dispatch:
 
