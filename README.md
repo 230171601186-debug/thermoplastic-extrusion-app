@@ -136,6 +136,10 @@ The root `requirements.txt` delegates to `requirements-app.txt` for common cloud
 
 See [`docs/internship-project-report.md`](docs/internship-project-report.md) for the project overview, system workflow, model evaluation results, implemented features, limitations, and recommended next steps. The report distinguishes implemented prototype capabilities from future factory-integration work.
 
+## Project report
+
+See [`docs/internship-project-report.md`](docs/internship-project-report.md) for the submission-oriented technical report covering the problem statement, architecture, implemented modules, model evaluation, limitations, and recommended next steps.
+
 ## Model improvement roadmap
 
 See [`docs/model-improvement-roadmap.md`](docs/model-improvement-roadmap.md) for the current controlled-evaluation metrics, feature gaps, production-data requirements, and a staged plan for planning-time efficiency forecasting, live production nowcasting, and downtime-risk modeling.
@@ -158,6 +162,7 @@ Before any real operational pilot:
 |---|---|
 | `app/streamlit_app.py` | Streamlit user interface and prediction workflow |
 | `app/tests/` | App contract and validation tests |
+| `docs/internship-project-report.md` | Internship project technical report |
 | `docs/internship-project-report.md` | Submission-oriented technical project report |
 | `dataset/` | Synthetic modeling dataset |
 | `training/` | Data quality gates, preprocessing, training, evaluation, and experiment records |
