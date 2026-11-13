@@ -561,7 +561,8 @@ def render_results(predictions: Mapping[str, float]) -> None:
                     efficiency_percentage(efficiency_value),
                     help="Candidate OEE estimate in percentage points. Not a measured factory result.",
                 )
-                st.progress(int(round(efficiency_value)), text="Efficiency scale · 0–100")
+                st.caption("EFFICIENCY SCALE  ·  0–100")
+                st.progress(efficiency_value / 100.0)
                 st.caption("Scale indicator only. No factory target or acceptance threshold is configured.")
         with metric_right:
             with st.container(border=True):
@@ -570,7 +571,8 @@ def render_results(predictions: Mapping[str, float]) -> None:
                     f"{scrap_value:.2f}%",
                     help="Estimated scrap length as a share of actual processing length.",
                 )
-                st.progress(int(round(scrap_value)), text="Scrap share · 0–100%")
+                st.caption("SCRAP SHARE  ·  0–100%")
+                st.progress(scrap_value / 100.0)
                 st.caption("Share of processing length. This is not a defect probability.")
         summary_left, summary_right = st.columns(2, gap="large")
         with summary_left:
@@ -947,6 +949,23 @@ def main() -> None:
             h1 { font-size:2rem!important; }
         }
 
+        /* Progress indicators: labels sit outside the track; the track stays slim and readable. */
+        [data-testid="stProgress"] { margin:.25rem 0 .65rem!important; }
+        [data-testid="stProgress"] > div {
+            height:.62rem!important;
+            min-height:.62rem!important;
+            background:#263b52!important;
+            border:1px solid rgba(137,169,203,.18)!important;
+            border-radius:999px!important;
+            overflow:hidden!important;
+        }
+        [data-testid="stProgress"] > div > div {
+            height:100%!important;
+            min-height:100%!important;
+            background:linear-gradient(90deg,#16a6a1 0%,#36c6b3 100%)!important;
+            border-radius:999px!important;
+            transition:width .55s cubic-bezier(.2,.75,.25,1)!important;
+        }
         /* Final control-system pass: keep Streamlit numeric steppers inside the dark theme. */
         [data-testid="stNumberInput"] [data-baseweb="input"],
         [data-testid="stNumberInput"] [data-baseweb="base-input"] {
