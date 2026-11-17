@@ -1282,6 +1282,126 @@ def main() -> None:
         [data-testid="stDownloadButton"] button {
             color:#f7fbff!important;
         }
+        /* Final dark-theme contrast correction: controls, alerts, empty states and tables. */
+        :root { color-scheme:dark; }
+        .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+            background-color:#0b1422!important; color:#e8f1fb!important;
+        }
+        [data-testid="stMarkdownContainer"], [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMarkdownContainer"] li, [data-testid="stCaptionContainer"],
+        [data-testid="stText"], .stMarkdown, .stCaption {
+            color:#d6e3f2!important;
+        }
+        [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
+        [data-testid="stCheckbox"] label, [data-testid="stRadio"] label,
+        [data-testid="stDateInput"] label, [data-testid="stTimeInput"] label,
+        [data-testid="stFileUploader"] label {
+            color:#dce8f7!important; -webkit-text-fill-color:#dce8f7!important;
+        }
+        input, textarea, [data-baseweb="input"] input,
+        [data-baseweb="textarea"] textarea {
+            background:#0b1727!important; color:#f1f6fd!important;
+            -webkit-text-fill-color:#f1f6fd!important; caret-color:#58c9ee!important;
+        }
+        input::placeholder, textarea::placeholder {
+            color:#8fa4bc!important; -webkit-text-fill-color:#8fa4bc!important; opacity:1!important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div,
+        [data-testid="stMultiSelect"] [data-baseweb="select"] > div,
+        [data-testid="stDateInput"] [data-baseweb="input"],
+        [data-testid="stTimeInput"] [data-baseweb="input"],
+        [data-testid="stTextInput"] [data-baseweb="input"] {
+            background:#0b1727!important; border:1px solid #45617f!important;
+            color:#edf5ff!important; border-radius:10px!important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] *,
+        [data-testid="stMultiSelect"] [data-baseweb="select"] *,
+        [data-baseweb="popover"] *, [data-baseweb="menu"] *,
+        [role="listbox"] *, [role="option"] {
+            color:#edf5ff!important; -webkit-text-fill-color:#edf5ff!important;
+        }
+        [data-baseweb="popover"], [data-baseweb="menu"], [role="listbox"] {
+            background:#14283d!important; border:1px solid #45617f!important;
+        }
+        [role="option"][aria-selected="true"], [role="option"]:hover {
+            background:#234867!important;
+        }
+        [data-testid="stAlert"], [data-testid="stAlert"] > div,
+        [data-testid="stAlert"] [role="alert"], div[role="alert"] {
+            background:#14283d!important; background-color:#14283d!important;
+            border:1px solid #45617f!important; border-radius:13px!important;
+            color:#edf5ff!important;
+        }
+        [data-testid="stAlert"] *, [data-testid="stAlert"] p,
+        [data-testid="stAlert"] [data-testid="stMarkdownContainer"] * ,
+        div[role="alert"] * {
+            color:#edf5ff!important; -webkit-text-fill-color:#edf5ff!important;
+            opacity:1!important;
+        }
+        [data-testid="stAlert"] svg, [data-testid="stAlert"] svg * {
+            color:#8ed8f2!important; fill:#8ed8f2!important;
+        }
+        [data-testid="stAlert"][kind="warning"] {
+            background:#352b19!important; border-color:#96733a!important;
+            border-left:4px solid #f0c36a!important;
+        }
+        [data-testid="stAlert"][kind="error"] {
+            background:#351f29!important; border-color:#96505d!important;
+            border-left:4px solid #ef8995!important;
+        }
+        [data-testid="stAlert"][kind="success"] {
+            background:#16332d!important; border-color:#397a67!important;
+            border-left:4px solid #65d5ad!important;
+        }
+        [data-testid="stAlert"][kind="info"] {
+            background:#142d42!important; border-color:#3d6b86!important;
+            border-left:4px solid #67c8e8!important;
+        }
+        /* Streamlit empty-state placeholders must never render pale text on pale panels. */
+        [data-testid="stAlert"], [data-testid="stNotification"],
+        [data-testid="stStatusWidget"], [data-testid="stEmpty"] {
+            color:#edf5ff!important;
+        }
+        [data-testid="stDataFrame"], [data-testid="stTable"],
+        [data-testid="stDataFrame"] > div {
+            background:#101e30!important; border:1px solid #3b5673!important;
+            border-radius:12px!important; color:#e8f1fb!important;
+        }
+        [data-testid="stDataFrame"] iframe { color-scheme:dark; }
+        [data-testid="stExpander"] summary,
+        [data-testid="stExpander"] summary *,
+        [data-testid="stExpander"] [data-testid="stMarkdownContainer"] * {
+            color:#e6f0fb!important;
+        }
+        [data-testid="stFileUploader"] section,
+        [data-testid="stFileUploaderDropzone"] {
+            background:#101f32!important; border:1px dashed #557391!important;
+            color:#e8f1fb!important;
+        }
+        [data-testid="stFileUploader"] section *,
+        [data-testid="stFileUploaderDropzone"] * {
+            color:#e8f1fb!important; -webkit-text-fill-color:#e8f1fb!important;
+        }
+        [data-testid="stButton"] button, [data-testid="stFormSubmitButton"] button,
+        [data-testid="stDownloadButton"] button {
+            color:#ffffff!important; -webkit-text-fill-color:#ffffff!important;
+            background:linear-gradient(105deg,#205fc7,#087f9f)!important;
+            border:1px solid #438dbb!important;
+        }
+        [data-testid="stButton"] button:disabled,
+        [data-testid="stDownloadButton"] button:disabled {
+            background:#26384c!important; color:#a8b9cb!important;
+            -webkit-text-fill-color:#a8b9cb!important; border-color:#40566d!important;
+        }
+        [data-testid="stMetricLabel"], [data-testid="stMetricValue"],
+        [data-testid="stMetricDelta"] { opacity:1!important; }
+        [data-testid="stMetricLabel"] { color:#b5c8dc!important; }
+        [data-testid="stMetricValue"] { color:#f4f8ff!important; }
+        [data-testid="stSidebar"], [data-testid="stSidebar"] * { color:#dce8f7!important; }
+        [data-testid="stTabs"] [role="tab"] { color:#b9cce0!important; }
+        [data-testid="stTabs"] [role="tab"][aria-selected="true"] { color:#8de1ff!important; }
+        a { color:#7dd7f4!important; }
+        :focus-visible { outline:2px solid #5bc8ed!important; outline-offset:2px!important; }
         </style>
         <div class="app-header">
           <div class="app-eyebrow">Manufacturing intelligence / decision support</div>
