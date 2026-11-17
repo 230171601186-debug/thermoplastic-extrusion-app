@@ -910,7 +910,13 @@ def main() -> None:
         [data-testid="stTabs"] [role="tab"][aria-selected="true"] { color:#8de1ff!important; background:rgba(47,153,214,.1); border-color:rgba(66,200,245,.25); }
         [data-testid="stExpander"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; background:rgba(15,30,48,.55); }
         [data-testid="stDataFrame"] { border:1px solid rgba(112,157,205,.2); border-radius:13px; overflow:hidden; }
-        [data-testid="stAlert"] { border-radius:13px; }
+        [data-testid="stAlert"] {
+            background:#12243a!important;
+            border:1px solid rgba(112,157,205,.3)!important;
+            border-radius:13px;
+            color:#eaf4ff!important;
+        }
+        [data-testid="stAlert"] * { color:#eaf4ff!important; }
         [data-testid="stMetric"] { min-height:132px; padding:1rem 1.1rem; border-radius:17px; background:linear-gradient(145deg,rgba(23,48,73,.98),rgba(13,29,47,.98)); }
         [data-testid="stMetricLabel"] { color:#9fb7d2!important; font-size:.78rem!important; letter-spacing:.045em; text-transform:uppercase; }
         [data-testid="stMetricValue"] { color:#f2f8ff!important; font-weight:800!important; }
