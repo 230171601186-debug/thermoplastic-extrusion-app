@@ -1,8 +1,45 @@
+# Python
 __pycache__/
 *.py[cod]
 .pytest_cache/
-.streamlit/secrets.toml
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
 .venv/
 venv/
 env/
+ENV/
+
+# Streamlit secrets and local environment files
+.streamlit/secrets.toml
+.env
+.env.*
+!.env.example
+
+# Private credentials and certificates
+*.pem
+*.p12
+*.pfx
+*.key
+secrets/
+credentials/
+
+# Logs and temporary files
 *.log
+*.tmp
+*.swp
+*.swo
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build outputs
+build/
+dist/
