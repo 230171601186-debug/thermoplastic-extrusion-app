@@ -632,67 +632,126 @@ def render_results(predictions: Mapping[str, float]) -> None:
 
 
 def render_production_intelligence() -> None:
-    """Render session-scoped prediction history and descriptive downtime analytics."""
+    """Render a clear session history and descriptive downtime workspace."""
     st.markdown('<div class="app-section-kicker">04 / Operational analytics</div>', unsafe_allow_html=True)
     st.title("Production intelligence")
     st.caption(
-        "Explore predictions generated in this browser session and audit historical downtime records. "
-        "Uploaded records are summarized descriptively; no failure prediction is inferred."
+        "Review estimates created during this browser session and inspect uploaded downtime records. "
+        "Downtime summaries are descriptive only; this workspace does not predict failures."
     )
 
-    st.subheader("Prediction history")
     history = st.session_state.get("prediction_history", [])
+    history_frame_data = history_frame(history) if history else pd.DataFrame()
+
+    # Prediction history
+    st.markdown(
+        '<div class="ops-section-head"><div><div class="ops-eyebrow">SESSION ACTIVITY</div>'
+        '<h3>Prediction history</h3><p>Successful estimates generated in the current browser session.</p></div></div>',
+        unsafe_allow_html=True,
+    )
     if history:
-        frame = history_frame(history)
-        st.metric("Predictions this session", len(frame))
-        st.dataframe(frame, hide_index=True, width="stretch")
-        st.download_button(
-            "Download prediction history",
-            data=frame.to_csv(index=False).encode("utf-8"),
+        count_col, newest_col, export_col = st.columns([1, 2, 1], vertical_alignment="center")
+        count_col.metric("Saved estimates", f"{len(history):,}")
+        newest = history[0].get("Generated_at_UTC", "Unavailable")
+        newest_col.metric("Most recent estimate", str(newest).replace("T", " ").replace("+00:00", " UTC"))
+        export_col.download_button(
+            "Export history CSV",
+            data=history_frame_data.to_csv(index=False).encode("utf-8"),
             file_name="thermoplastic_prediction_history.csv",
             mime="text/csv",
             key="download_prediction_history",
+            use_container_width=True,
+        )
+
+        display_columns = {
+            "Generated_at_UTC": "Generated (UTC)",
+            "Input_Material_Type": "Material",
+            "Input_Material_Grade": "Grade",
+            "Input_Tube_Type": "Tube",
+            "Input_Braid_Type": "Braid",
+            "Input_Target_Tube_OD_mm": "OD (mm)",
+            "Input_Target_Tube_Wall_mm": "Wall (mm)",
+            "Input_Target_Tube_ID_mm": "ID (mm)",
+            "Input_Customer_Required_Length_m": "Order length (m)",
+            "Prediction_Operational_Efficiency_pct": "Efficiency estimate (%)",
+            "Prediction_Scrap_Rate": "Scrap estimate (fraction)",
+        }
+        visible_columns = [column for column in display_columns if column in history_frame_data.columns]
+        history_view = history_frame_data.loc[:, visible_columns].rename(columns=display_columns)
+        if "Generated (UTC)" in history_view:
+            history_view["Generated (UTC)"] = (
+                history_view["Generated (UTC)"].astype("string").str.replace("T", " ", regex=False)
+            )
+        if "Efficiency estimate (%)" in history_view:
+            history_view["Efficiency estimate (%)"] = pd.to_numeric(
+                history_view["Efficiency estimate (%)"], errors="coerce"
+            ).round(2)
+        if "Scrap estimate (fraction)" in history_view:
+            history_view["Scrap estimate (fraction)"] = (
+                pd.to_numeric(history_view["Scrap estimate (fraction)"], errors="coerce") * 100
+            ).round(2)
+            history_view = history_view.rename(
+                columns={"Scrap estimate (fraction)": "Scrap estimate (%)"}
+            )
+        st.dataframe(
+            history_view,
+            hide_index=True,
+            width="stretch",
+            height=min(420, 90 + 38 * len(history_view)),
+        )
+        st.caption(
+            "History is stored in Streamlit session state and is limited to this active browser session. "
+            "It is not a permanent production database."
         )
     else:
-        st.info("No predictions have been generated in this session yet. Run a production estimate first.")
+        st.markdown(
+            '<div class="ops-empty">'
+            '<div class="ops-empty-icon">↗</div>'
+            '<div class="ops-empty-title">No estimates in this session yet</div>'
+            '<div class="ops-empty-copy">Generate a successful estimate in <b>Production planning</b>. '
+            'It will appear here automatically with its input profile, efficiency estimate and scrap estimate.</div>'
+            '<div class="ops-empty-note">History is session-scoped and clears when the session ends.</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
 
+    # What-if comparison remains available only when a successful baseline exists.
     if history:
         latest = history[0]
-        st.divider()
-        st.subheader("Order-length scenario comparison")
-        st.caption(
-            "Compare a different requested order length using the most recent successful input profile. "
-            "All other product specifications remain unchanged. This is a model what-if estimate, not an approved production plan."
+        st.markdown(
+            '<div class="ops-section-head"><div><div class="ops-eyebrow">SCENARIO EXPLORER</div>'
+            '<h3>Order-length comparison</h3><p>Change only the requested order length while keeping the latest successful input profile.</p></div></div>',
+            unsafe_allow_html=True,
         )
-        base_inputs = {
-            feature: latest.get(f"Input_{feature}")
-            for feature in MODEL1_FEATURES
-        }
+        base_inputs = {feature: latest.get(f"Input_{feature}") for feature in MODEL1_FEATURES}
         if all(value is not None for value in base_inputs.values()):
             baseline_length = float(base_inputs["Customer_Required_Length_m"])
-            alternative_length = st.number_input(
+            scenario_left, scenario_right = st.columns([1, 2], vertical_alignment="bottom")
+            alternative_length = scenario_left.number_input(
                 "Alternative order length (m)",
                 min_value=1.0,
                 value=max(1.0, round(baseline_length * 1.2, 2)),
                 step=100.0,
                 key="scenario_order_length_m",
             )
-            if st.button("Compare scenario", type="primary", key="compare_scenario_button"):
+            compare = scenario_right.button(
+                "Compare scenario",
+                type="primary",
+                key="compare_scenario_button",
+                use_container_width=True,
+            )
+            if compare:
                 scenario_inputs = dict(base_inputs)
                 scenario_inputs["Customer_Required_Length_m"] = float(alternative_length)
                 try:
                     scenario_bundle = load_inference_bundle()
                     scenario_predictions, scenario_warnings, scenario_errors = execute_prediction(
-                        scenario_bundle,
-                        scenario_inputs,
-                        scenario_bundle.category_values,
+                        scenario_bundle, scenario_inputs, scenario_bundle.category_values
                     )
                 except Exception:
                     LOGGER.exception("Scenario comparison failed")
                     scenario_predictions, scenario_warnings, scenario_errors = (
-                        None,
-                        (),
-                        ("Scenario comparison is temporarily unavailable. No result was produced.",),
+                        None, (), ("Scenario comparison is temporarily unavailable. No result was produced.",)
                     )
                 if scenario_errors:
                     for issue in scenario_errors:
@@ -700,53 +759,65 @@ def render_production_intelligence() -> None:
                 elif scenario_predictions is not None:
                     baseline_efficiency = float(latest.get("Prediction_Operational_Efficiency_pct", float("nan")))
                     baseline_scrap = float(latest.get("Prediction_Scrap_Rate", float("nan"))) * 100.0
+                    alternative_scrap = scrap_percentage(scenario_predictions[SCRAP_TARGET])
                     efficiency_delta = scenario_predictions[EFFICIENCY_TARGET] - baseline_efficiency
-                    scrap_delta = scrap_percentage(scenario_predictions[SCRAP_TARGET]) - baseline_scrap
-                    left, right = st.columns(2)
-                    left.metric(
-                        "Alternative efficiency estimate",
+                    scrap_delta = alternative_scrap - baseline_scrap
+                    metric_a, metric_b, metric_c = st.columns(3)
+                    metric_a.metric(
+                        "Efficiency estimate",
                         efficiency_percentage(scenario_predictions[EFFICIENCY_TARGET]),
-                        f"{efficiency_delta:+.2f} percentage points vs baseline",
+                        f"{efficiency_delta:+.2f} pp vs baseline",
                     )
-                    right.metric(
-                        "Alternative scrap estimate",
-                        f"{scrap_percentage(scenario_predictions[SCRAP_TARGET]):.2f}%",
-                        f"{scrap_delta:+.2f} percentage points vs baseline",
+                    metric_b.metric(
+                        "Scrap estimate",
+                        f"{alternative_scrap:.2f}%",
+                        f"{scrap_delta:+.2f} pp vs baseline",
                         delta_color="inverse",
                     )
+                    metric_c.metric("Alternative order", f"{alternative_length:,.0f} m")
                     st.caption(
-                        f"Baseline order: {baseline_length:,.0f} m · Alternative order: {alternative_length:,.0f} m. "
-                        "A positive or negative change is a model output, not evidence of a causal process effect."
+                        f"Baseline order: {baseline_length:,.0f} m. Changes are model outputs, "
+                        "not evidence of a causal process effect or an approved production plan."
                     )
                     for warning in scenario_warnings:
                         st.warning(warning)
-                    st.dataframe(
-                        pd.DataFrame(
-                            [
-                                {"Indicator": "Operational efficiency", "Baseline": baseline_efficiency, "Alternative": scenario_predictions[EFFICIENCY_TARGET], "Change": efficiency_delta, "Unit": "percentage points"},
-                                {"Indicator": "Scrap rate", "Baseline": baseline_scrap, "Alternative": scrap_percentage(scenario_predictions[SCRAP_TARGET]), "Change": scrap_delta, "Unit": "percentage points"},
-                            ]
-                        ),
-                        hide_index=True,
-                        width="stretch",
-                    )
         else:
             st.warning("The latest history record is incomplete; scenario comparison is unavailable.")
 
     st.divider()
-    st.subheader("Downtime records analysis")
-    st.caption(
-        "Upload a CSV containing Timestamp, Machine_ID, Downtime_min and Fault_Code. "
-        "Optional fields such as Shift and Production_Order_ID are retained in the uploaded source."
+
+    # Downtime CSV audit
+    st.markdown(
+        '<div class="ops-section-head"><div><div class="ops-eyebrow">HISTORICAL RECORD REVIEW</div>'
+        '<h3>Downtime records analysis</h3><p>Validate a CSV and summarize recorded downtime by machine, fault code and date.</p></div></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="ops-schema"><div class="ops-schema-title">Required CSV columns</div>'
+        '<div class="ops-schema-tags"><span>Timestamp</span><span>Machine_ID</span>'
+        '<span>Downtime_min</span><span>Fault_Code</span></div>'
+        '<div class="ops-schema-note">Optional columns such as Shift and Production_Order_ID are retained in the source file.</div></div>',
+        unsafe_allow_html=True,
     )
     uploaded = st.file_uploader(
-        "Upload historical downtime CSV",
+        "Choose historical downtime CSV",
         type=["csv"],
         key="downtime_csv_upload",
+        help="Upload a CSV with the four required columns shown above.",
     )
     if uploaded is None:
-        st.info("No downtime file uploaded. The analytics will appear after a valid CSV is supplied.")
+        st.markdown(
+            '<div class="ops-upload-empty"><b>Waiting for a CSV file</b>'
+            '<span>After upload, the app checks required fields and data quality before displaying summaries.</span></div>',
+            unsafe_allow_html=True,
+        )
         return
+
+    st.markdown(
+        f'<div class="ops-file-pill">CSV selected <b>{uploaded.name}</b> '
+        f'<span>{uploaded.size / 1024:,.1f} KB</span></div>',
+        unsafe_allow_html=True,
+    )
     try:
         downtime_frame = pd.read_csv(uploaded)
         audit = audit_downtime_records(downtime_frame)
@@ -754,28 +825,69 @@ def render_production_intelligence() -> None:
         st.error(f"Could not read this CSV: {exc}")
         return
 
-    st.metric("Uploaded records", f"{audit['rows']:,}")
     if not audit["passed"]:
+        st.error("The file did not pass validation. Correct the issues below and upload it again.")
         for issue in audit["issues"]:
-            st.error(issue)
+            st.warning(issue)
+        st.caption(f"Rows detected: {audit['rows']:,}. No downtime summaries were generated.")
         return
 
-    first, second = st.columns(2)
-    first.metric("Machines represented", int(audit["machine_count"]))
-    second.metric("Total recorded downtime", f"{audit['total_downtime_min']:,.1f} min")
+    total_hours = float(audit["total_downtime_min"]) / 60.0
+    kpi_a, kpi_b, kpi_c, kpi_d = st.columns(4)
+    kpi_a.metric("Validated records", f"{audit['rows']:,}")
+    kpi_b.metric("Machines represented", f"{audit['machine_count']:,}")
+    kpi_c.metric("Recorded downtime", f"{audit['total_downtime_min']:,.1f} min")
+    kpi_d.metric("Downtime equivalent", f"{total_hours:,.2f} hr")
+
     machine_col, fault_col = st.columns(2, gap="large")
     with machine_col:
-        st.markdown("**Downtime by machine**")
-        st.dataframe(audit["by_machine"], hide_index=True, width="stretch")
-        st.bar_chart(audit["by_machine"], x="Machine_ID", y="Total_downtime_min")
+        with st.container(border=True):
+            st.markdown("**Downtime by machine**")
+            st.caption("Machines ranked by total recorded downtime.")
+            st.bar_chart(
+                audit["by_machine"],
+                x="Machine_ID",
+                y="Total_downtime_min",
+                y_label="Downtime (minutes)",
+                height=280,
+            )
+            with st.expander("View machine summary table"):
+                st.dataframe(audit["by_machine"], hide_index=True, width="stretch")
     with fault_col:
-        st.markdown("**Downtime by fault code**")
-        st.dataframe(audit["by_fault"], hide_index=True, width="stretch")
-        st.bar_chart(audit["by_fault"], x="Fault_Code", y="Total_downtime_min")
+        with st.container(border=True):
+            st.markdown("**Downtime by fault code**")
+            st.caption("Fault codes ranked by total recorded downtime.")
+            st.bar_chart(
+                audit["by_fault"],
+                x="Fault_Code",
+                y="Total_downtime_min",
+                y_label="Downtime (minutes)",
+                height=280,
+            )
+            with st.expander("View fault summary table"):
+                st.dataframe(audit["by_fault"], hide_index=True, width="stretch")
     if not audit["by_day"].empty:
-        st.markdown("**Daily downtime trend**")
-        st.line_chart(audit["by_day"], x="Date", y="Total_downtime_min")
-    st.caption("Descriptive historical analysis only. Results depend on the completeness and accuracy of the uploaded records. No downtime prediction or root-cause attribution is performed.")
+        with st.container(border=True):
+            st.markdown("**Daily downtime trend**")
+            st.caption("Total uploaded downtime grouped by calendar day (UTC).")
+            st.line_chart(
+                audit["by_day"],
+                x="Date",
+                y="Total_downtime_min",
+                y_label="Downtime (minutes)",
+                height=260,
+            )
+    st.download_button(
+        "Download validated downtime records",
+        data=downtime_frame.to_csv(index=False).encode("utf-8"),
+        file_name="validated_downtime_records.csv",
+        mime="text/csv",
+        key="download_validated_downtime",
+    )
+    st.caption(
+        "Descriptive historical analysis only. Results depend on the completeness and accuracy of uploaded records. "
+        "No downtime prediction, failure-risk score or root-cause attribution is performed."
+    )
 
 
 def main() -> None:
@@ -881,6 +993,27 @@ def main() -> None:
         .app-header { padding:.4rem 0 1.3rem; border-bottom:1px solid var(--line); margin-bottom:1.35rem; }
         .app-status { display:inline-flex; align-items:center; gap:.5rem; color:#83f0c3; background:rgba(35,174,125,.11); border:1px solid rgba(57,214,160,.28); border-radius:999px; padding:.38rem .8rem; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.08em; }
         .app-status-dot { width:.46rem; height:.46rem; border-radius:50%; background:#39d6a0; box-shadow:0 0 12px #39d6a0; display:inline-block; }
+        .ops-section-head { display:flex; justify-content:space-between; align-items:flex-end; margin:1.5rem 0 .9rem; padding:.15rem 0 .85rem; border-bottom:1px solid rgba(126,166,209,.18); }
+        .ops-eyebrow { color:#65c9ee; font:500 .66rem 'DM Mono',monospace; letter-spacing:.17em; margin-bottom:.35rem; }
+        .ops-section-head h3 { margin:0 0 .2rem; color:#edf5ff; font-size:1.35rem; }
+        .ops-section-head p { margin:0; color:#91a7c1; font-size:.9rem; }
+        .ops-empty { border:1px dashed rgba(91,165,213,.42); border-radius:18px; padding:2rem; background:linear-gradient(135deg,rgba(19,43,66,.82),rgba(13,27,44,.78)); text-align:left; margin:.5rem 0 1.25rem; }
+        .ops-empty-icon { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; background:rgba(66,200,245,.12); border:1px solid rgba(66,200,245,.24); color:#7bdcff; font-size:1.35rem; margin-bottom:1rem; }
+        .ops-empty-title { color:#eef6ff; font-size:1.08rem; font-weight:800; margin-bottom:.4rem; }
+        .ops-empty-copy { color:#a9bdd4; line-height:1.65; max-width:720px; }
+        .ops-empty-copy b { color:#dff5ff; }
+        .ops-empty-note { color:#718aa6; font: .72rem 'DM Mono',monospace; margin-top:1rem; letter-spacing:.025em; }
+        .ops-schema { border:1px solid rgba(88,157,207,.25); border-radius:16px; padding:1rem 1.1rem; background:rgba(16,34,54,.76); margin:.6rem 0 1rem; }
+        .ops-schema-title { color:#dcecff; font-weight:800; font-size:.83rem; margin-bottom:.7rem; }
+        .ops-schema-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+        .ops-schema-tags span { color:#9ce7ff; background:rgba(48,151,196,.12); border:1px solid rgba(66,200,245,.22); border-radius:8px; padding:.35rem .6rem; font: .72rem 'DM Mono',monospace; }
+        .ops-schema-note { color:#8299b4; font-size:.78rem; margin-top:.75rem; }
+        .ops-upload-empty { display:flex; flex-direction:column; gap:.25rem; padding:1rem 1.1rem; margin-top:.6rem; border-radius:13px; background:rgba(17,32,50,.7); border:1px dashed rgba(126,166,209,.25); }
+        .ops-upload-empty b { color:#dcecff; font-size:.86rem; }
+        .ops-upload-empty span { color:#8fa6c0; font-size:.78rem; }
+        .ops-file-pill { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin:.5rem 0 1rem; color:#8edfc4; font-size:.8rem; }
+        .ops-file-pill b { color:#e7f4ff; font-weight:800; }
+        .ops-file-pill span { color:#8299b4; font-family:'DM Mono',monospace; font-size:.72rem; }
         .app-section-kicker { color:#61bce8; font-family:'DM Mono',monospace; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; margin-top:.7rem; }
         .app-hero-line { height:2px; width:72px; background:linear-gradient(90deg,#42c8f5,#4c83ff); border-radius:2px; margin:.8rem 0 1.1rem; }
 
