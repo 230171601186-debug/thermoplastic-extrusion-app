@@ -644,11 +644,9 @@ def render_production_intelligence() -> None:
     history_frame_data = history_frame(history) if history else pd.DataFrame()
 
     # Prediction history
-    st.markdown(
-        '<div class="ops-section-head"><div><div class="ops-eyebrow">SESSION ACTIVITY</div>'
-        '<h3>Prediction history</h3><p>Successful estimates generated in the current browser session.</p></div></div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="ops-eyebrow">SESSION ACTIVITY</div>', unsafe_allow_html=True)
+    st.subheader("Prediction history")
+    st.caption("Successful estimates generated in the current browser session.")
     if history:
         count_col, newest_col, export_col = st.columns([1, 2, 1], vertical_alignment="center")
         count_col.metric("Saved estimates", f"{len(history):,}")
@@ -787,11 +785,9 @@ def render_production_intelligence() -> None:
     st.divider()
 
     # Downtime CSV audit
-    st.markdown(
-        '<div class="ops-section-head"><div><div class="ops-eyebrow">HISTORICAL RECORD REVIEW</div>'
-        '<h3>Downtime records analysis</h3><p>Validate a CSV and summarize recorded downtime by machine, fault code and date.</p></div></div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="ops-eyebrow">HISTORICAL RECORD REVIEW</div>', unsafe_allow_html=True)
+    st.subheader("Downtime records analysis")
+    st.caption("Validate a CSV and summarize recorded downtime by machine, fault code and date.")
     st.markdown(
         '<div class="ops-schema"><div class="ops-schema-title">Required CSV columns</div>'
         '<div class="ops-schema-tags"><span>Timestamp</span><span>Machine_ID</span>'
