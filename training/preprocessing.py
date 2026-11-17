@@ -17,6 +17,8 @@ from sklearn.preprocessing import OneHotEncoder
 
 import joblib
 
+from data_quality import validate_modeling_dataset
+
 from config import (
     CATEGORICAL_FEATURES,
     CUSTOMER_NUMERIC_FEATURES,
@@ -83,6 +85,13 @@ def load_dataset() -> pd.DataFrame:
         else:
             continue
         print(f"[data] Loaded {path.name}: {df.shape[0]} rows x {df.shape[1]} columns")
+        quality_report = validate_modeling_dataset(df)
+        print(
+            "[data] Quality gate passed: "
+            f"{quality_report['rows']} rows, "
+            f"{quality_report['required_columns']} required model columns, "
+            f"{quality_report['duplicate_rows_reported']} duplicate rows reported."
+        )
         if "Braid_Type" in df.columns:
             print(
                 "[data] Braid_Type includes the explicit category 'None' "

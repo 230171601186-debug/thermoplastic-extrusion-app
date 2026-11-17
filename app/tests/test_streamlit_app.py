@@ -20,6 +20,8 @@ from app.streamlit_app import (
     build_customer_inputs,
     build_prediction_report,
     build_process_chart_data,
+    build_training_domain_warnings,
+    build_validation_summary,
     efficiency_percentage,
     execute_prediction,
     format_scrap_percentage,
@@ -187,6 +189,81 @@ class StreamlitAppHelperTests(unittest.TestCase):
                 result.predictions.loc[0, target] = invalid
                 with self.assertRaises(PredictionOutputError):
                     validate_prediction_outputs(result)
+
+    def test_training_domain_warnings_flag_extrapolation_without_rejecting_inputs(self):
+        inputs = valid_customer_inputs()
+        ranges = {
+            "Target_Tube_OD_mm": (5.0, 20.0),
+            "Target_Tube_Wall_mm": (0.5, 4.0),
+            "Target_Tube_ID_mm": (2.0, 15.0),
+            "Customer_Required_Length_m": (100.0, 10000.0),
+        }
+        self.assertEqual(build_training_domain_warnings(inputs, ranges), ())
+
+        outside = {**inputs, "Target_Tube_OD_mm": 25.0}
+        warnings = build_training_domain_warnings(outside, ranges)
+        self.assertEqual(len(warnings), 1)
+        self.assertIn("outside the synthetic training-data range", warnings[0])
+        self.assertIn("estimate may be unreliable", warnings[0])
+
+    def test_validation_summary_uses_matching_cv_and_held_out_candidate_rows(self):
+        model2 = pd.DataFrame(
+            [
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "customer_only_fixed_RF",
+                    "MAE_percentage_points": 6.49,
+                    "R2": 0.21,
+                },
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "corrected_candidate_full_stack_RF",
+                    "MAE_percentage_points": 6.37,
+                    "R2": 0.23,
+                },
+            ]
+        )
+        model3 = pd.DataFrame(
+            [
+                {
+                    "split": "saved_test_1000_rows",
+                    "model": "corrected_candidate_full_stack_RF",
+                    "MAE_percentage_points": 2.09,
+                    "R2": 0.35,
+                }
+            ]
+        )
+        cv_summary = pd.DataFrame(
+            [
+                {
+                    "split": "outer_cv",
+                    "target": "Operational_Efficiency_pct",
+                    "configuration": "full_stack",
+                    "MAE_mean": 6.42,
+                    "R2_mean": 0.17,
+                    "MAE_percentage_points_mean": float("nan"),
+                },
+                {
+                    "split": "outer_cv",
+                    "target": "Scrap_Rate",
+                    "configuration": "full_stack",
+                    "MAE_mean": 0.0219,
+                    "R2_mean": 0.32,
+                    "MAE_percentage_points_mean": 2.19,
+                },
+            ]
+        )
+
+        summary = build_validation_summary(model2, model3, cv_summary)
+
+        self.assertEqual(len(summary), 2)
+        efficiency = summary.loc[summary["Model"] == "Operational efficiency"].iloc[0]
+        scrap = summary.loc[summary["Model"] == "Scrap rate"].iloc[0]
+        self.assertAlmostEqual(efficiency["Held-out R²"], 0.23)
+        self.assertAlmostEqual(efficiency["CV MAE"], 6.42)
+        self.assertAlmostEqual(scrap["Held-out MAE"], 2.09)
+        self.assertAlmostEqual(scrap["CV MAE"], 2.19)
+        self.assertTrue((summary["Test rows"] == 1000).all())
 
     def test_process_chart_data_groups_shared_units_and_preserves_values(self):
         predictions = {
@@ -378,6 +455,15 @@ class StreamlitAppTests(unittest.TestCase):
         )
         self.assertEqual(len(app.get("vega_lite_chart")), 5)
         self.assertEqual(len(app.get("download_button")), 1)
+        self.assertEqual(len(app.session_state["prediction_history"]), 1)
+
+    def test_production_intelligence_workspace_renders_without_prior_prediction(self):
+        app = self._start_app()
+        app.radio(key="workspace_navigation").set_value("Production intelligence").run()
+        self.assertFalse(app.exception, [element.value for element in app.exception])
+        self.assertIn("Production intelligence", [item.value for item in app.title])
+        self.assertIn("Prediction history", [item.value for item in app.subheader])
+        self.assertIn("Downtime records analysis", [item.value for item in app.subheader])
 
     def test_invalid_geometry_does_not_display_a_prediction(self):
         app = self._start_app()

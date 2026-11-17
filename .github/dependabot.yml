@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      python-runtime:
+        patterns:
+          - "streamlit"
+          - "pandas"
+          - "numpy"
+          - "scikit-learn"
+          - "xgboost"
+          - "lightgbm"
+          - "joblib"
+
+  - package-ecosystem: "pip"
+    directory: "/training"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
